@@ -46,8 +46,8 @@ error_t gpio_hal_init(void);
 
 error_t gpio_hal_config(gpio_hal_pin_t pin_num, const gpio_hal_config_t* p_config);
 
-error_t gpio_hal_digital_write(gpio_hal_pin_t pin_num, gpio_hal_level_t level);
+error_t gpio_hal_write(gpio_hal_pin_t pin_num, gpio_hal_level_t level);
 
-gpio_hal_level_t gpio_hal_digital_read(gpio_hal_pin_t pin_num);
+gpio_hal_level_t gpio_hal_read(gpio_hal_pin_t pin_num);
 
 #endif
