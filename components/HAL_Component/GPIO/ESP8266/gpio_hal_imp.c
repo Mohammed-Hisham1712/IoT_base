@@ -1,6 +1,6 @@
 #include "gpio_hal_itf.h"
 
-#include "gpio.h"
+#include "driver/gpio.h"
 
 #define GPIO_HAL_RET_CHECK(ret)     (((ret) == ESP_OK) ? TRUE : FALSE)
 
@@ -14,7 +14,7 @@ error_t gpio_hal_config(gpio_hal_pin_t pin_num, const gpio_hal_config_t* p_confi
 {
     BOOL l_ret = TRUE;
 
-    if(!p_config)
+    if(!p_config || !GPIO_HAL_IS_PIN(pin_num))
     {
         return FAILED;
     }

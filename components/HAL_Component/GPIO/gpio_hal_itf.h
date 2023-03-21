@@ -2,6 +2,8 @@
 
 #define __GPIO_HAL_ITF_H__
 
+#include "gpio_hal_config.h"
+
 #include "types.h"
 
 #include <stdint.h>

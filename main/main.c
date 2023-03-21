@@ -12,42 +12,27 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
-#if CONFIG_ENABLE_MY_PRINT
-#include "myprint.h"
-#endif
+#include "gpio_hal_itf.h"
 
 void app_main()
 {
-    #if CONFIG_MY_PRINT_HELLO
-    const char* msg = "Hello Hesham!\n";
-    #elif CONFIG_MY_PRINT_WELCOME
-    const char* msg = "Welcome Hesham!\n";
-    #else
-    const char* msg = "Fuck!!!\n";
-    #endif
+    gpio_hal_level_t pin_level;
 
-    #if CONFIG_ENABLE_MY_PRINT
-    myprint(msg);
-    #else
-    printf("%s This is printf\n", msg);
-    #endif
+    gpio_hal_init();
 
-    /* Print chip information */
-    esp_chip_info_t chip_info;
-    esp_chip_info(&chip_info);
-    printf("This is ESP8266 chip with %d CPU cores, WiFi, ",
-            chip_info.cores);
+    gpio_hal_config_t pin_config = {
+        .mode = GPIO_HAL_MODE_OUTPUT_PP,
+        .pull = GPIO_HAL_PULL_NONE };
 
-    printf("silicon revision %d, ", chip_info.revision);
+    gpio_hal_config(PIN_16, &pin_config);
 
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
-            (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+    pin_level = GPIO_HAL_LEVEL_HIGH;
 
-    for (int i = 10; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
+    while (1)
+    {
+        gpio_hal_write(PIN_16, pin_level);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
+        pin_level = (pin_level == GPIO_HAL_LEVEL_HIGH) ? 
+                                        GPIO_HAL_LEVEL_LOW : GPIO_HAL_LEVEL_HIGH;
     }
-    printf("Restarting now.\n");
-    fflush(stdout);
-    esp_restart();
 }
