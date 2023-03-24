@@ -13,6 +13,8 @@
 
 #include "gpio_hal_itf.h"
 
+#define TEST_PIN    PIN_4
+
 void app_main()
 {
     #if 1
@@ -24,13 +26,13 @@ void app_main()
         .mode = GPIO_HAL_MODE_OUTPUT_PP,
         .pull = GPIO_HAL_PULL_NONE };
 
-    gpio_hal_config(PIN_18, &pin_config);
+    gpio_hal_config(TEST_PIN, &pin_config);
 
     pin_level = GPIO_HAL_LEVEL_HIGH;
 
     while (1)
     {
-        gpio_hal_write(PIN_18, pin_level);
+        gpio_hal_write(TEST_PIN, pin_level);
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         pin_level = (pin_level == GPIO_HAL_LEVEL_HIGH) ? 
                                         GPIO_HAL_LEVEL_LOW : GPIO_HAL_LEVEL_HIGH;
