@@ -14,6 +14,8 @@
 
 typedef uint8_t gpio_hal_pin_t;
 
+typedef void (*gpio_hal_callback_t) (void*);
+
 typedef enum
 {
     GPIO_HAL_MODE_INPUT,
@@ -52,5 +54,7 @@ error_t gpio_hal_config(gpio_hal_pin_t pin_num, const gpio_hal_config_t* p_confi
 error_t gpio_hal_write(gpio_hal_pin_t pin_num, gpio_hal_level_t level);
 
 gpio_hal_level_t gpio_hal_read(gpio_hal_pin_t pin_num);
+
+error_t gpio_hal_register_callback(gpio_hal_pin_t pin_num, gpio_hal_callback_t cb);
 
 #endif
