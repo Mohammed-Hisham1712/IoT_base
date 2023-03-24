@@ -3,9 +3,6 @@
 
 #include "driver/gpio.h"
 
-#define GPIO_HAL_IS_PIN(pin)    ((pin) < PIN_MAX)
-
-
 #define PIN_0       GPIO_NUM_0
 #define PIN_1       GPIO_NUM_1
 #define PIN_2       GPIO_NUM_2
