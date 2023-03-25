@@ -12,12 +12,23 @@
 
 #include "driver/gpio.h"
 
-#define PIN_0       GPIO_NUM_4
-#define PIN_1       GPIO_NUM_5
-#define PIN_2       GPIO_NUM_12
-#define PIN_3       GPIO_NUM_13
-#define PIN_4       GPIO_NUM_14
-#define PIN_MAX     GPIO_NUM_MAX
+#define ESP8266_PIN(pin)    (ESP8266_##pin)
 
+#define ESP8266_PIN_0       GPIO_NUM_4
+#define ESP8266_PIN_1       GPIO_NUM_5
+#define ESP8266_PIN_2       GPIO_NUM_12
+#define ESP8266_PIN_3       GPIO_NUM_13
+#define ESP8266_PIN_4       GPIO_NUM_14
+#define ESP8266_PIN_MAX     GPIO_NUM_MAX
+
+typedef enum
+{
+    PIN_0 = 0,
+    PIN_1,
+    PIN_2,
+    PIN_3,
+    PIN_4,
+    PIN_MAX
+}gpio_hal_pin_t;
 
 #endif

@@ -12,8 +12,6 @@
 #define GPIO_HAL_IS_MODE(mode)          ((mode) < GPIO_HAL_MODE_INVALID)
 #define GPIO_HAL_IS_PULL(pull)          ((pull) < GPIO_HAL_PULL_INVALID)
 
-typedef uint8_t gpio_hal_pin_t;
-
 typedef void (*gpio_hal_callback_t) (void*);
 
 typedef enum
