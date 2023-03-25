@@ -9,7 +9,7 @@ error_t gpio_hal_init(void)
 {
     gpio_install_isr_service(0);
 
-    return OK;
+    return RET_OK;
 }
 
 error_t gpio_hal_config(gpio_hal_pin_t pin_num, const gpio_hal_config_t* p_config)
@@ -18,12 +18,12 @@ error_t gpio_hal_config(gpio_hal_pin_t pin_num, const gpio_hal_config_t* p_confi
 
     if(!GPIO_HAL_IS_PIN(pin_num) || !p_config)
     {
-        return FAILED;
+        return RET_FAILED;
     }
 
     if(!GPIO_HAL_IS_MODE(p_config->mode) || !GPIO_HAL_IS_PULL(p_config->pull))
     {
-        return FAILED;
+        return RET_FAILED;
     }
 
     switch(p_config->mode)
@@ -75,20 +75,20 @@ error_t gpio_hal_config(gpio_hal_pin_t pin_num, const gpio_hal_config_t* p_confi
 
     if(!l_ret)
     {
-        return FAILED;
+        return RET_FAILED;
     }
 
-    return OK;
+    return RET_OK;
 }
 
 error_t gpio_hal_write(gpio_hal_pin_t pin_num, gpio_hal_level_t level)
 {
     if(gpio_set_level(pin_num, level) != ESP_OK)
     {
-        return FAILED;
+        return RET_FAILED;
     }
 
-    return OK;
+    return RET_OK;
 }
 
 gpio_hal_level_t gpio_hal_read(gpio_hal_pin_t pin_num)
@@ -103,10 +103,10 @@ error_t gpio_hal_register_callback(gpio_hal_pin_t pin_num, gpio_hal_callback_t c
 
     if(!GPIO_HAL_IS_PIN(pin_num) || !cb)
     {
-        return FAILED;
+        return RET_FAILED;
     }
 
     l_ret = GPIO_HAL_RET_CHECK(gpio_isr_handler_add(pin_num, (void*) cb, (void*) NULL));
 
-    return (l_ret ? OK : FAILED);
+    return (l_ret ? RET_OK : RET_FAILED);
 }

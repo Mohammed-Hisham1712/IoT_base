@@ -10,10 +10,11 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_log.h"
 
 #include "gpio_hal_itf.h"
 
-#define LED_PIN     PIN_3
+#define LED_PIN     PIN_1
 #define BUTTON_BIN  PIN_0 
 
 gpio_hal_level_t led_state;
@@ -43,10 +44,11 @@ void app_main()
     gpio_hal_config(LED_PIN, &led_config);
     gpio_hal_config(BUTTON_BIN, &button_config);
     
-    gpio_hal_write(LED_PIN, GPIO_HAL_LEVEL_HIGH);
+    gpio_hal_write(20, GPIO_HAL_LEVEL_HIGH);
 
     while (1)
     {
+        ESP_LOGD("MAIN", "%s\n\r", "Hello, world!");
         vTaskDelay(500 / portTICK_PERIOD_MS);
     }
     

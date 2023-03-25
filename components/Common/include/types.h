@@ -4,13 +4,11 @@
 
 #include <stdint.h>
 
-#ifndef FAILED
-#define FAILED -1
-#endif
-
-#ifndef OK
-#define OK      0
-#endif
+enum
+{
+    RET_FAILED = -1,
+    RET_OK
+};
 
 enum
 {
