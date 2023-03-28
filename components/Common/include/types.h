@@ -19,4 +19,9 @@ enum
 typedef int32_t error_t;
 typedef uint8_t BOOL;
 
+
+
+#define NON         (-1)
+#define UNDEFINED   (-1)
+
 #endif
