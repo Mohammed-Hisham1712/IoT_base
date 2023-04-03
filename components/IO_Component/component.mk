@@ -7,6 +7,7 @@ COMPONENT_SRCDIRS += IO_sub_component/IO_processor/IO_processor_task
 COMPONENT_SRCDIRS += IO_sub_component/IO_processor/Pressed_to_pin_processor
 COMPONENT_SRCDIRS += IO_sub_component/output_handler/output_handler_task
 COMPONENT_SRCDIRS += IO_sub_component/output_handler/Pin_driven_handler
+COMPONENT_SRCDIRS += IO_componant_task
 
 COMPONENT_ADD_INCLUDEDIRS := IO_sub_component/Input_handler/Input_handler_task
 COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/Input_handler/on_off_input_handler
@@ -15,5 +16,6 @@ COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/IO_processor/IO_processor_task
 COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/IO_processor/Pressed_to_pin_processor
 COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/output_handler/output_handler_task
 COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/output_handler/Pin_driven_handler
+COMPONENT_ADD_INCLUDEDIRS += IO_componant_task
 
 endif

@@ -63,7 +63,7 @@ typedef enum
         PRESSED_TO_PIN7,
         PRESSED_TO_PIN8,
         PRESSED_TO_PIN_MAX
-};
+}PRESSED_TO_PIN_NUM;
 
 typedef enum
 {

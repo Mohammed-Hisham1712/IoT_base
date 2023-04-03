@@ -38,7 +38,7 @@
     /*          1-Section 1: Includes         */
     /*----------------------------------------*/
 /*---------------------------------------------------------------*/
-
+#include "pressed_to_pin_driven_public.h"
 /*---------------------------------------------------------------*/
     /*-----------------------------------------*/
     /*          2-Section 2: Defintions        */
@@ -52,11 +52,11 @@
 /*---------------------------------------------------------------*/
 void IO_processor_task_init( void )
 {
-
+    pressed_switch_to_pin_driven_init();
 }
 void IO_processor_task_run ( void )
 {
-
+    pressed_switch_to_pin_driven_run();
 }
 
 

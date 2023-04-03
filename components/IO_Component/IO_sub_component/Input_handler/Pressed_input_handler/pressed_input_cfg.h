@@ -47,10 +47,10 @@
             /*          2-Section2: defintions        */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PRESSED_SWITCH_MAX_NUMBER     (3)
+#define PRESSED_SWITCH_MAX_NUMBER     (1)
 #define PRESSED_SWITCH_1_PIN          (PIN_0) 
-#define PRESSED_SWITCH_2_PIN          (PIN_1)
-#define PRESSED_SWITCH_3_PIN          (PIN_2)
+#define PRESSED_SWITCH_2_PIN          (NON)
+#define PRESSED_SWITCH_3_PIN          (NON)
 #define PRESSED_SWITCH_4_PIN          (NON)
 #define PRESSED_SWITCH_5_PIN          (NON)
 #define PRESSED_SWITCH_6_PIN          (NON)

@@ -38,7 +38,7 @@
     /*          1-Section 1: Includes         */
     /*----------------------------------------*/
 /*---------------------------------------------------------------*/
-
+#include "pressed_input_public.h"
 /*---------------------------------------------------------------*/
     /*-----------------------------------------*/
     /*          2-Section 2: Defintions        */
@@ -52,15 +52,12 @@
 /*---------------------------------------------------------------*/
 void input_handler_task_init( void )
 {
-    #ifdef CONFIG_PRESSED_INPUT_HANDLER
-        pressed_switch_init_all ( ) ;
-    #endif
+    pressed_switch_init_all ( ) ;
+    
 }
 void input_handler_task_run( void )
 {
-    #ifdef CONFIG_PRESSED_INPUT_HANDLER
-        pressed_switch_run_handler ( ) ;
-    #endif
+    pressed_switch_run_handler ( ) ;
 }
 
 

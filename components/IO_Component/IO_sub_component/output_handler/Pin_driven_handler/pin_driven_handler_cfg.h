@@ -31,10 +31,10 @@
             /*          1-Section1:         */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PIN_DRIVEN_MAX_PIN_NUM      (3)
-#define PIN_DRIVEN_PIN_1        (PIN_0) 
-#define PIN_DRIVEN_PIN_2        (PIN_2) 
-#define PIN_DRIVEN_PIN_3        (PIN_3) 
+#define PIN_DRIVEN_MAX_PIN_NUM      (1)
+#define PIN_DRIVEN_PIN_1        (PIN_1) 
+#define PIN_DRIVEN_PIN_2        (NON) 
+#define PIN_DRIVEN_PIN_3        (NON) 
 #define PIN_DRIVEN_PIN_4        (NON) 
 #define PIN_DRIVEN_PIN_5        (NON) 
 #define PIN_DRIVEN_PIN_6        (NON) 

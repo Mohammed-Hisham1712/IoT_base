@@ -33,6 +33,7 @@
 /*          1-Section 1: Includes         */
 /*----------------------------------------*/
 /*---------------------------------------------------------------*/
+#include "debug_uart.h"
 #include "types.h"
 #include "pin_driven_handler_public.h"
 #include "pressed_input_public.h"
@@ -70,6 +71,7 @@ PRESSED_PIN_DEFAULT g_pressed_pin_default[PRESSED_TO_PIN_MAX] =
 /*---------------------------------------------------------------*/
 void process_on_off_switch_type ( uint8_t c_switch_num ) 
 {
+  g_pressed_pin_ctrl[c_switch_num].pressed_switch_state = pressed_switch_get_state(c_switch_num);
   switch (g_pressed_pin_ctrl[c_switch_num].pressed_switch_state )
   {
   case PRESSED:
@@ -80,6 +82,8 @@ void process_on_off_switch_type ( uint8_t c_switch_num )
     break;
   case PRE_PRESSED:
       pin_driven_toggle(g_pressed_pin_ctrl[c_switch_num].pin_driven_num ) ;
+      uart_send("switch is pre pressed ");
+      uart_send_int(c_switch_num);
     break;
   case PRE_RELEASED:
     
@@ -91,6 +95,7 @@ void process_on_off_switch_type ( uint8_t c_switch_num )
 }
 void process_reset_switch_type ( uint8_t c_switch_num ) 
 {
+  g_pressed_pin_ctrl[c_switch_num].pressed_switch_state = pressed_switch_get_state(c_switch_num);
   switch (g_pressed_pin_ctrl[c_switch_num].pressed_switch_state )
   {
   case PRESSED:
@@ -166,11 +171,13 @@ void pressed_switch_to_pin_driven_run	( void )
   {
     if ( g_pressed_pin_ctrl[counter].switch_ctrl_type == ON_OFF_SWITCH )
     {
-
+      process_on_off_switch_type(counter);
+      // uart_send("process pressed switch num") ;
+      // uart_send_int(counter);
     }
     else if ( g_pressed_pin_ctrl[counter].switch_ctrl_type == RESET_SWITCH )
     {
-
+      process_reset_switch_type(counter);
     }
     else 
     {
