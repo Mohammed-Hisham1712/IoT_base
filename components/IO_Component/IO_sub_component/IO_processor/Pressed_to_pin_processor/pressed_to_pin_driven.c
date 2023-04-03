@@ -71,7 +71,8 @@ PRESSED_PIN_DEFAULT g_pressed_pin_default[PRESSED_TO_PIN_MAX] =
 /*---------------------------------------------------------------*/
 void process_on_off_switch_type ( uint8_t c_switch_num ) 
 {
-  g_pressed_pin_ctrl[c_switch_num].pressed_switch_state = pressed_switch_get_state(c_switch_num);
+  g_pressed_pin_ctrl[c_switch_num].pressed_switch_state = 
+                pressed_switch_get_state(g_pressed_pin_ctrl[c_switch_num].pressed_switch_num);
   switch (g_pressed_pin_ctrl[c_switch_num].pressed_switch_state )
   {
   case PRESSED:
@@ -174,6 +175,7 @@ void pressed_switch_to_pin_driven_run	( void )
       process_on_off_switch_type(counter);
       // uart_send("process pressed switch num") ;
       // uart_send_int(counter);
+      // uart_wait();
     }
     else if ( g_pressed_pin_ctrl[counter].switch_ctrl_type == RESET_SWITCH )
     {
