@@ -5,11 +5,11 @@
 #include <stdint.h>
 
 #ifndef FAILED
-#define FAILED -1
+#define FAILED  (-1)
 #endif
 
 #ifndef OK
-#define OK      0
+#define OK      (0)
 #endif
 
 enum

@@ -83,7 +83,7 @@ error_t pin_driven_init_pin ( PIN_DRIVEN_NUM c_pin_num)
     l_pin_config.pull = GPIO_HAL_PULL_NONE ; 
 
     if ( g_pin_driven_default_pin[c_pin_num] != NON )
-    {
+    {   
         g_pin_driven_ctrl[c_pin_num].pin_num = g_pin_driven_default_pin[c_pin_num] ; 
         g_pin_driven_ctrl[c_pin_num].pin_state = PIN_DRIVEN_OFF ;
         gpio_hal_config ( g_pin_driven_ctrl[c_pin_num].pin_num , &l_pin_config) ;
@@ -197,17 +197,8 @@ void pin_driven_run_handler ( void )
                            g_pin_driven_ctrl[l_pin_driven_num].pin_state) ;
         }
     }
-    return TRUE ;
+    
 
 }
-/*---------------------------------------------------------------*/
-            /*------------------------------*/
-            /*          6-Section6:         */
-            /*------------------------------*/
-/*---------------------------------------------------------------*/
 
-/*---------------------------------------------------------------*/
-            /*------------------------------*/
-            /*          7-Section7:         */
-            /*------------------------------*/
-/*---------------------------------------------------------------*/
+

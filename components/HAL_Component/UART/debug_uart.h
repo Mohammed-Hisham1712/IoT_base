@@ -1,0 +1,16 @@
+#ifndef UART_H
+#define UART_H
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "stdio.h"
+#include "driver/uart.h"
+
+void uart_init();
+void uart_send(const char * data );
+void uart_send_int(int );
+void uart_send_float(float ) ;
+
+void uart_wait();
+
+#endif

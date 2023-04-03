@@ -40,28 +40,28 @@
             /*          1-Section1:         */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PRESS_TO_PIN_MAX_PROCESS    ( 4 )
+#define PRESS_TO_PIN_MAX_PROCESS    ( 1 )
 
 #define PRESSED_SWITCH_PROCESS_1    (PRESSED_SWITCH_1)
-#define PRESSED_SWITCH_PROCESS_2    (PRESSED_SWITCH_2)
-#define PRESSED_SWITCH_PROCESS_3    (PRESSED_SWITCH_3)
-#define PRESSED_SWITCH_PROCESS_4    (PRESSED_SWITCH_4)
+#define PRESSED_SWITCH_PROCESS_2    (NON)
+#define PRESSED_SWITCH_PROCESS_3    (NON)
+#define PRESSED_SWITCH_PROCESS_4    (NON)
 #define PRESSED_SWITCH_PROCESS_5    (NON)
 #define PRESSED_SWITCH_PROCESS_6    (NON)
 
 
 #define PIN_DRIVEN_PROCESS_1    (PIN_DRIVEN_1)
-#define PIN_DRIVEN_PROCESS_2    (PIN_DRIVEN_2)
-#define PIN_DRIVEN_PROCESS_3    (PIN_DRIVEN_3)
+#define PIN_DRIVEN_PROCESS_2    (NON)
+#define PIN_DRIVEN_PROCESS_3    (NON)
 #define PIN_DRIVEN_PROCESS_4    (NON)
 #define PIN_DRIVEN_PROCESS_5    (NON)
 #define PIN_DRIVEN_PROCESS_6    (NON)
 
 
 #define SWITCH_1_TYPE   (ON_OFF_SWITCH)
-#define SWITCH_2_TYPE   (ON_OFF_SWITCH)
-#define SWITCH_3_TYPE   (ON_OFF_SWITCH)
-#define SWITCH_4_TYPE   (RESET_SWITCH)
+#define SWITCH_2_TYPE   (NOT_USED)
+#define SWITCH_3_TYPE   (NOT_USED)
+#define SWITCH_4_TYPE   (NOT_USED)
 #define SWITCH_5_TYPE   (NOT_USED)
 #define SWITCH_6_TYPE   (NOT_USED)
 

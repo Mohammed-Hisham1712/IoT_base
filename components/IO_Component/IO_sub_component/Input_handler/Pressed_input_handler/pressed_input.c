@@ -36,9 +36,10 @@
 /*----------------------------------------*/
 /*---------------------------------------------------------------*/
 /* common file includes */
+#include "debug_uart.h"
+
 #include "types.h"
 /* othe modules includes */
-
 /* module itself file include */
 #include "pressed_input_cfg.h"
 #include "pressed_input_private.h"
@@ -227,11 +228,13 @@ error_t pressed_switch_init( PRESSED_SWITCH_NUM c_pressed_switch )
     /* Filling ctrl struct of the choosen switch */
     if ( g_default_presses_pin[c_pressed_switch] != NON  )
     {
+        int init_result ;
         /* */
         g_pressed_switch_ctrl[c_pressed_switch].switch_pin = g_default_presses_pin[c_pressed_switch] ;
         g_pressed_switch_ctrl[c_pressed_switch].current_state = RELEASED ;
         g_pressed_switch_ctrl[c_pressed_switch].state = RELEASED ;
-        gpio_hal_config(g_pressed_switch_ctrl[c_pressed_switch].switch_pin , &switch_mode ) ;
+        init_result = gpio_hal_config(g_pressed_switch_ctrl[c_pressed_switch].switch_pin , &switch_mode ) ;
+        uart_send_int(init_result);
     }
     else 
     {
@@ -250,6 +253,7 @@ error_t pressed_switch_init_all ( void )
     for (counter = PRESSED_SWITCH_1 ; counter < PRESSED_SWITCH_MAX_NUMBER ; counter ++ )
     {
         pressed_switch_init(counter) ;
+        uart_send_int(counter);
     }
     /* should be changed to error state */
     return TRUE ; 
@@ -280,20 +284,26 @@ void pressed_switch_run_handler ( void )
     {
         /* read switch state */
         g_pressed_switch_ctrl[counter].current_state = gpio_hal_read ( g_pressed_switch_ctrl[counter].switch_pin ) ;
+        // uart_send("button read is = ");
+        // uart_send_int(g_pressed_switch_ctrl[counter].current_state) ;
         /* analyze current state of the switch*/
         switch (g_pressed_switch_ctrl[counter].state)
         {
         case PRESSED:
             run_pressed_handler(counter) ;
+            // uart_send("button is pressed\r\n");
             break;
         case RELEASED:
             run_released_handler(counter) ;
+            // uart_send("button is RELEASED\r\n");
             break;
         case PRE_RELEASED :
             run_pre_released_handler(counter) ;
+            // uart_send("button is pre released\r\n");
             break ;
         case PRE_PRESSED :
             run_pre_pressed_handler(counter) ;
+            // uart_send("button is pre pre pressed\r\n");
             break ;
         default:
             /* do nothing*/
