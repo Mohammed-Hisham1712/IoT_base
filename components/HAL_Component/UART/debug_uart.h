@@ -13,4 +13,11 @@ void uart_send_float(float ) ;
 
 void uart_wait();
 
+
+#define debug(text,...) \
+    {\
+    char string[100]; \
+    sprintf(string, text, __VA_ARGS__);\
+    uart_send(string);\
+    }
 #endif

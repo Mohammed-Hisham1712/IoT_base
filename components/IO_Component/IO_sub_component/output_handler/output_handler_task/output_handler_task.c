@@ -2,18 +2,14 @@
                 /*          File Data:         */
                 /*-----------------------------*/
 /*--------------------------------------------------------------
-* File Usage : This file used to run all output sub components 
-               init and run functions.
-               for example :
-                if pin driven output is included in the project
-                 this file will be responsible to 1- run pin_driven_init()
-                                                  2- run pin_driven_run()
-               and the same process for all output modules 
-               PWM output
-               Dimming output
-               motor output
-              So this file might be considered as the manager of all 
-              output modules
+* File Usage : output handler Task is responsible for init all output
+               elements Like pin driven output and any
+               future input modules.
+               and also responsible for running its handler functions
+               for example: if pin driven input is used in the system to 
+               be compiled and run. 
+               input task will init it and run it also periodically
+               and the periodic time is IO_component Task periodic time. 
 ----------------------------------------------------------------
 * Creators : 1- Mahmoud Eid
              2- Mohamed Hisham

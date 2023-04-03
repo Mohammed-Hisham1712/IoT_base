@@ -30,6 +30,7 @@
 /*          1-Section 1: Includes         */
 /*----------------------------------------*/
 /*---------------------------------------------------------------*/
+#include "debug_uart.h"
 #include "types.h"
 
 #include "pin_driven_handler_cfg.h"
@@ -195,6 +196,8 @@ void pin_driven_run_handler ( void )
             /* write */
             gpio_hal_write(g_pin_driven_ctrl[l_pin_driven_num].pin_num , 
                            g_pin_driven_ctrl[l_pin_driven_num].pin_state) ;
+            // debug("write gpio num %d with value %d\r\n",g_pin_driven_ctrl[l_pin_driven_num].pin_num ,
+            //                                     g_pin_driven_ctrl[l_pin_driven_num].pin_state );
         }
     }
     

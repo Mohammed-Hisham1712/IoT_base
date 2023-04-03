@@ -7,6 +7,7 @@
 
 void IO_component_task_init()
 {
+    
     input_handler_task_init();
     IO_processor_task_init();
     output_handler_task_init();
