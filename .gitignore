@@ -3,4 +3,4 @@
 build
 *swp
 *.config.old
-./main/main.c
+main/main.c
