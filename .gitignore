@@ -4,3 +4,4 @@ build
 *swp
 *.config.old
 main/main.c
+token.txt
