@@ -1,0 +1,9 @@
+config PIN_DRIVEN_OUTPUT_HANDLER
+    bool "add pin driven output handler"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+
+menu "pin driven output handler"
+    depends on PIN_DRIVEN_OUTPUT_HANDLER
+    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/output_handler/Pin_driven_handler/Pin_handler_Kconfig"
+endmenu

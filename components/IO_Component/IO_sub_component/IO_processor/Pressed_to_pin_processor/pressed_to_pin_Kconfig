@@ -1,0 +1,131 @@
+config NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT
+    int "number of pin driven handler"
+    default 1
+    range 1 6
+    help 
+        choose number of used pin driven handler in your system
+#Define number of pins
+if NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT >= 2
+    config USE_PIN_DRIVEN_2
+    bool 
+    default y
+endif
+
+if NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT >= 3
+    config USE_PIN_DRIVEN_3
+    bool
+    default y
+endif
+
+if NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT >= 4
+    config USE_PIN_DRIVEN_4
+    bool
+    default y
+endif
+
+if NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT >= 5
+    config USE_PIN_DRIVEN_5
+    bool
+    default y
+endif
+if NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT >= 6
+    config USE_PIN_DRIVEN_6
+    bool
+    default y
+endif
+# pin one process 
+    config CONFIG_PRESSED_SWITCH_1_PROCESS
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        enter switch 1 process num.
+
+    config CONFIG_PIN_DRIVEN_1_PROCESS
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        enter switch 1 process num.
+# pin 2 process 
+   config CONFIG_PRESSED_SWITCH_2_PROCESS
+    depends on USE_PIN_DRIVEN_2
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+    config CONFIG_PIN_DRIVEN_2_PROCESS
+    depends on USE_PIN_DRIVEN_2
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+# pin 3 process 
+    config CONFIG_PRESSED_SWITCH_3_PROCESS
+    depends on USE_PIN_DRIVEN_3
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+    config CONFIG_PIN_DRIVEN_3_PROCESS
+    depends on USE_PIN_DRIVEN_3
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+# pin 4 process 
+    config CONFIG_PRESSED_SWITCH_4_PROCESS
+    depends on USE_PIN_DRIVEN_4
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+    config CONFIG_PIN_DRIVEN_4_PROCESS
+    depends on USE_PIN_DRIVEN_4
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+# pin 5 process 
+    config CONFIG_PRESSED_SWITCH_5_PROCESS
+    depends on USE_PIN_DRIVEN_5
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+    config CONFIG_PIN_DRIVEN_5_PROCESS
+    depends on USE_PIN_DRIVEN_5
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+# pin 6 process 
+    config CONFIG_PRESSED_SWITCH_6_PROCESS
+    depends on USE_PIN_DRIVEN_6
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.
+
+    config CONFIG_PIN_DRIVEN_6_PROCESS
+    depends on USE_PIN_DRIVEN_6
+    int "enter switch 1 process num "
+    default -1
+    range -1 5 
+    help 
+        -1 for non used and form 0 to 5 for number.

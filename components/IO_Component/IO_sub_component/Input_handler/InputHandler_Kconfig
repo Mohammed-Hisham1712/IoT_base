@@ -1,0 +1,20 @@
+config PRESSED_INPUT_HANDLER
+    bool "add pressed input handler"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+    
+menu "pressed input handler" # inside input handler menu
+    depends on PRESSED_INPUT_HANDLER
+    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/output_handler/Pin_driven_handler/Pin_handler_Kconfig"
+endmenu
+
+config ON_OFF_INPUT_HANDLER
+    bool "add on off input handler"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+
+menu "On off input handler" # inside input handler menu
+    depends on ON_OFF_INPUT_HANDLER
+    
+endmenu # end of on off input handler menu
+

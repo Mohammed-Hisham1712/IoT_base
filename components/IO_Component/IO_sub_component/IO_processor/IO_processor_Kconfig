@@ -1,0 +1,9 @@
+config PRESSED_TO_PIN_HANDLER
+    bool "Pressed to pin processor handler"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+
+menu "Pressed to pin processor"
+    depends on PRESSED_TO_PIN_HANDLER
+    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/IO_processor/Pressed_to_pin_processor/pressed_to_pin_Kconfig"
+endmenu

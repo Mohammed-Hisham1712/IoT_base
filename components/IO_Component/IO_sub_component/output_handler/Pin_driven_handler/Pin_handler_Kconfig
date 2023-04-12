@@ -1,0 +1,82 @@
+config NUMBER_OF_PIN_DRIVEN_OUTPUT
+    int "number of pin driven handler"
+    default 1
+    range 1 6
+    help 
+        choose number of used pin driven handler in your system
+
+if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 2
+    config USE_PIN_DRIVEN_2
+    bool 
+    default y
+endif
+
+if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 3
+    config USE_PIN_DRIVEN_3
+    bool
+    default y
+endif
+
+if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 4
+    config USE_PIN_DRIVEN_4
+    bool
+    default y
+endif
+
+if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 5
+    config USE_PIN_DRIVEN_5
+    bool
+    default y
+endif
+if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 6
+    config USE_PIN_DRIVEN_6
+    bool
+    default y
+endif
+
+    config PIN_DRIVEN_1_PIN_NUM
+    int "enter pin driven 1 pin num"
+    default 17
+    range 1 16 
+    help 
+        enter pin driven 1 pin number.
+    
+    config PIN_DRIVEN_2_PIN_NUM
+    depends on USE_PIN_DRIVEN_2
+    int "enter pin driven 2 pin num"
+    default 17
+    range 1 16
+    help 
+        enter pin number from 1 16
+    
+    config PIN_DRIVEN_3_PIN_NUM
+    depends on USE_PIN_DRIVEN_3
+    int "enter pin driven 3 pin num"
+    default 17
+    range 1 16
+    help 
+        enter pin num from 1 16
+    
+    config PIN_DRIVEN_4_PIN_NUM
+    depends on USE_PIN_DRIVEN_4
+    int "enter pin driven 4 pin num"
+    default 17
+    range 1 16
+    help 
+        enter pin num from 1 to 16 
+    
+    config PIN_DRIVEN_5_PIN_NUM
+    depends on USE_PIN_DRIVEN_5
+    int "enter pin driven 5 pin num"
+    default 17
+    range 1 16
+    help 
+        enter pin num from 1 to 16 
+
+    config PIN_DRIVEN_6_PIN_NUM
+    depends on USE_PIN_DRIVEN_6
+    int "enter pin driven 6 pin num"
+    default 17
+    range 1 16
+    help 
+        enter pin num from 1 to 16 

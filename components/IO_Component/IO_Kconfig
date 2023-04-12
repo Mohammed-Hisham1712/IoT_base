@@ -1,0 +1,32 @@
+config IO_COMPONENT_INCLUDED
+    bool "add input output component to the system"
+    default y
+    help
+        Adding Input and output and input to output processor to the system
+config IO_CMOPONENT_TASK_PERIOD
+    depends on IO_COMPONENT_INCLUDED
+    int "add task period in ms"
+    default 20
+    range 1 50
+    help 
+        if time is bigger than 50 IO will fail
+menu "Inpdut handler"
+    depends on IO_COMPONENT_INCLUDED
+    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/Input_handler/InputHandler_Kconfig"
+
+endmenu
+
+menu "IO_processor handler"
+    depends on IO_COMPONENT_INCLUDED
+    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/IO_processor/IO_processor_Kconfig"
+endmenu
+
+menu "output handler"
+    depends on IO_COMPONENT_INCLUDED
+    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/output_handler/output_Kconfig"
+endmenu
+
+
+
+
+
