@@ -7,3 +7,21 @@ menu "Pressed to pin processor"
     depends on PRESSED_TO_PIN_HANDLER
     source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/IO_processor/Pressed_to_pin_processor/pressed_to_pin_Kconfig"
 endmenu
+
+config ON_OFF_TO_PIN_HANDLER
+    bool "include on off input to pin driven output"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+
+menu "on_off to pin driven"
+    depends on ON_OFF_TO_PIN_HANDLER
+endmenu
+
+config BLINKING_OUTPUT
+    bool "include blink output"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+
+menu "blink output"
+    depends on BLINKING_OUTPUT
+endmenu

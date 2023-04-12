@@ -34,7 +34,7 @@ if NUMBER_OF_PRESSED_TO_DRIVEN_OUTPUT >= 6
     default y
 endif
 # pin one process 
-    config CONFIG_PRESSED_SWITCH_1_PROCESS
+    config CONFIG_PRESSED_SWITCH_1_PROCESSUSE_PIN_DRIVEN_4
     int "enter switch 1 process num "
     default -1
     range -1 5 
@@ -42,7 +42,7 @@ endif
         enter switch 1 process num.
 
     config CONFIG_PIN_DRIVEN_1_PROCESS
-    int "enter switch 1 process num "
+    int "enter pin driven 1 process num "
     default -1
     range -1 5 
     help 
@@ -50,7 +50,7 @@ endif
 # pin 2 process 
    config CONFIG_PRESSED_SWITCH_2_PROCESS
     depends on USE_PIN_DRIVEN_2
-    int "enter switch 1 process num "
+    int "enter switch 2 process num "
     default -1
     range -1 5 
     help 
@@ -58,7 +58,7 @@ endif
 
     config CONFIG_PIN_DRIVEN_2_PROCESS
     depends on USE_PIN_DRIVEN_2
-    int "enter switch 1 process num "
+    int "enter pin driven 2 process num "
     default -1
     range -1 5 
     help 
@@ -67,7 +67,7 @@ endif
 # pin 3 process 
     config CONFIG_PRESSED_SWITCH_3_PROCESS
     depends on USE_PIN_DRIVEN_3
-    int "enter switch 1 process num "
+    int "enter switch 3 process num "
     default -1
     range -1 5 
     help 
@@ -75,7 +75,7 @@ endif
 
     config CONFIG_PIN_DRIVEN_3_PROCESS
     depends on USE_PIN_DRIVEN_3
-    int "enter switch 1 process num "
+    int "enter pin driven 3 process num "
     default -1
     range -1 5 
     help 
@@ -84,7 +84,7 @@ endif
 # pin 4 process 
     config CONFIG_PRESSED_SWITCH_4_PROCESS
     depends on USE_PIN_DRIVEN_4
-    int "enter switch 1 process num "
+    int "enter switch 4 process num "
     default -1
     range -1 5 
     help 
@@ -92,7 +92,7 @@ endif
 
     config CONFIG_PIN_DRIVEN_4_PROCESS
     depends on USE_PIN_DRIVEN_4
-    int "enter switch 1 process num "
+    int "enter pin driven 4 process num "
     default -1
     range -1 5 
     help 
@@ -100,7 +100,7 @@ endif
 # pin 5 process 
     config CONFIG_PRESSED_SWITCH_5_PROCESS
     depends on USE_PIN_DRIVEN_5
-    int "enter switch 1 process num "
+    int "enter switch 5 process num "
     default -1
     range -1 5 
     help 
@@ -108,7 +108,7 @@ endif
 
     config CONFIG_PIN_DRIVEN_5_PROCESS
     depends on USE_PIN_DRIVEN_5
-    int "enter switch 1 process num "
+    int "enter pin driven 5 process num "
     default -1
     range -1 5 
     help 
@@ -116,7 +116,7 @@ endif
 # pin 6 process 
     config CONFIG_PRESSED_SWITCH_6_PROCESS
     depends on USE_PIN_DRIVEN_6
-    int "enter switch 1 process num "
+    int "enter switch 6 process num "
     default -1
     range -1 5 
     help 
@@ -124,7 +124,7 @@ endif
 
     config CONFIG_PIN_DRIVEN_6_PROCESS
     depends on USE_PIN_DRIVEN_6
-    int "enter switch 1 process num "
+    int "enter pin driven 6 process num "
     default -1
     range -1 5 
     help 
