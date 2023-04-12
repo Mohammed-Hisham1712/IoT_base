@@ -57,12 +57,24 @@
 PRESSED_TO_PIN_CTRL g_pressed_pin_ctrl[PRESS_TO_PIN_MAX_PROCESS] ;
 PRESSED_PIN_DEFAULT g_pressed_pin_default[PRESSED_TO_PIN_MAX] = 
     {
+#if PRESS_TO_PIN_MAX_PROCESS >= 1 
           { PRESSED_SWITCH_PROCESS_1 , PIN_DRIVEN_PROCESS_1 , SWITCH_1_TYPE},
+#endif 
+#if PRESS_TO_PIN_MAX_PROCESS >= 2 
           { PRESSED_SWITCH_PROCESS_2 , PIN_DRIVEN_PROCESS_2 , SWITCH_2_TYPE},
+#endif
+#if PRESS_TO_PIN_MAX_PROCESS >= 3 
           { PRESSED_SWITCH_PROCESS_3 , PIN_DRIVEN_PROCESS_3 , SWITCH_3_TYPE},
+#endif
+#if PRESS_TO_PIN_MAX_PROCESS >= 4 
           { PRESSED_SWITCH_PROCESS_4 , PIN_DRIVEN_PROCESS_4 , SWITCH_4_TYPE},
+#endif
+#if PRESS_TO_PIN_MAX_PROCESS >= 5 
           { PRESSED_SWITCH_PROCESS_5 , PIN_DRIVEN_PROCESS_5 , SWITCH_5_TYPE},
+#endif
+#if PRESS_TO_PIN_MAX_PROCESS >= 6 
           { PRESSED_SWITCH_PROCESS_6 , PIN_DRIVEN_PROCESS_6 , SWITCH_6_TYPE},
+#endif
     };
 /*---------------------------------------------------------------*/
 /*-------------------------------------------------------------*/

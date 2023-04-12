@@ -62,16 +62,31 @@ PRESSED_SWITCH_CTRL g_pressed_switch_ctrl[PRESSED_SWITCH_MAX_NUMBER] ;
 
 /* default pin configurations for switches */
 gpio_hal_pin_t g_default_presses_pin[SWITCH_MAX] = 
-                                {
-                                    PRESSED_SWITCH_1_PIN ,
-                                    PRESSED_SWITCH_2_PIN ,
-                                    PRESSED_SWITCH_3_PIN ,
-                                    PRESSED_SWITCH_4_PIN ,
-                                    PRESSED_SWITCH_5_PIN ,
-                                    PRESSED_SWITCH_6_PIN ,
-                                    PRESSED_SWITCH_7_PIN ,
-                                };
-/*---------------------------------------------------------------*/
+                    {
+#if PRESSED_SWITCH_MAX_NUMBER >= 1
+                        PRESSED_SWITCH_1_PIN ,
+#endif
+#if PRESSED_SWITCH_MAX_NUMBER >= 2
+                        PRESSED_SWITCH_2_PIN ,
+#endif
+#if PRESSED_SWITCH_MAX_NUMBER >= 3
+                        PRESSED_SWITCH_3_PIN ,
+#endif
+#if PRESSED_SWITCH_MAX_NUMBER >= 4
+                        PRESSED_SWITCH_4_PIN ,
+#endif
+#if PRESSED_SWITCH_MAX_NUMBER >= 5
+                        PRESSED_SWITCH_5_PIN ,
+#endif
+#if PRESSED_SWITCH_MAX_NUMBER >= 6
+                        PRESSED_SWITCH_6_PIN ,
+#endif
+#if PRESSED_SWITCH_MAX_NUMBER >= 7
+                        PRESSED_SWITCH_7_PIN ,
+#endif
+
+                    };
+/*----------------------------------------------------------*/
 /*-------------------------------------------------------------*/
 /*          4-Section 4: Private functions implementations     */
 /*-------------------------------------------------------------*/
@@ -234,7 +249,7 @@ error_t pressed_switch_init( PRESSED_SWITCH_NUM c_pressed_switch )
         g_pressed_switch_ctrl[c_pressed_switch].current_state = RELEASED ;
         g_pressed_switch_ctrl[c_pressed_switch].state = RELEASED ;
         init_result = gpio_hal_config(g_pressed_switch_ctrl[c_pressed_switch].switch_pin , &switch_mode ) ;
-        uart_send_int(init_result);
+        // uart_send_int(init_result);
     }
     else 
     {
@@ -253,7 +268,7 @@ error_t pressed_switch_init_all ( void )
     for (counter = PRESSED_SWITCH_1 ; counter < PRESSED_SWITCH_MAX_NUMBER ; counter ++ )
     {
         pressed_switch_init(counter) ;
-        uart_send_int(counter);
+        // uart_send_int(counter);
     }
     /* should be changed to error state */
     return TRUE ; 

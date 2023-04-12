@@ -59,7 +59,7 @@ typedef enum
 {
     SWITCH_PRESSED  = GPIO_HAL_LEVEL_HIGH, 
     SWITCH_RELEASED = GPIO_HAL_LEVEL_LOW ,
-} ;
+} SWITCH_PRESSED_STATE_T;
 
 typedef struct  
 {

@@ -49,15 +49,30 @@
 /*----------------------------------------------------*/
 /*---------------------------------------------------------------*/
 PIN_DRIVEN_CTRL g_pin_driven_ctrl[PIN_DRIVEN_MAX_PIN_NUM] ;
+/* default pin defintions */
 PIN_DRIVEN_NUM g_pin_driven_default_pin[PIN_DRIVEN_MAX] =
             {
+#if PIN_DRIVEN_MAX_PIN_NUM >=1  
                 PIN_DRIVEN_PIN_1,
+#endif
+#if PIN_DRIVEN_MAX_PIN_NUM >=2 
                 PIN_DRIVEN_PIN_2,
+#endif
+#if PIN_DRIVEN_MAX_PIN_NUM >=3 
                 PIN_DRIVEN_PIN_3,
+#endif
+#if PIN_DRIVEN_MAX_PIN_NUM >=4 
                 PIN_DRIVEN_PIN_4,
+#endif
+#if PIN_DRIVEN_MAX_PIN_NUM >=5 
                 PIN_DRIVEN_PIN_5,
+#endif
+ #if PIN_DRIVEN_MAX_PIN_NUM >=6 
                 PIN_DRIVEN_PIN_6,
+#endif
+#if PIN_DRIVEN_MAX_PIN_NUM >=7 
                 PIN_DRIVEN_PIN_7,
+#endif
             };
 /*---------------------------------------------------------------*/
 /*-------------------------------------------------------------*/
