@@ -6,9 +6,13 @@ config NUMBER_OF_PIN_DRIVEN_OUTPUT
         choose number of used pin driven handler in your system
 
 if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 2
-    config USE_PIN_DRIVEN_2
-    bool 
-    default y
+    config PIN_DRIVEN_2_PIN_NUM
+    # depends on USE_PIN_DRIVEN_2
+    int "enter pin driven 2 pin num"
+    default 17
+    range 1 16
+    help 
+        enter pin number from 1 16
 endif
 
 if NUMBER_OF_PIN_DRIVEN_OUTPUT >= 3
@@ -41,13 +45,7 @@ endif
     help 
         enter pin driven 1 pin number.
     
-    config PIN_DRIVEN_2_PIN_NUM
-    depends on USE_PIN_DRIVEN_2
-    int "enter pin driven 2 pin num"
-    default 17
-    range 1 16
-    help 
-        enter pin number from 1 16
+    
     
     config PIN_DRIVEN_3_PIN_NUM
     depends on USE_PIN_DRIVEN_3

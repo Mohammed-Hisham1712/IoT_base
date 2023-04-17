@@ -249,7 +249,8 @@ error_t pressed_switch_init( PRESSED_SWITCH_NUM c_pressed_switch )
         g_pressed_switch_ctrl[c_pressed_switch].current_state = RELEASED ;
         g_pressed_switch_ctrl[c_pressed_switch].state = RELEASED ;
         init_result = gpio_hal_config(g_pressed_switch_ctrl[c_pressed_switch].switch_pin , &switch_mode ) ;
-        // uart_send_int(init_result);
+        uart_send("init result is = ");
+        uart_send_int(init_result);
     }
     else 
     {
@@ -268,7 +269,8 @@ error_t pressed_switch_init_all ( void )
     for (counter = PRESSED_SWITCH_1 ; counter < PRESSED_SWITCH_MAX_NUMBER ; counter ++ )
     {
         pressed_switch_init(counter) ;
-        // uart_send_int(counter);
+        uart_send("button init is = ");
+        uart_send_int(counter);
     }
     /* should be changed to error state */
     return TRUE ; 
@@ -298,7 +300,7 @@ void pressed_switch_run_handler ( void )
     for (counter = PRESSED_SWITCH_1 ; counter < PRESSED_SWITCH_MAX_NUMBER ; counter ++ )
     {
         /* read switch state */
-        g_pressed_switch_ctrl[counter].current_state = gpio_hal_read ( g_pressed_switch_ctrl[counter].switch_pin ) ;
+        g_pressed_switch_ctrl[counter].current_state = gpio_hal_read (g_pressed_switch_ctrl[counter].switch_pin);
         // uart_send("button read is = ");
         // uart_send_int(g_pressed_switch_ctrl[counter].current_state) ;
         /* analyze current state of the switch*/
@@ -314,11 +316,11 @@ void pressed_switch_run_handler ( void )
             break;
         case PRE_RELEASED :
             run_pre_released_handler(counter) ;
-            // uart_send("button is pre released\r\n");
+            uart_send("button is pre released\r\n");
             break ;
         case PRE_PRESSED :
             run_pre_pressed_handler(counter) ;
-            // uart_send("button is pre pre pressed\r\n");
+            uart_send("button is pre pre pressed\r\n");
             break ;
         default:
             /* do nothing*/

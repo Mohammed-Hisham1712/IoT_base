@@ -50,8 +50,8 @@
     /*          3-Section 3: functions Declaration          */
     /*------------------------------------------------------*/
 /*---------------------------------------------------------------*/
-void input_handler_task_init( void );
-void input_handler_task_run( void );
+void input_handler_task_init(void);
+void input_handler_task_run(void);
 
 #endif  /*  guard end*/
 

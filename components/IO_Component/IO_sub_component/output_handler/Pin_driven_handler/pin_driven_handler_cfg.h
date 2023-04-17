@@ -28,14 +28,14 @@
             /*          1-Includes:         */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PIN_DRIVEN_MAX_PIN_NUM      (3)
-#define PIN_DRIVEN_PIN_1        (PIN_1) //yes
-#define PIN_DRIVEN_PIN_2        (NON) //NO
-#define PIN_DRIVEN_PIN_3        (NON) //yes
-#define PIN_DRIVEN_PIN_4        (NON) //NO
-#define PIN_DRIVEN_PIN_5        (NON) //yes
-#define PIN_DRIVEN_PIN_6        (NON) //No
-#define PIN_DRIVEN_PIN_7        (NON) 
+#define PIN_DRIVEN_MAX_PIN_NUM      (2)
+#define PIN_DRIVEN_PIN_1        (PIN_16) 
+#define PIN_DRIVEN_PIN_2        (PIN_14) 
+#define PIN_DRIVEN_PIN_3        (PIN_12) 
+#define PIN_DRIVEN_PIN_4        (PIN_9) 
+#define PIN_DRIVEN_PIN_5        (PIN_10) 
+#define PIN_DRIVEN_PIN_6        (PIN_11) 
+#define PIN_DRIVEN_PIN_7        (PIN_6) 
 /*---------------------------------------------------------------*/
             /*------------------------------*/
             /*          2-Section2:         */

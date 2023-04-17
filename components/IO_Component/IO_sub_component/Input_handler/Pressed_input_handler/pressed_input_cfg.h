@@ -48,13 +48,13 @@
             /*------------------------------*/
 /*---------------------------------------------------------------*/
 #define PRESSED_SWITCH_MAX_NUMBER     (1)
-#define PRESSED_SWITCH_1_PIN          (PIN_0) 
-#define PRESSED_SWITCH_2_PIN          (NON)
-#define PRESSED_SWITCH_3_PIN          (NON)
-#define PRESSED_SWITCH_4_PIN          (NON)
-#define PRESSED_SWITCH_5_PIN          (NON)
-#define PRESSED_SWITCH_6_PIN          (NON)
-#define PRESSED_SWITCH_7_PIN          (NON)
+#define PRESSED_SWITCH_1_PIN          (PIN_5) 
+#define PRESSED_SWITCH_2_PIN          (PIN_2)
+#define PRESSED_SWITCH_3_PIN          (PIN_8)
+#define PRESSED_SWITCH_4_PIN          (PIN_9)
+#define PRESSED_SWITCH_5_PIN          (PIN_10)
+#define PRESSED_SWITCH_6_PIN          (PIN_11)
+#define PRESSED_SWITCH_7_PIN          (PIN_1)
 
 
 

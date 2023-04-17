@@ -13,7 +13,6 @@ config IO_CMOPONENT_TASK_PERIOD
 menu "Inpdut handler"
     depends on IO_COMPONENT_INCLUDED
     source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/Input_handler/InputHandler_Kconfig"
-
 endmenu
 
 menu "IO_processor handler"

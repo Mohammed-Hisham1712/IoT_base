@@ -43,14 +43,14 @@
     /*          3-Section 3: functions Definitions          */
     /*------------------------------------------------------*/
 /*---------------------------------------------------------------*/
-void input_handler_task_init( void )
+void input_handler_task_init(void)
 {
-    pressed_switch_init_all ( ) ;
+    pressed_switch_init_all() ;
     
 }
-void input_handler_task_run( void )
+void input_handler_task_run(void)
 {
-    pressed_switch_run_handler ( ) ;
+    pressed_switch_run_handler() ;
 }
 
 

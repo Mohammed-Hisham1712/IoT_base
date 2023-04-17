@@ -26,8 +26,6 @@
 2-Section 2:  definitions
 3-Section 3:  private data type 
 4-Section 4:  private functions declaration
-5-Section 5:
-6-Section 6"
 ---------------------------------------------------------------*/
 
 
@@ -74,27 +72,12 @@ typedef struct
         /*          4-Section 4:  private functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-void run_pressed_handler ( PRESSED_SWITCH_NUM  c_pressed_switch_num ) ; 
-void run_pre_pressed_handler (PRESSED_SWITCH_NUM  c_pressed_switch_num ) ; 
-void run_released_handler ( PRESSED_SWITCH_NUM  c_pressed_switch_num ) ;
-void run_pre_released_handler ( PRESSED_SWITCH_NUM  c_pressed_switch_num ) ;
-/*---------------------------------------------------------------*/
-            /*------------------------------*/
-            /*          5-Section5:         */
-            /*------------------------------*/
-/*---------------------------------------------------------------*/
+void run_pressed_handler(PRESSED_SWITCH_NUM  c_pressed_switch_num ) ; 
+void run_pre_pressed_handler(PRESSED_SWITCH_NUM  c_pressed_switch_num ) ; 
+void run_released_handler(PRESSED_SWITCH_NUM  c_pressed_switch_num ) ;
+void run_pre_released_handler(PRESSED_SWITCH_NUM  c_pressed_switch_num ) ;
 
-/*---------------------------------------------------------------*/
-            /*------------------------------*/
-            /*          6-Section6:         */
-            /*------------------------------*/
-/*---------------------------------------------------------------*/
 
-/*---------------------------------------------------------------*/
-            /*------------------------------*/
-            /*          7-Section7:         */
-            /*------------------------------*/
-/*---------------------------------------------------------------*/
 
 #endif  /*  guard end*/
 
