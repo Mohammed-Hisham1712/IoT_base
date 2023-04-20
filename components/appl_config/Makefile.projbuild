@@ -1,0 +1,6 @@
+ifndef PROJECT_PATH
+PROJECT_PATH := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
+endif
+
+menuconfig:
+    export COMPONENTS_PATH_ENV=$(PROJECT_PATH)/components

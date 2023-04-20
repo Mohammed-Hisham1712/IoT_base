@@ -1,9 +1,5 @@
 menu "Application config"
 
-	menu "IO_component"
-		source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_Kconfig"
-	endmenu
-
 choice
 	prompt "Select target MCU"
 	default TARGET_ESP8266
@@ -23,6 +19,8 @@ choice
 
 endchoice
 
+menu "IO_component"
+	source "$COMPONENTS_PATH_ENV/IO_Component/IO_Kconfig"
 endmenu
 
-
+endmenu

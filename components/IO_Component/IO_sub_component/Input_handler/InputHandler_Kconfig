@@ -5,7 +5,7 @@ config PRESSED_INPUT_HANDLER
     
 menu "pressed input handler" # inside input handler menu
     depends on PRESSED_INPUT_HANDLER
-    source "/home/eid/IOT_base/IoT_base/components/IO_Component/IO_sub_component/output_handler/Pin_driven_handler/Pin_handler_Kconfig"
+    source "$COMPONENTS_PATH_ENV/IO_Component/IO_sub_component/output_handler/Pin_driven_handler/Pin_handler_Kconfig"
 endmenu
 
 config ON_OFF_INPUT_HANDLER
