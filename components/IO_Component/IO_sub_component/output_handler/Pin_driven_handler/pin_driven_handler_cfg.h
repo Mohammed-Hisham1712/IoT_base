@@ -29,9 +29,9 @@
             /*------------------------------*/
 /*---------------------------------------------------------------*/
 #define PIN_DRIVEN_MAX_PIN_NUM      (2)
-#define PIN_DRIVEN_PIN_1        (PIN_16) 
-#define PIN_DRIVEN_PIN_2        (PIN_14) 
-#define PIN_DRIVEN_PIN_3        (PIN_12) 
+#define PIN_DRIVEN_PIN_1        (PIN_10) 
+#define PIN_DRIVEN_PIN_2        (PIN_9) 
+#define PIN_DRIVEN_PIN_3        (PIN_8) 
 #define PIN_DRIVEN_PIN_4        (PIN_9) 
 #define PIN_DRIVEN_PIN_5        (PIN_10) 
 #define PIN_DRIVEN_PIN_6        (PIN_11) 
