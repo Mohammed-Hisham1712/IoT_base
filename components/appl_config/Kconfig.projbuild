@@ -1,6 +1,10 @@
 menu "Application config"
 
-choice
+config APPLICATION_START_MARK
+	bool
+	default y
+
+choice MCU_TARGET
 	prompt "Select target MCU"
 	default TARGET_ESP8266
 	help
@@ -22,5 +26,9 @@ endchoice
 menu "IO_component"
 	source "$COMPONENTS_PATH_ENV/IO_Component/IO_Kconfig"
 endmenu
+
+config APPLICATION_END_MARK
+	bool
+	default y
 
 endmenu
