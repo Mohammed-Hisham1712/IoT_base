@@ -5,4 +5,5 @@ build
 *.config.old
 main/main.c
 token.txt
+*.out
 *_config.h

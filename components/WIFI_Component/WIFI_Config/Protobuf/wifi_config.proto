@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+/*
+* WIFI AP information, ESP station will connect to this AP automatically
+*/
+message WifiConfigApSetInfoReq
+{
+    string ssid = 1;
+    string passphrase = 2;
+}

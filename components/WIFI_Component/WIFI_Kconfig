@@ -1,0 +1,54 @@
+config WIFI_COMPONENT_STACK_SIZE
+    int "WIFI application stack size"
+    range 1024 8192
+    default 2048
+    help
+        Set WIFI Application stack size
+        Defines CONFIG_WIFI_COMPONENT_STACK_SIZE
+
+config WIFI_COMPONENT_TSK_PRI
+    int "WIFI application task priority"
+    range 1 10
+    default 4
+    help
+        Set WIFI FreeRTOS task priority. Higher numbers mean higher priority
+        Defines CONFIG_WIFI_COMPONENT_TSK_PRI
+
+config WIFI_AP_SSID_MAX_LENGTH
+    int "WIFI AP SSID maximum length"
+    range 10 30
+    default 20
+    help
+        Defines CONFIG_WIFI_AP_SSID_MAX_LENGTH
+
+config WIFI_AP_MAX_PASSPHRASE_LENGTH
+    int "WIFI AP passphrase maximum length"
+    range 8 20
+    default 16
+    help
+        Defines CONFIG_WIFI_AP_MAX_PASSPHRASE_LENGTH
+
+config WIFI_AP_SSID_HIDDEN
+    bool "Make WIFI AP hidden"
+    default n
+    help
+        Defines CONFIG_WIFI_AP_SSID_HIDDEN
+
+config WIFI_AP_NAME_AUTOGEN
+    bool "Autogenerate WIFI AP SSID"
+    default n
+    help
+        Defines CONFIG_WIFI_AP_NAME_AUTOGEN
+
+config WIFI_AP_PASSPHRASE_AUTOGEN
+    bool "Autogenerate WIFI AP passphrase"
+    default n
+    help
+        Defines CONFIG_WIFI_AP_PASSPHRASE_AUTOGEN
+
+config WIFI_COMPONENT_LOGE_ENABLED
+    bool "Enable WIFI component specific error messages"
+    default y
+    help
+        Defines CONFIG_WIFI_COMPONENT_LOGE_ENABLED
+        
