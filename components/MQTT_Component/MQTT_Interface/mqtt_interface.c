@@ -216,7 +216,7 @@ error_t mqtt_interface_dissect_topic(char* ch_buf, uint32_t buf_len,
             *p_msg_type = MQTT_INTERFACE_MESSAGE_TYPE_MAX;
             for(uint8_t i = 0; i < MQTT_INTERFACE_MESSAGE_TYPE_MAX; i++)
             {
-                if(strcmp(p_sub_topic, mqtt_interface_msg_types[i]) == 0)
+                if(strcmp(*p_sub_topic, mqtt_interface_msg_types[i]) == 0)
                 {
                     *p_msg_type = i;
                     break;
@@ -233,7 +233,8 @@ error_t mqtt_interface_dissect_topic(char* ch_buf, uint32_t buf_len,
     return l_ret;
 }
 
-mqtt_interface_status_msg_desc_t* mqtt_interface_get_msg_status_desc(const char* sub_topic)
+const mqtt_interface_status_msg_desc_t* mqtt_interface_get_msg_status_desc
+                                                            (const char* sub_topic)
 {
     mqtt_interface_status_msg_desc_t* p_desc;
 
@@ -254,7 +255,29 @@ mqtt_interface_status_msg_desc_t* mqtt_interface_get_msg_status_desc(const char*
     return p_desc;
 }
 
-mqtt_interface_set_msg_desc_t* mqtt_interface_get_msg_set_desc(const char* sub_topic)
+const mqtt_interface_status_msg_desc_t* mqtt_interface_get_msg_status_desc_by_id
+                                                                    (uint16_t item_id)
+{
+    mqtt_interface_status_msg_desc_t* p_desc;
+
+    p_desc = NULL;
+
+    if(item_id != DATA_PRESENTATION_ITEM_NONE)
+    {
+        for(uint16_t i = 0; i < MQTT_STATUS_MESSAGE_DESC_SIZE; i++)
+        {
+            if(item_id == mqtt_status_message_desc[i].data_id)
+            {
+                p_desc = &mqtt_status_message_desc[i];
+                break;
+            }
+        }
+    }
+
+    return p_desc;
+}
+
+const mqtt_interface_set_msg_desc_t* mqtt_interface_get_msg_set_desc(const char* sub_topic)
 {
     mqtt_interface_set_msg_desc_t* p_desc;
 
@@ -275,7 +298,7 @@ mqtt_interface_set_msg_desc_t* mqtt_interface_get_msg_set_desc(const char* sub_t
     return p_desc;
 }
 
-mqtt_interface_get_msg_desc_t* mqtt_interface_get_msg_get_desc(const char* sub_topic)
+const mqtt_interface_get_msg_desc_t* mqtt_interface_get_msg_get_desc(const char* sub_topic)
 {
     mqtt_interface_get_msg_desc_t* p_desc;
 

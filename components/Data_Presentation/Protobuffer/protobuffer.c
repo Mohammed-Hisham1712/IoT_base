@@ -43,7 +43,7 @@ error_t protobuffer_led_state_read(protobuffer_data_t* p_proto_data)
 
     l_ret = RET_FAILED;
 
-    if(p_proto_data && p_proto_data->pdata && p_proto_data->len)
+    if(p_proto_data && p_proto_data->p_read_buffer && p_proto_data->read_buffer_size)
     {
         proto_buffer_led_state__init(&protobuffer_led_state);
 
@@ -58,10 +58,12 @@ error_t protobuffer_led_state_read(protobuffer_data_t* p_proto_data)
 
         packed_size = proto_buffer_led_state__get_packed_size(&protobuffer_led_state);
 
-        if(p_proto_data->len >= packed_size)
+        if(p_proto_data->read_buffer_size >= packed_size)
         {
-            if(proto_buffer_led_state__pack(&protobuffer_led_state, p_proto_data->pdata))
+            if(proto_buffer_led_state__pack(&protobuffer_led_state, 
+                                            p_proto_data->p_read_buffer))
             {
+                p_proto_data->read_count = packed_size;
                 l_ret = RET_OK;
             }
         }
@@ -78,10 +80,10 @@ error_t protobuffer_led_state_write(protobuffer_data_t* p_proto_data)
     p_protobuffer_led_state = NULL;
     l_ret = RET_FAILED;
 
-    if(p_proto_data && p_proto_data->pdata && p_proto_data->len)
+    if(p_proto_data && p_proto_data->p_write_buffer && p_proto_data->write_count)
     {
-        p_protobuffer_led_state = 
-                proto_buffer_led_state__unpack(NULL, p_proto_data->len, p_proto_data->pdata);
+        p_protobuffer_led_state = proto_buffer_led_state__unpack(NULL, p_proto_data->write_count, 
+                                                                    p_proto_data->p_write_buffer);
 
         if(p_protobuffer_led_state)
         {

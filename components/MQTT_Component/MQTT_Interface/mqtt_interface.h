@@ -13,7 +13,7 @@
 
 typedef int (*mqtt_interface_command_msg_cb_t) (void* args);
 
-typedef enum
+enum
 {
     MQTT_INTERFACE_MESSAGE_TYPE_STATUS,
     MQTT_INTERFACE_MESSAGE_TYPE_SET,
@@ -104,7 +104,17 @@ error_t mqtt_interface_dissect_topic(char* ch_buf, uint32_t buf_len,
  * @param sub_topic 
  * @return mqtt_interface_status_msg_desc_t* 
  */
-mqtt_interface_status_msg_desc_t* matt_interface_get_msg_status_desc(const char* sub_topic);
+const mqtt_interface_status_msg_desc_t* mqtt_interface_get_msg_status_desc
+                                                            (const char* sub_topic);
+
+/**
+ * @brief 
+ * 
+ * @param item_id 
+ * @return mqtt_interface_status_msg_desc_t* 
+ */
+const mqtt_interface_status_msg_desc_t* mqtt_interface_get_msg_status_desc_by_id
+                                                                    (uint16_t item_id);
 
 /**
  * @brief 
@@ -112,7 +122,7 @@ mqtt_interface_status_msg_desc_t* matt_interface_get_msg_status_desc(const char*
  * @param sub_topic 
  * @return mqtt_interface_set_msg_desc_t* 
  */
-mqtt_interface_set_msg_desc_t* mqtt_interface_get_msg_set_desc(const char* sub_topic);
+const mqtt_interface_set_msg_desc_t* mqtt_interface_get_msg_set_desc(const char* sub_topic);
 
 /**
  * @brief 
@@ -120,7 +130,7 @@ mqtt_interface_set_msg_desc_t* mqtt_interface_get_msg_set_desc(const char* sub_t
  * @param sub_topic 
  * @return mqtt_interface_get_msg_desc_t* 
  */
-mqtt_interface_get_msg_desc_t* mqtt_interface_get_msg_get_desc(const char* sub_topic);
+const mqtt_interface_get_msg_desc_t* mqtt_interface_get_msg_get_desc(const char* sub_topic);
 
 
 #endif

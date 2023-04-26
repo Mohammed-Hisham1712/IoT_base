@@ -13,8 +13,11 @@ typedef error_t (*protobuffer_write_handler_t) (protobuffer_data_t* p_proto_data
 
 struct protobuffer_data_t
 {
-    void* pdata;
-    uint16_t len;
+    void* p_read_buffer;
+    void* p_write_buffer;
+    uint16_t read_buffer_size;
+    uint16_t read_count;
+    uint16_t write_count;
 };
 
 typedef struct
