@@ -15,7 +15,9 @@
 #define MQTT_COMPONENT_HOST_IP_SIZE         16
 #define MQTT_COMPONENT_MAX_PAYLOAD_SIZE     192
 #define MQTT_COMPONENT_MAX_TOPIC_SIZE       128
-           
+
+#define MQTT_COMPONENT_TASK_STACK_SIZE      2048
+#define MQTT_COMPONENT_TASK_PRI             5
 
 
 typedef struct 

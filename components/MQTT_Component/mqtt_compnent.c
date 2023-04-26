@@ -12,14 +12,17 @@
 #include <stdint.h>
 #include <stddef.h>
 
-mqtt_component_param_t  mqtt_component_param;
-mqtt_component_ctrl_t   mqtt_component_ctrl;
+#define MQTT_COMP_TAG           "MQTT_COMP"
+
+static mqtt_component_param_t  mqtt_component_param;
+static mqtt_component_ctrl_t   mqtt_component_ctrl;
 
 static error_t mqtt_component_status_msg_process(void);
 static error_t mqtt_component_subscribe(void);
 static error_t mqtt_component_process_received(void);
 static error_t mqtt_component_data_received(const char* topic, uint16_t topic_len,
                                                 const char* data, uint16_t data_len);
+static void mqtt_component_run(void* args);
 
 
 static void mqtt_component_mqtt_event_cb
@@ -32,9 +35,14 @@ static void mqtt_component_mqtt_event_cb
 
     switch(event_id)
     {
+        case MQTT_EVENT_BEFORE_CONNECT:
+            ESP_LOGD(MQTT_COMP_TAG, "MQTT connecting.....");
+        break;
         case MQTT_EVENT_CONNECTED:
+            ESP_LOGD(MQTT_COMP_TAG, "MQTT connected!");
         break;
         case MQTT_EVENT_DISCONNECTED:
+            ESP_LOGD(MQTT_COMP_TAG, "MQTT disconnected!");
         break;
         case MQTT_EVENT_SUBSCRIBED:
         break;
@@ -59,7 +67,7 @@ error_t mqtt_component_get_own_username(char* username, uint16_t size)
 
     l_p_cred = &mqtt_component_param.credentials;
 
-    if(username && (size > l_p_cred->username_len))
+    if(username && (size >= l_p_cred->username_len))
     {
         memcpy(username, l_p_cred->username, l_p_cred->username_len);
 
@@ -75,7 +83,7 @@ error_t mqtt_component_get_own_passwd(char* passwd, uint16_t size)
 
     l_p_cred = &mqtt_component_param.credentials;
 
-    if(passwd && (size > l_p_cred->passwd_len))
+    if(passwd && (size >= l_p_cred->passwd_len))
     {
         memcpy(passwd, l_p_cred->passwd, l_p_cred->passwd_len);
 
@@ -97,14 +105,83 @@ error_t mqtt_component_get_own_credentials(mqtt_component_credentials_t* p_cred)
     return RET_FAILED;
 }
 
+error_t mqtt_component_set_own_credentials(const mqtt_component_credentials_t* p_cred)
+{
+    if(p_cred)
+    {
+        memcpy(&mqtt_component_param.credentials, p_cred, 
+                                    sizeof(mqtt_component_credentials_t));
+        return RET_OK;                                    
+    }
+
+    return RET_FAILED;
+}
+
 error_t mqtt_component_init(void)
 {
+    memset(&mqtt_component_ctrl, 0, sizeof(mqtt_component_ctrl_t));
+    memset(&mqtt_component_param, 0, sizeof(mqtt_component_param_t));
+
     mqtt_interface_get_msg_desc(&mqtt_component_ctrl.msg_desc);
     data_presentation_protobuf_layer_init(&mqtt_component_ctrl.presentation_layer, 
                                                 mqtt_component_ctrl.outbound_payload,
                                                 mqtt_component_ctrl.inbound_payload,
                                                 sizeof(mqtt_component_ctrl.outbound_payload));
     
+    /* The following lines of code are for development purposes only
+        and should be deleted once development is doen in MQTT */
+
+    mqtt_component_param.credentials.username_len = sizeof("Mohammed1712");
+    memcpy(mqtt_component_param.credentials.username, "Mohammed1712", 
+                                        mqtt_component_param.credentials.username_len);
+    mqtt_component_param.credentials.passwd_len = sizeof("12345678");
+    memcpy(mqtt_component_param.credentials.passwd, "12345678",
+                                        mqtt_component_param.credentials.passwd_len);
+    memcpy(mqtt_component_ctrl.client_id, "ESP8266", sizeof("ESP8266"));
+    memcpy(mqtt_component_ctrl.broker_addr, "192.168.1.100", sizeof("192.168.1.100"));
+    mqtt_component_ctrl.broker_port = 1883;
+
+    return RET_OK;
+}
+
+error_t mqtt_component_start(void)
+{
+    esp_mqtt_client_config_t mqtt_client_config;
+
+    memset(&mqtt_client_config, 0, sizeof(esp_mqtt_client_config_t));
+
+    mqtt_client_config.host = mqtt_component_ctrl.broker_addr;
+    mqtt_client_config.port = mqtt_component_ctrl.broker_port;
+    mqtt_client_config.client_id = mqtt_component_ctrl.client_id;
+    mqtt_client_config.username = mqtt_component_param.credentials.username;
+    mqtt_client_config.password = mqtt_component_param.credentials.passwd;
+    mqtt_client_config.disable_auto_reconnect = 1;
+    mqtt_client_config.protocol_ver = MQTT_PROTOCOL_V_3_1_1;
+
+    mqtt_component_ctrl.client_handle = esp_mqtt_client_init(&mqtt_client_config);
+    if(mqtt_component_ctrl.client_handle == NULL)
+    {
+        return RET_FAILED;
+    }
+
+    if(esp_mqtt_client_register_event(mqtt_component_ctrl.client_handle, ESP_EVENT_ANY_ID,
+                                            mqtt_component_mqtt_event_cb, NULL) != ESP_OK)
+    {
+        return RET_FAILED;
+    }
+
+    if(esp_mqtt_client_start(mqtt_component_ctrl.client_handle) != ESP_OK)
+    {
+        return RET_FAILED;
+    }
+
+    if(mqtt_component_subscribe() != RET_OK)
+    {
+        return RET_FAILED;
+    }
+
+    xTaskCreate(mqtt_component_run, "MQTT_COMP_TSK", MQTT_COMPONENT_TASK_STACK_SIZE, NULL,
+                                                        MQTT_COMPONENT_TASK_PRI, NULL);
     return RET_OK;
 }
 
@@ -335,4 +412,21 @@ static error_t mqtt_component_data_received(const char* topic, uint16_t topic_le
     }
 
     return l_ret;
+}
+
+void mqtt_component_run(void* args)
+{
+    (void) args;
+
+    while(1)
+    {
+        if(mqtt_component_status_msg_process() != RET_OK)
+        {
+            break;
+        }
+
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
+    }
+
+    vTaskDelete(NULL);
 }
