@@ -18,12 +18,12 @@
 3-Section 3:   
 4-Section 4:  
 5-Section 5:
-6-Section 6"
+6-Section 6:
 ---------------------------------------------------------------*/
 
 /*--------------Guard-----------*/
-#ifndef NV_ACCESS_PRIVATE_H
-#define NV_ACCESS_PRIVATE_H
+#ifndef NV_ACCESS_PUBLIC_H
+#define NV_ACCESS_PUBLIC_H
 
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
@@ -31,6 +31,7 @@
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "types.h"
+#include "nvs.h"
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
         /*          2-Section 2:  definitions        */
@@ -39,17 +40,21 @@
 
 /*---------------------------------------------------------------*/
         /*--------------------------------------------------*/
-        /*          3-Section 3:  private data type          */
+        /*          3-Section 3:  public data type          */
         /*--------------------------------------------------*/
 /*---------------------------------------------------------------*/
 
 
 /*---------------------------------------------------------------*/
         /*-------------------------------------------------*/
-        /*          4-Section 4:  private functions         */
+        /*          4-Section 4:  public functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-void NV_error_log(error_t error_num);
+BOOL NV_access_write_data(int32_t partition_ID, void * buffer, size_t length);
+BOOL NV_access_read_data(int32_t partition_ID, void * buffer,size_t length);
+BOOL NV_access_check_partition_validation(int32_t partition_ID);
+BOOL NV_access_init_partition( void );
+
 
 
 #endif  /*  guard end*/

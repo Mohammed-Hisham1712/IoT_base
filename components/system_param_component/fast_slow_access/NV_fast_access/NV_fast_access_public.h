@@ -22,15 +22,16 @@
 ---------------------------------------------------------------*/
 
 /*--------------Guard-----------*/
-#ifndef NV_ACCESS_PUBLIC_H
-#define NV_ACCESS_PUBLIC_H
+#ifndef NV_FAST_ACCESS_PUBLIC_H
+#define NV_FAST_ACCESS_PUBLIC_H
 
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
         /*          1-Section 1:  Includes         */
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
-
+#include "types.h"
+#include "fast_system_param.h"
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
         /*          2-Section 2:  definitions        */
@@ -46,10 +47,14 @@
 
 /*---------------------------------------------------------------*/
         /*-------------------------------------------------*/
-        /*          4-Section 4:  private functions         */
+        /*          4-Section 4:  public functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-
+BOOL nv_fast_access_read(int32_t offset, int32_t size, void * buffer);
+BOOL nv_fast_access_write(int32_t offset, int32_t size, void * buffer);
+BOOL nv_fast_access_init();
+BOOL nv_fast_access_first_run();
+BOOL nv_fast_access_check_first_run(void);
 
 
 #endif  /*  guard end*/

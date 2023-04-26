@@ -7,7 +7,7 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <stdio.h>
-
+#include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
@@ -15,51 +15,146 @@
 
 #include "IO_component_task.h"
 #include "debug_uart.h"
+#include "NV_access_public.h"
+#include "NV_fast_access_public.h"
+#include "NV_slow_access_public.h"
+// ((int16_t)(((a*)0)->b))
+#define offset_of(a,b)  ((int32_t)(&(((a*)0)->b)))  
 
-#define LED_PIN     PIN_3
-#define BUTTON_BIN  PIN_0 
-
-gpio_hal_level_t led_state;
-
-void button_pressed_callback(void* args)
-{
-    (void) args;
-
-    led_state = (led_state == GPIO_HAL_LEVEL_HIGH) ? 
-                        GPIO_HAL_LEVEL_LOW : GPIO_HAL_LEVEL_HIGH;
-    gpio_hal_write(LED_PIN, led_state);
-}
-
+int buffer ;
+int data;
 void app_main()
 {
-    // gpio_hal_config_t led_config = {
-    //     .mode = GPIO_HAL_MODE_OUTPUT_PP,
-    //     .pull = GPIO_HAL_PULL_NONE };
-    
-    // gpio_hal_config_t button_config = {
-    //     .mode = GPIO_HAL_MODE_IT_FALLING,
-    //     .pull = GPIO_HAL_PULL_UP
-    // };
-
-    // gpio_hal_init();
-    // gpio_hal_register_callback(BUTTON_BIN, button_pressed_callback);
-    // gpio_hal_config(LED_PIN, &led_config);
-    // gpio_hal_config(BUTTON_BIN, &button_config);
-    
-    // gpio_hal_write(LED_PIN, GPIO_HAL_LEVEL_HIGH);
-
-    // while (1)
-    // {
-    //     vTaskDelay(500 / portTICK_PERIOD_MS);
-    // }
     uart_init() ;
-    IO_component_task_init() ;
-    while (1)
+    vTaskDelay(3000 / portTICK_PERIOD_MS);
+    nv_slow_access_init();
+    //nv_fast_access_init();
+    system_param_slow_t slow_sys_param;
+  
+
+    // debug("\r\n buffer data is=%d\r\n",buffer);
+    // nv_fast_access_write(offset_of(slow_sys_param,test_data_1),sizeof(data),&data);
+    // IO_component_task_init() ;
+    while(1)
     {
         
-        IO_component_task_run();
-        vTaskDelay(20 / portTICK_PERIOD_MS);
+        nv_slow_access_read(offset_of(system_param_slow_t,test_data_2),sizeof(data),&data);
+        debug("\r\nread data 2 is=%d\r\n",data);
+        data++;
+        nv_slow_access_write(offset_of(system_param_slow_t,test_data_2),sizeof(data),&data);
+        nv_slow_access_read(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
+        debug("\r\nread data 1 is=%d\r\n",data);
+        data++;
+        nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
+        // IO_component_task_run();
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
     
     
 }
+
+// void init_partitions(int part) 
+// {
+//     system_param_t param ; 
+//     param.param1 =0xABCDDCBA ; 
+//     param.param2 =0xABCDDCBA ;
+//     param.param3 =0 ; 
+//     param.param4 =0 ;
+//     param.param5 =0; 
+//     for ( int i = 0 ; i <= 9 ; i ++ )
+//     {
+//         param.param6[i] = 0 ; 
+//     }
+//     for ( int i = 0 ; i <= 5 ; i ++ )
+//     {
+//         param.param7[i] = 0  ; 
+//     }
+//     NV_access_write_data(part,(void *)&param,sizeof(system_param_t));
+// }
+
+
+// void write_partitions(int part) 
+// {
+//     system_param_t param ; 
+//     NV_access_read_data(part,(void *)&param,sizeof(system_param_t));
+//     // param.param1 ++ ; 
+//     // param.param2 += 1.4 ;
+//     param.param3 ++ ; 
+//     param.param4 += 1.6 ;
+//     param.param5 += 2; 
+//     for ( int i = 0 ; i <= 9 ; i ++ )
+//     {
+//         param.param6[i] += i + 1 ; 
+//     }
+//     for ( int i = 0 ; i <= 5 ; i ++ )
+//     {
+//         param.param7[i] += i + 1  ; 
+//         //param.param7[i] += i  ; 
+//     }
+//     NV_access_write_data(part,(void *)&param,sizeof(system_param_t));
+// }
+// void read_partitions(int part) 
+// {
+//     system_param_t param ; 
+//     char sign ;
+//     int num1;
+//     int num2;
+//     NV_access_read_data(part,(void *)&param,sizeof(system_param_t));
+//     debug("param1 = %d \r\n",param.param1);
+//     num1 = param.param2 ;
+//     num2 = ( (param.param2 - num1 )* 10000 ) ;
+//     debug("param2 = %d.%d \r\n",num1,num2);
+//     debug("param3 = %d \r\n",param.param3);
+//     num1 = param.param4 ;
+//     num2 = ( (param.param4 - num1 )* 10000 ) ;
+//     debug("param4 = %d.%d \r\n",num1,num2);
+//     debug("param5 = %ld \r\n",param.param5);
+//     for ( int i = 0 ; i <= 9 ; i ++ )
+//     {
+//         num1 = param.param6[i] ;
+//         num2 = ( (param.param6[i] - num1 )* 10000 ) ;
+//         debug("param6[%d] = %d.%d\r\n",i,num1,num2);
+//     }
+//     for ( int i = 0 ; i <= 5 ; i ++ )
+//     {
+//         debug("param7[%d] = %d\r\n",i,param.param7[i]);
+//     }
+// }
+
+
+/* nv access code */
+
+    // uart_send("start partisions init");
+    // NV_access_init_partition(  ) ;
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // NV_access_read_data(3,(void *) &param , sizeof(param) ) ;
+    // if (param.param1 != 0xABCDDCBA && param.param2 != 0xABCDDCBA )
+    // {
+    //     uart_send("\r\ninit partition 0 \r\n") ;
+    //     init_partitions(3);
+    // }
+    // else 
+    // {
+    //     uart_send("\r\n run normal \r\n") ;
+
+    //     read_partitions(3);
+    //     write_partitions(3);
+    //     read_partitions(3);
+    // }
+
+// typedef struct system_param
+// {
+//     int     param1;
+//     int     param2;
+//     char    param3;
+//     double  param4;
+//     long    param5; 
+//     float   param6[10]; 
+//     int     param7[6];
+// }system_param_t;
+
+// system_param_t param ;
+// void init_partitions(int part) ;
+
+// void write_partitions(int part) ;
+// void read_partitions(int part) ;
