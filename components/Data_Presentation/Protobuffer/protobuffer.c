@@ -4,8 +4,13 @@
 #include "data_presentation_public.h"
 #include "types.h"
 
+#include "esp_log.h"
+
 #include <stdint.h>
 #include <stddef.h>
+
+
+#define PROTOBUFFER_TAG     "PROTOBUFFER"
 
 /************** PRIVATE FUNCTIONS *******************/
 
@@ -46,7 +51,7 @@ error_t protobuffer_led_state_read(protobuffer_data_t* p_proto_data)
     if(p_proto_data && p_proto_data->p_read_buffer && p_proto_data->read_buffer_size)
     {
         proto_buffer_led_state__init(&protobuffer_led_state);
-
+        
         if(led_state)
         {
             protobuffer_led_state.led_state = LED_STATES__LED_STATE_ON;
@@ -63,6 +68,7 @@ error_t protobuffer_led_state_read(protobuffer_data_t* p_proto_data)
             if(proto_buffer_led_state__pack(&protobuffer_led_state, 
                                             p_proto_data->p_read_buffer))
             {
+                ESP_LOGD(PROTOBUFFER_TAG, "%d bytes read", packed_size);
                 p_proto_data->read_count = packed_size;
                 l_ret = RET_OK;
             }
@@ -140,6 +146,8 @@ error_t protobuffer_item_read(uint16_t item_id, protobuffer_data_t* p_proto_data
     {
         if(p_desc->read_item)
         {
+            ESP_LOGD(PROTOBUFFER_TAG, "Calling read handler for item [%d]", item_id);
+
             l_ret = p_desc->read_item(p_proto_data);
         }
     }

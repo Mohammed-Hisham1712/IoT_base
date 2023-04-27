@@ -90,18 +90,20 @@ const ProtobufCMessageDescriptor proto_buffer_led_state__descriptor =
   (ProtobufCMessageInit) proto_buffer_led_state__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue led_states__enum_values_by_number[2] =
+static const ProtobufCEnumValue led_states__enum_values_by_number[3] =
 {
-  { "LED_STATE_OFF", "LED_STATES__LED_STATE_OFF", 0 },
-  { "LED_STATE_ON", "LED_STATES__LED_STATE_ON", 1 },
+  { "LED_STATE_UNKOWN", "LED_STATES__LED_STATE_UNKOWN", 0 },
+  { "LED_STATE_OFF", "LED_STATES__LED_STATE_OFF", 1 },
+  { "LED_STATE_ON", "LED_STATES__LED_STATE_ON", 2 },
 };
 static const ProtobufCIntRange led_states__value_ranges[] = {
-{0, 0},{0, 2}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex led_states__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex led_states__enum_values_by_name[3] =
 {
-  { "LED_STATE_OFF", 0 },
-  { "LED_STATE_ON", 1 },
+  { "LED_STATE_OFF", 1 },
+  { "LED_STATE_ON", 2 },
+  { "LED_STATE_UNKOWN", 0 },
 };
 const ProtobufCEnumDescriptor led_states__descriptor =
 {
@@ -110,9 +112,9 @@ const ProtobufCEnumDescriptor led_states__descriptor =
   "LedStates",
   "LedStates",
   "",
-  2,
+  3,
   led_states__enum_values_by_number,
-  2,
+  3,
   led_states__enum_values_by_name,
   1,
   led_states__value_ranges,

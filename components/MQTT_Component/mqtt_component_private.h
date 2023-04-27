@@ -19,6 +19,13 @@
 #define MQTT_COMPONENT_TASK_STACK_SIZE      2048
 #define MQTT_COMPONENT_TASK_PRI             5
 
+typedef enum
+{
+    MQTT_COMPONENT_STATE_INIT,
+    MQTT_COMPONENT_STATE_CONNECTING,
+    MQTT_COMPONENT_STATE_CONNECTED,
+    MQTT_COMPONENT_STATE_DISCONNECTED
+} mqtt_component_state_t;
 
 typedef struct 
 {
@@ -35,8 +42,9 @@ typedef struct
     uint8_t inbound_payload[MQTT_COMPONENT_MAX_PAYLOAD_SIZE];
     mqtt_interface_msg_desc_t msg_desc;
     data_presentation_layer_t presentation_layer;
-    uint16_t broker_port;
     esp_mqtt_client_handle_t client_handle;
+    uint16_t broker_port;
+    mqtt_component_state_t state;
 } mqtt_component_ctrl_t;
 
 

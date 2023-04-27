@@ -410,8 +410,10 @@ error_t wifi_sta_run(void)
         case WIFI_STA_STATE_CONNECTED:
             if(wifi_sta_ctrl.last_scan.state == WIFI_STA_SCAN_STATE_INVALID)
             {
+                #if 0
                 wifi_sta_start_scan(WIFI_STA_SCAN_SPECIFIC_SSID_ALL, 
                                                         &wifi_sta_param.target_ap_desc);
+                #endif
             }
             else if(wifi_sta_ctrl.last_scan.state == WIFI_STA_SCAN_STATE_DONE)
             {

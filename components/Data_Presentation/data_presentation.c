@@ -1,10 +1,14 @@
 #include "data_presentation.h"
 #include "protobuffer.h"
-
 #include "types.h"
+
+#include "esp_log.h"
 
 #include <stdint.h>
 #include <stddef.h>
+
+#define DATA_PRESENTATION_TAG   "DATA_PRESENTATION"
+
 
 error_t data_presentation_init(data_presentation_layer_t* layer, uint8_t protocol)
 {
@@ -72,6 +76,8 @@ error_t data_presentation_item_read(data_presentation_layer_t* layer)
         }
         else if(layer->protocol == DATA_PRESENTATION_PROTOBUF)
         {
+            ESP_LOGD(DATA_PRESENTATION_TAG, "Reading item [%d] from protobuf", layer->item_id);
+            
             l_ret = protobuffer_item_read(layer->item_id, &layer->layer_data.protobuf);
         }
     }

@@ -21,8 +21,9 @@ typedef struct ProtoBufferLedState ProtoBufferLedState;
 /* --- enums --- */
 
 typedef enum _LedStates {
-  LED_STATES__LED_STATE_OFF = 0,
-  LED_STATES__LED_STATE_ON = 1
+  LED_STATES__LED_STATE_UNKOWN = 0,
+  LED_STATES__LED_STATE_OFF = 1,
+  LED_STATES__LED_STATE_ON = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(LED_STATES)
 } LedStates;
 
@@ -35,7 +36,7 @@ struct  ProtoBufferLedState
 };
 #define PROTO_BUFFER_LED_STATE__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&proto_buffer_led_state__descriptor) \
-    , LED_STATES__LED_STATE_OFF }
+    , LED_STATES__LED_STATE_UNKOWN }
 
 
 /* ProtoBufferLedState methods */
