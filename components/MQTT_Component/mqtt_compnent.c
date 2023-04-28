@@ -379,6 +379,8 @@ static error_t mqtt_component_process_received(void)
     p_sub_topic = NULL;
     l_ret = RET_FAILED;
 
+    ESP_LOGD(MQTT_COMP_TAG, "[RCV] %s", mqtt_component_ctrl.inbound_topic);
+
     if(mqtt_interface_dissect_topic(mqtt_component_ctrl.inbound_topic, 0, &p_username,
                                                 &p_client_id, &p_sub_topic, &msg_type)
                                                                             != RET_OK)
@@ -396,6 +398,7 @@ static error_t mqtt_component_process_received(void)
             p_set_msg_desc = mqtt_interface_get_msg_set_desc(p_sub_topic);
             if(p_set_msg_desc)
             {
+                ESP_LOGD(MQTT_COMP_TAG, "Set message for item [%d]", p_set_msg_desc->data_id);
                 mqtt_component_ctrl.presentation_layer.item_id = p_set_msg_desc->data_id;
                 l_ret = data_presentation_item_write(&mqtt_component_ctrl.presentation_layer);
             }
@@ -407,6 +410,7 @@ static error_t mqtt_component_process_received(void)
             p_get_msg_desc = mqtt_interface_get_msg_get_desc(p_sub_topic);
             if(p_get_msg_desc)
             {
+                ESP_LOGD(MQTT_COMP_TAG, "Get message for item [%d]", p_get_msg_desc->data_id);
                 p_status_msg_desc = 
                         mqtt_interface_get_msg_status_desc_by_id(p_get_msg_desc->data_id);
 
@@ -432,16 +436,24 @@ static error_t mqtt_component_data_received(const char* topic, uint16_t topic_le
 
     l_ret = RET_FAILED;
 
-    if(topic && data)
+    if(topic && (topic_len < sizeof(mqtt_component_ctrl.inbound_topic)))
     {
-        if((topic_len <= sizeof(mqtt_component_ctrl.inbound_topic))
-                && (data_len <= sizeof(mqtt_component_ctrl.inbound_payload)))
-        {
             memcpy(mqtt_component_ctrl.inbound_topic, topic, topic_len);
-            memcpy(mqtt_component_ctrl.inbound_payload, data, data_len);
+            mqtt_component_ctrl.inbound_topic[topic_len] = '\0';
 
-            l_ret = mqtt_component_process_received();
-        }
+            if(data && (data_len <= sizeof(mqtt_component_ctrl.inbound_payload)))
+            {
+                memcpy(mqtt_component_ctrl.inbound_payload, data, data_len);
+                mqtt_component_ctrl.presentation_layer.layer_data.protobuf.write_count = 
+                                                                                    data_len;
+                l_ret = mqtt_component_process_received();
+            }
+            else if(!data && (data_len == 0))
+            {
+                /* Handle 0 length messages (get, cmd) */
+                mqtt_component_ctrl.presentation_layer.layer_data.protobuf.write_count = 0;
+                l_ret = mqtt_component_process_received();
+            }
     }
 
     return l_ret;
@@ -455,11 +467,12 @@ void mqtt_component_run(void* args)
     {
         if(mqtt_component_ctrl.state == MQTT_COMPONENT_STATE_CONNECTED)
         {
-            ESP_LOGD(MQTT_COMP_TAG, "MQTT publishing status messages.....");
+            #if 0
             if(mqtt_component_status_msg_process() != RET_OK)
             {
                 break;
             }
+            #endif
         }
         if(mqtt_component_ctrl.state == MQTT_COMPONENT_STATE_DISCONNECTED)
         {

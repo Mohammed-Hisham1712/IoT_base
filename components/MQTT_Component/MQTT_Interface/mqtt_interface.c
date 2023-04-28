@@ -163,7 +163,7 @@ error_t mqtt_interface_dissect_topic(char* ch_buf, uint32_t buf_len,
     l_buf = ch_buf;
     l_ret = RET_FAILED;
 
-    if(ch_buf && (buf_len > 0))
+    if(ch_buf)
     {
         if(p_username && p_client_id && p_sub_topic && p_msg_type)
         {
@@ -216,7 +216,7 @@ error_t mqtt_interface_dissect_topic(char* ch_buf, uint32_t buf_len,
             *p_msg_type = MQTT_INTERFACE_MESSAGE_TYPE_MAX;
             for(uint8_t i = 0; i < MQTT_INTERFACE_MESSAGE_TYPE_MAX; i++)
             {
-                if(strcmp(*p_sub_topic, mqtt_interface_msg_types[i]) == 0)
+                if(strcmp(p_topic_type, mqtt_interface_msg_types[i]) == 0)
                 {
                     *p_msg_type = i;
                     break;
