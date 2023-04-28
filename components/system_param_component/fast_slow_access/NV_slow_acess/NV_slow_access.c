@@ -61,7 +61,7 @@ BOOL nv_slow_access_read(int32_t offset, int32_t size, void * buffer)
         debug("\r\nread from slow partition **%d\r\n",SLOW_PARTITION_NUM);
     #endif
     system_param_slow_t slow_sys_param;
-    int8_t *param_ptr = & slow_sys_param;
+    int8_t * param_ptr = (int8_t*) (&slow_sys_param);
     NV_access_read_data(SLOW_PARTITION_NUM,
                        (void *)&slow_sys_param, sizeof(system_param_slow_t)) ; 
     memcpy((void *)buffer,(void *)(param_ptr+offset), size );
@@ -74,7 +74,7 @@ BOOL nv_slow_access_write(int32_t offset, int32_t size, void * buffer)
         debug("\r\n enter write function %d\r\n",* ((int*)buffer));
     #endif
     system_param_slow_t slow_sys_param;
-    int8_t *param_ptr = & slow_sys_param;
+    int8_t * param_ptr = (int8_t*) (&slow_sys_param);
     NV_access_read_data(SLOW_PARTITION_NUM,
                         (void *)&slow_sys_param, sizeof(system_param_slow_t)) ;
 

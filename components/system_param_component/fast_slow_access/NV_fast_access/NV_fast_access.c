@@ -53,9 +53,9 @@ nv_fast_ctrl_t fast_ctrl;
 /*---------------------------------------------------------------*/
 BOOL nv_fast_access_partitions_scan(void) 
 {
-    print_partitions_keys();
     #if DEBUG_nv_fast_access_partitions_scan
         debug("\r\n Scanning function of NV fast %d\r\n",1);
+        print_partitions_keys();
     #endif
     system_param_fast_t buffer;
     int8_t current_partition_key;
@@ -195,11 +195,10 @@ void increase_partition_position(void)
     }
 }
 
+#if DEBUG_nv_fast_access_partitions_scan
 void print_partitions_keys(void)
 {
     system_param_fast_t buffer;
-    int8_t current_partition_key;
-    int8_t next_partition_key;
     for (int i = 1 ; i<= 5 ; i++ )
     {
         NV_access_read_data(i,
@@ -209,6 +208,7 @@ void print_partitions_keys(void)
     
 
 }
+#endif
 /*---------------------------------------------------------------*/
         /*-------------------------------------------------*/
         /*          4-Section 4:  public functions         */
@@ -218,7 +218,7 @@ void print_partitions_keys(void)
 BOOL nv_fast_access_read(int32_t offset, int32_t size, void * buffer)
 {
     system_param_fast_t fast_sys_param;
-    int8_t *param_ptr = & fast_sys_param;
+    int8_t *param_ptr = (int8_t*) &fast_sys_param;
     #if DEBUG_nv_fast_access_read
         debug("\r\nread from partition %d\r\n",fast_ctrl.current_partition_num);
     #endif
@@ -234,7 +234,7 @@ BOOL nv_fast_access_write(int32_t offset, int32_t size, void * buffer)
         debug("\r\n data to store is %d\r\n",* ((int*)buffer));
     #endif
     system_param_fast_t fast_sys_param;
-    int8_t *param_ptr = & fast_sys_param;
+    int8_t *param_ptr = (int8_t*) &fast_sys_param;
     /* get key of the current partition */
     NV_access_read_data(fast_ctrl.current_partition_num,
                         (void *)param_ptr, sizeof(system_param_fast_t)) ;

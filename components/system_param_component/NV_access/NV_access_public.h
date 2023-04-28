@@ -53,7 +53,7 @@
 BOOL NV_access_write_data(int32_t partition_ID, void * buffer, size_t length);
 BOOL NV_access_read_data(int32_t partition_ID, void * buffer,size_t length);
 BOOL NV_access_check_partition_validation(int32_t partition_ID);
-BOOL NV_access_init_partition( void );
+error_t NV_access_init_partition( void );
 
 
 

@@ -250,7 +250,7 @@ BOOL NV_access_check_partition_validation(int32_t partition_ID)
 
     return TRUE;
 }
-BOOL NV_access_init_partition( void )
+error_t NV_access_init_partition( void )
 {
     
     error_t error ;
@@ -263,6 +263,6 @@ BOOL NV_access_init_partition( void )
             debug("\r\ninit partision num %d",counter);
         #endif
     }
-    return TRUE ;
+    return error ;
 }
 
