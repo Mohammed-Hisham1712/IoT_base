@@ -21,6 +21,7 @@ typedef system_param_fast_t   IO_COMP_STRUCT;
 #define IO_COMP_PARTITION     FAST_PARTITION
 
 
+
 /***********************************************************/
 /*                  IO component stuct                   */
 /***********************************************************/

@@ -336,7 +336,7 @@ BOOL nv_fast_access_check_first_run(void)
     if(!(buffer.first_run_key_1 == NV_FAST_KEY1 && buffer.first_run_key_2 == NV_FAST_KEY2) )
     {
         #if DEBUG_nv_fast_access_check_first_run
-            debug("\r\n this is the first run of nv slow -%d\r\n",0);
+            debug("\r\n this is the first run of nv fast -%d\r\n",0);
         #endif
         result = TRUE;
     }

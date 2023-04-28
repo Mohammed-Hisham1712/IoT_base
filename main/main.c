@@ -15,37 +15,44 @@
 
 #include "IO_component_task.h"
 #include "debug_uart.h"
-#include "NV_access_public.h"
 #include "NV_fast_access_public.h"
-#include "NV_slow_access_public.h"
+#include "system_param_public.h"
 // ((int16_t)(((a*)0)->b))
-#define offset_of(a,b)  ((int32_t)(&(((a*)0)->b)))  
+// #define offset_of(a,b)  ((int32_t)(&(((a*)0)->b)))  
 
-int buffer ;
-int data;
+int32_t buffer ;
+int data = 150 ;
 void app_main()
 {
     uart_init() ;
-    vTaskDelay(3000 / portTICK_PERIOD_MS);
-    nv_slow_access_init();
-    //nv_fast_access_init();
-    system_param_slow_t slow_sys_param;
-  
-
-    // debug("\r\n buffer data is=%d\r\n",buffer);
-    // nv_fast_access_write(offset_of(slow_sys_param,test_data_1),sizeof(data),&data);
+    vTaskDelay(10 / portTICK_PERIOD_MS);
+    system_param_init();
+    // nv_fast_access_init();
+    // nv_fast_access_write(offset_of(system_param_fast_t,test_data_1),sizeof(data),&data);
+    // nv_fast_access_read(offset_of(system_param_fast_t,test_data_1),sizeof(data),&data);
+    // BOOL resu = system_param_first_run_check();
+    // if( resu == TRUE )
+    // {
+    //     debug("\r\nthis is system first run %d\r\n",0);
+    //     system_param_first_run_init();
+    // }
+    // else 
+    // {
+    //     debug("\r\nNOT FIRST RUN  %d\r\n",0);
+    // }
     // IO_component_task_init() ;
     while(1)
     {
-        
-        nv_slow_access_read(offset_of(system_param_slow_t,test_data_2),sizeof(data),&data);
-        debug("\r\nread data 2 is=%d\r\n",data);
-        data++;
-        nv_slow_access_write(offset_of(system_param_slow_t,test_data_2),sizeof(data),&data);
-        nv_slow_access_read(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
-        debug("\r\nread data 1 is=%d\r\n",data);
-        data++;
-        nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
+        // system_param_read(FAST_PARTITION,offset_of(system_param_fast_t,test_data_2),sizeof(data),&data);
+        // // // nv_fast_access_read(offset_of(system_param_fast_t,test_data_3),sizeof(data),&data);
+        // debug("\r\nread data 2 is=%d\r\n",data);
+        // data++;
+        // system_param_write(FAST_PARTITION,offset_of(system_param_fast_t,test_data_2),sizeof(data),&data);
+        // nv_fast_access_write(offset_of(system_param_fast_t,test_data_3),sizeof(data),&data);
+        // nv_slow_access_read(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
+        // debug("\r\nread data 1 is=%d\r\n",data);
+        // data++;
+        // nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
         // IO_component_task_run();
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }

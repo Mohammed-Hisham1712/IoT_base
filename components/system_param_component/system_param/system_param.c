@@ -56,7 +56,7 @@ BOOL check_data_size(int8_t partition,int32_t offset, int32_t size)
     switch (partition)
     {
     case FAST_PARTITION:
-        if(offset+size < sizeof(system_param_fast_t))
+        if(offset+size <= sizeof(system_param_fast_t))
         {
             result = TRUE ;
         }
@@ -66,7 +66,7 @@ BOOL check_data_size(int8_t partition,int32_t offset, int32_t size)
         }
         break;
     case SLOW_PARTITION:
-        if(offset+size < sizeof(system_param_slow_t))
+        if(offset+size <= sizeof(system_param_slow_t))
         {
             result = TRUE ;
         }
@@ -152,15 +152,14 @@ BOOL system_param_first_run_check()
 {
     BOOL result;
     result = nv_fast_access_check_first_run();
-    result &= nv_slow_access_check_first_run();
+    result |= nv_slow_access_check_first_run();
     return result;
 }
 BOOL system_param_first_run_init()
 {
     BOOL result;
     result = nv_fast_access_first_run();
-    result &= nv_slow_access_first_run();
+    result |= nv_slow_access_first_run();
     return result;
 }
-
 
