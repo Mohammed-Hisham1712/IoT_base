@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include "debug_uart.h"
 #include "NV_access_public.h"
-#include "NV_fast_access_config.h"
+#include "NV_fast_access_cfg.h"
 #include "NV_fast_access_private.h"
 #include "NV_fast_access_public.h"
 

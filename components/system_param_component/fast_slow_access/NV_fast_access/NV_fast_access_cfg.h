@@ -1,0 +1,12 @@
+ #ifndef NV_FAST_ACCESS_CONFIG_H
+ #define NV_FAST_ACCESS_CONFIG_H
+
+
+
+#define NV_FAST_KEY1    (0XABCDABCD)
+#define NV_FAST_KEY2    (0XABCDABCD)
+
+
+
+
+#endif

@@ -31,7 +31,7 @@
 #include "NV_slow_access_public.h"
 #include "NV_fast_access_public.h"
 #include "system_param_defintions.h"
-#include "system_param_config.h"
+#include "system_param_cfg.h"
 #include "system_param_private.h"
 #include "system_param_public.h"
 

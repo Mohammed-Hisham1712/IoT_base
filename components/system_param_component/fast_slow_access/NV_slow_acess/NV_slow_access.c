@@ -34,7 +34,7 @@
 #include "debug_uart.h"
 #include "NV_access_public.h"
 #include "slow_system_param.h"
-#include "NV_slow_access_config.h"
+#include "NV_slow_access_cfg.h"
 #include "NV_slow_access_private.h"
 #include "NV_slow_access_public.h"
 /*---------------------------------------------------------------*/
