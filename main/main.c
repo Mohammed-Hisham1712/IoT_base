@@ -12,12 +12,11 @@
 #include "freertos/task.h"
 
 #include "gpio_hal_itf.h"
-// #include "system_param_itf.h"   
+#include "system_param_itf.h"   
 #include "IO_component_task.h"
 #include "debug_uart.h"
 // #include "NV_fast_access_public.h"
 // #include "system_param_public.h"
-
 
 // ((int16_t)(((a*)0)->b))
 // #define offset_of(a,b)  ((int32_t)(&(((a*)0)->b)))  
@@ -29,7 +28,7 @@ void app_main()
     BOOL ret;
     uart_init() ;
     vTaskDelay(10 / portTICK_PERIOD_MS);
-    // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret);
+    EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret,NULL);
     // debug("\r\nthe result of system param init %d\r\n",ret);
     // system_param_init();
     // nv_fast_access_init();
@@ -48,16 +47,20 @@ void app_main()
     // IO_component_task_init() ;
     while(1)
     {
-        // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_READ, &FAST_PARTITION,
-        //                                         &(offset_of(ystem_param_fast_t,test_data_2))
-        //                                         &sizeof(data),&data);
+
+        int8_t  partition = FAST_PARTITION ;
+        int32_t offset = offset_of(system_param_fast_t,test_data_2) ;
+        int32_t data_size= sizeof(data);
+        EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_READ, &ret,&partition,
+                                                &offset,
+                                                &data_size,&data);
         // system_param_read(FAST_PARTITION,offset_of(system_param_fast_t,test_data_2),sizeof(data),&data);
         // // // nv_fast_access_read(offset_of(system_param_fast_t,test_data_3),sizeof(data),&data);
-        // debug("\r\nread data 2 is=%d\r\n",data);
+        debug("\r\nread data 2 is=%d\r\n",data);
         data++;
-        // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_WRITE, &FAST_PARTITION,
-        //                                         &(offset_of(ystem_param_fast_t,test_data_2))
-        //                                         &sizeof(data),&data);
+        EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_WRITE, &ret,&partition,
+                                                &offset,
+                                                &data_size,&data);
         // system_param_write(FAST_PARTITION,offset_of(system_param_fast_t,test_data_2),sizeof(data),&data);
         // nv_fast_access_write(offset_of(system_param_fast_t,test_data_3),sizeof(data),&data);
         // nv_slow_access_read(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);

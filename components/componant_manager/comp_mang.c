@@ -1,4 +1,4 @@
-#include "comp_mang.h"
+#include "comp_mang_def.h"
 
 component_manager_node_t * Node[LAST_MODULE] ;
 

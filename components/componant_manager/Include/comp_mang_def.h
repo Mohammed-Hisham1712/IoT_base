@@ -94,8 +94,8 @@
 
 #define CONCAT_MACRO(a,b) a b 
 
-#define __CONCAT(a,b)   a##b
-#define CONCAT_MACRO2(a,b) __CONCAT(a,b)
+#define __CONCAT_T(a,b)   a##b
+#define CONCAT_MACRO2(a,b) __CONCAT_T(a,b)
 
 #define GET_ARGS_NUM(...)   CHOOSE_MACRO(__VA_ARGS__,6,5,4,3,2,1)  
 
@@ -185,6 +185,7 @@
                 (void) (REG_NUM);\
                 DO_ALL(FILL_VARIBLES,MODULE,ID,__VA_ARGS__) \
                 T_RESULT = RET ;       \
+                REQ_ARGS.ret = T_RESULT;\
                 component_manager_request(MODULE,ID, &REQ_ARGS); \
         }
 
