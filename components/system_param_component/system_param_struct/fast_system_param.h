@@ -2,6 +2,8 @@
  #define NV_FAST_PARAM_STRUCT
 
 #include "types.h"
+#include "IO_component_param.h"
+
 
 typedef struct 
 {
@@ -13,6 +15,9 @@ typedef struct
     char x[152];
     float z[15];
     int32_t test_data_1;
+#ifdef CONFIG_IO_COMPONENT_INCLUDED
+    IO_component_param_t IO_comp_param;
+#endif
 }system_param_fast_t;
 
 
