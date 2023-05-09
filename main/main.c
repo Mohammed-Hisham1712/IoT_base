@@ -22,11 +22,12 @@
 // #define offset_of(a,b)  ((int32_t)(&(((a*)0)->b)))  
 
 int32_t buffer ;
-int data = 150 ;
+int data  ;
 void app_main()
 {
     BOOL ret;
     uart_init() ;
+    system_param_module_itf_init();
     vTaskDelay(10 / portTICK_PERIOD_MS);
     EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret,NULL);
     // debug("\r\nthe result of system param init %d\r\n",ret);

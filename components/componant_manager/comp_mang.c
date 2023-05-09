@@ -1,4 +1,5 @@
 #include "comp_mang_def.h"
+#include "debug_uart.h"
 
 component_manager_node_t * Node[LAST_MODULE] ;
 
