@@ -28,7 +28,7 @@
             /*          1-Includes:         */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PIN_DRIVEN_MAX_PIN_NUM      (2)
+#define PIN_DRIVEN_MAX_PIN_NUM      (1)
 #define PIN_DRIVEN_PIN_1        (PIN_2) 
 #define PIN_DRIVEN_PIN_2        (PIN_10) 
 #define PIN_DRIVEN_PIN_3        (PIN_8) 

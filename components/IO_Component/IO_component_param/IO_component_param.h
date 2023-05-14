@@ -9,7 +9,7 @@
  * ****************************************************/
 typedef struct IO_PIN_DRIVEN_HANDLER
 {
-    int8_t  pin_param_state ;
+    int16_t  pin_param_state ;
 }IO_pin_driven_param_t;
 
 
