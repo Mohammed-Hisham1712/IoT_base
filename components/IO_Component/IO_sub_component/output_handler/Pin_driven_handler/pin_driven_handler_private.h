@@ -49,7 +49,8 @@
         /*          4-Section 4:  private functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-
+BOOL pin_driven_handler_param_read(void);
+BOOL pin_driven_handler_param_write(void);
 
 
 #endif  /*  guard end*/

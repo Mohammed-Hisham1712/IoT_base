@@ -32,6 +32,7 @@
 /*---------------------------------------------------------------*/
 #include "debug_uart.h"
 #include "types.h"
+#include "IO_component_param.h"
 
 #include "pin_driven_handler_cfg.h"
 #include "pin_driven_handler_private.h"
@@ -79,7 +80,14 @@ PIN_DRIVEN_NUM g_pin_driven_default_pin[PIN_DRIVEN_MAX] =
 /*          4-Section 4: Private functions implementations     */
 /*-------------------------------------------------------------*/
 /*---------------------------------------------------------------*/
+BOOL pin_driven_handler_param_read(void)
+{
 
+}
+BOOL pin_driven_handler_param_write(void)
+{
+    
+}
 /*---------------------------------------------------------------*/
 /*--------------------------------------------------------*/
 /*          5-Section 5: public functions implementations */

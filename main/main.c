@@ -6,6 +6,7 @@
    software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
    CONDITIONS OF ANY KIND, either express or implied.
 */
+#include "IO_component_task.h"
 #include <stdio.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -13,7 +14,6 @@
 
 #include "gpio_hal_itf.h"
 #include "system_param_itf.h"   
-#include "IO_component_task.h"
 #include "debug_uart.h"
 // #include "NV_fast_access_public.h"
 // #include "system_param_public.h"
@@ -29,7 +29,7 @@ void app_main()
     uart_init() ;
     system_param_module_itf_init();
     vTaskDelay(10 / portTICK_PERIOD_MS);
-    EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret,NULL);
+    // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret,NULL);
     // debug("\r\nthe result of system param init %d\r\n",ret);
     // system_param_init();
     // nv_fast_access_init();
@@ -45,31 +45,31 @@ void app_main()
     // {
     //     debug("\r\nNOT FIRST RUN  %d\r\n",0);
     // }
-    // IO_component_task_init() ;
+    IO_component_task_init() ;
     while(1)
     {
 
         int8_t  partition = FAST_PARTITION ;
         int32_t offset = offset_of(system_param_fast_t,test_data_2) ;
         int32_t data_size= sizeof(data);
-        EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_READ, &ret,&partition,
-                                                &offset,
-                                                &data_size,&data);
+        // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_READ, &ret,&partition,
+        //                                         &offset,
+        //                                         &data_size,&data);
         // system_param_read(FAST_PARTITION,offset_of(system_param_fast_t,test_data_2),sizeof(data),&data);
         // // // nv_fast_access_read(offset_of(system_param_fast_t,test_data_3),sizeof(data),&data);
-        debug("\r\nread data 2 is=%d\r\n",data);
-        data++;
-        EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_WRITE, &ret,&partition,
-                                                &offset,
-                                                &data_size,&data);
+        // debug("\r\nread data 2 is=%d\r\n",data);
+        // data++;
+        // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_WRITE, &ret,&partition,
+        //                                         &offset,
+        //                                         &data_size,&data);
         // system_param_write(FAST_PARTITION,offset_of(system_param_fast_t,test_data_2),sizeof(data),&data);
         // nv_fast_access_write(offset_of(system_param_fast_t,test_data_3),sizeof(data),&data);
         // nv_slow_access_read(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
         // debug("\r\nread data 1 is=%d\r\n",data);
         // data++;
         // nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
-        // IO_component_task_run();
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        IO_component_task_run();
+        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
     
     
