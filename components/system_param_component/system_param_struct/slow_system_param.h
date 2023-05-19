@@ -2,6 +2,7 @@
  #define NV_SLOW_PARAM_STRUCT
 
 #include "types.h"
+#include "wifi_component_param.h"
 
 typedef struct 
 {
@@ -11,6 +12,8 @@ typedef struct
     int32_t test_data_1;
     int32_t test_data_2;
     float   test_data_3;
+
+    wifi_component_param_t wifi_param;
 }system_param_slow_t;
 
 
