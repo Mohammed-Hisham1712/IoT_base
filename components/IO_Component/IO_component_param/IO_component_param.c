@@ -1,7 +1,7 @@
 #include "IO_component_param.h"
 #include "system_param_itf.h"
 #include <string.h>
-#include "IO_component_param_config.h"
+#include "IO_component_param_cfg.h"
 
 #ifdef IO_COMP_PARAM_CONFIG_DEBUG
 #include "debug_uart.h"
