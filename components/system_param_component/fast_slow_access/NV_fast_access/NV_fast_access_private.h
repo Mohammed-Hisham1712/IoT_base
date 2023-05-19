@@ -13,17 +13,17 @@
                 /*          Content:         */
                 /*---------------------------*/
 /*-------------------------------------------------------------
-1-Section 1:  Includes 
-2-Section 2:  definitions
-3-Section 3:  private data type 
-4-Section 4:  private functions declaration
+1-Section 1:   
+2-Section 2:  
+3-Section 3:   
+4-Section 4:  
 5-Section 5:
 6-Section 6"
 ---------------------------------------------------------------*/
 
 /*--------------Guard-----------*/
-#ifndef PIN_DRIVEN_HANDLER_PRIVATE_H
-#define PIN_DRIVEN_HANDLER_PRIVATE_H
+#ifndef NV_FAST_ACCESS_PRIVATE_H
+#define NV_FAST_ACCESS_PRIVATE_H
 
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
@@ -31,7 +31,6 @@
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "types.h"
-#include "gpio_hal_itf.h"
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
         /*          2-Section 2:  definitions        */
@@ -43,6 +42,20 @@
         /*          3-Section 3:  private data type          */
         /*--------------------------------------------------*/
 /*---------------------------------------------------------------*/
+typedef enum
+{
+    fast_partition_1 = 1,
+    fast_partition_2 = 2,
+    fast_partition_3 = 3,
+    fast_partition_4 = 4,
+    fast_partition_5 = 5,
+}nv_fast_partitions;
+
+typedef struct 
+{
+    nv_fast_partitions current_partition_num;
+    nv_fast_partitions next_partition_num;
+}nv_fast_ctrl_t;
 
 
 /*---------------------------------------------------------------*/
@@ -50,8 +63,7 @@
         /*          4-Section 4:  private functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-BOOL pin_driven_handler_param_read(void);
-BOOL pin_driven_handler_param_update(PIN_DRIVEN_NUM l_pin_driven_num);
-
-
+BOOL nv_fast_access_partitions_scan(void) ;
+void increase_partition_position(void);
+void print_partitions_keys(void);
 #endif  /*  guard end*/

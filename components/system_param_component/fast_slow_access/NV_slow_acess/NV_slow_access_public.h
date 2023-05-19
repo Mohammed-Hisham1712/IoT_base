@@ -13,17 +13,17 @@
                 /*          Content:         */
                 /*---------------------------*/
 /*-------------------------------------------------------------
-1-Section 1:  Includes 
-2-Section 2:  definitions
-3-Section 3:  private data type 
-4-Section 4:  private functions declaration
+1-Section 1:   
+2-Section 2:  
+3-Section 3:   
+4-Section 4:  
 5-Section 5:
 6-Section 6"
 ---------------------------------------------------------------*/
 
 /*--------------Guard-----------*/
-#ifndef PIN_DRIVEN_HANDLER_PRIVATE_H
-#define PIN_DRIVEN_HANDLER_PRIVATE_H
+#ifndef NV_SLOW_ACCESS_PUBLIC_H
+#define NV_SLOW_ACCESS_PUBLIC_H
 
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
@@ -31,7 +31,7 @@
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "types.h"
-#include "gpio_hal_itf.h"
+#include "slow_system_param.h"
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
         /*          2-Section 2:  definitions        */
@@ -40,18 +40,20 @@
 
 /*---------------------------------------------------------------*/
         /*--------------------------------------------------*/
-        /*          3-Section 3:  private data type          */
+        /*          3-Section 3:  public data type          */
         /*--------------------------------------------------*/
 /*---------------------------------------------------------------*/
 
 
 /*---------------------------------------------------------------*/
         /*-------------------------------------------------*/
-        /*          4-Section 4:  private functions         */
+        /*          4-Section 4:  public functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-BOOL pin_driven_handler_param_read(void);
-BOOL pin_driven_handler_param_update(PIN_DRIVEN_NUM l_pin_driven_num);
-
+BOOL nv_slow_access_read(int32_t offset, int32_t size, void * buffer);
+BOOL nv_slow_access_write(int32_t offset, int32_t size, void * buffer);
+BOOL nv_slow_access_init();
+BOOL nv_slow_access_first_run();
+BOOL nv_slow_access_check_first_run(void);
 
 #endif  /*  guard end*/

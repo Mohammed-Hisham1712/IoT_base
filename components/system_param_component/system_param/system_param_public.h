@@ -13,17 +13,17 @@
                 /*          Content:         */
                 /*---------------------------*/
 /*-------------------------------------------------------------
-1-Section 1:  Includes 
-2-Section 2:  definitions
-3-Section 3:  private data type 
-4-Section 4:  private functions declaration
+1-Section 1:   
+2-Section 2:  
+3-Section 3:   
+4-Section 4:  
 5-Section 5:
 6-Section 6"
 ---------------------------------------------------------------*/
 
 /*--------------Guard-----------*/
-#ifndef PIN_DRIVEN_HANDLER_PRIVATE_H
-#define PIN_DRIVEN_HANDLER_PRIVATE_H
+#ifndef SYSTEM_PARAM_PUBLIC_H
+#define SYSTEM_PARAM_PUBLIC_H
 
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
@@ -31,27 +31,30 @@
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "types.h"
-#include "gpio_hal_itf.h"
+#include "system_param_defintions.h"
+
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
-        /*          2-Section 2:  definitions        */
+        /*          2-Section 2:          */
         /*-------------------------------------------*/
 /*---------------------------------------------------------------*/
+#define offset_of(struct,data)  ((int32_t)(&(((struct*)0)->data)))  
 
 /*---------------------------------------------------------------*/
         /*--------------------------------------------------*/
-        /*          3-Section 3:  private data type          */
+        /*          3-Section 3:            */
         /*--------------------------------------------------*/
 /*---------------------------------------------------------------*/
 
 
 /*---------------------------------------------------------------*/
         /*-------------------------------------------------*/
-        /*          4-Section 4:  private functions         */
+        /*          4-Section 4:          */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-BOOL pin_driven_handler_param_read(void);
-BOOL pin_driven_handler_param_update(PIN_DRIVEN_NUM l_pin_driven_num);
-
-
+BOOL system_param_read(int8_t partition,int32_t offset, int32_t size, void * buffer);
+BOOL system_param_write(int8_t partition,int32_t offset, int32_t size, void * buffer);
+BOOL system_param_init();
+BOOL system_param_first_run_check();
+BOOL system_param_first_run_init();
 #endif  /*  guard end*/

@@ -13,17 +13,17 @@
                 /*          Content:         */
                 /*---------------------------*/
 /*-------------------------------------------------------------
-1-Section 1:  Includes 
-2-Section 2:  definitions
-3-Section 3:  private data type 
-4-Section 4:  private functions declaration
+1-Section 1:   
+2-Section 2:  
+3-Section 3:   
+4-Section 4:  
 5-Section 5:
 6-Section 6"
 ---------------------------------------------------------------*/
 
 /*--------------Guard-----------*/
-#ifndef PIN_DRIVEN_HANDLER_PRIVATE_H
-#define PIN_DRIVEN_HANDLER_PRIVATE_H
+#ifndef NV_ACCESS_PRIVATE_H
+#define NV_ACCESS_PRIVATE_H
 
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
@@ -31,7 +31,6 @@
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "types.h"
-#include "gpio_hal_itf.h"
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
         /*          2-Section 2:  definitions        */
@@ -50,8 +49,7 @@
         /*          4-Section 4:  private functions         */
         /*-------------------------------------------------*/
 /*---------------------------------------------------------------*/
-BOOL pin_driven_handler_param_read(void);
-BOOL pin_driven_handler_param_update(PIN_DRIVEN_NUM l_pin_driven_num);
+void NV_error_log(error_t error_num);
 
 
 #endif  /*  guard end*/
