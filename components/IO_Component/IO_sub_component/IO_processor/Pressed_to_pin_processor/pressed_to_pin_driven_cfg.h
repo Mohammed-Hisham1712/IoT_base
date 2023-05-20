@@ -40,7 +40,7 @@
             /*          1-Section1:         */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PRESS_TO_PIN_MAX_PROCESS    ( 1 )
+#define PRESS_TO_PIN_MAX_PROCESS    ( 6 )
 
 #define PRESSED_SWITCH_PROCESS_1    (PRESSED_SWITCH_1)
 #define PRESSED_SWITCH_PROCESS_2    (PRESSED_SWITCH_1)
