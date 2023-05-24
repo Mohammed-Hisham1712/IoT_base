@@ -163,3 +163,12 @@ BOOL system_param_first_run_init()
     return result;
 }
 
+void system_param_task(void)
+{
+    nv_fast_run_task();
+    nv_slow_run_task();
+}
+
+
+
+

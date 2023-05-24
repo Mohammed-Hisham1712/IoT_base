@@ -31,6 +31,7 @@
         /*-----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "types.h"
+#include "fast_system_param.h"
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
         /*          2-Section 2:  definitions        */
@@ -53,8 +54,11 @@ typedef enum
 
 typedef struct 
 {
+    
     nv_fast_partitions current_partition_num;
     nv_fast_partitions next_partition_num;
+    BOOL   nv_fast_save_data_flag;
+    system_param_fast_t fast_sys_param;
 }nv_fast_ctrl_t;
 
 

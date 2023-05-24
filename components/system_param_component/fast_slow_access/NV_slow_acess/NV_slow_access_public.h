@@ -55,5 +55,5 @@ BOOL nv_slow_access_write(int32_t offset, int32_t size, void * buffer);
 BOOL nv_slow_access_init();
 BOOL nv_slow_access_first_run();
 BOOL nv_slow_access_check_first_run(void);
-
+void nv_slow_run_task( void ) ;
 #endif  /*  guard end*/

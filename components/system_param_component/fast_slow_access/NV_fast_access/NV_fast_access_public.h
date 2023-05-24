@@ -55,6 +55,6 @@ BOOL nv_fast_access_write(int32_t offset, int32_t size, void * buffer);
 BOOL nv_fast_access_init();
 BOOL nv_fast_access_first_run();
 BOOL nv_fast_access_check_first_run(void);
-
+void nv_fast_run_task( void ) ;
 
 #endif  /*  guard end*/

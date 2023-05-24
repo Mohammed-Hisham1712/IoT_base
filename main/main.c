@@ -28,6 +28,7 @@ void app_main()
     BOOL ret;
     uart_init() ;
     system_param_module_itf_init();
+    system_param_init();
     vTaskDelay(10 / portTICK_PERIOD_MS);
     // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret,NULL);
     // debug("\r\nthe result of system param init %d\r\n",ret);
@@ -49,9 +50,9 @@ void app_main()
     while(1)
     {
 
-        int8_t  partition = FAST_PARTITION ;
-        int32_t offset = offset_of(system_param_fast_t,test_data_2) ;
-        int32_t data_size= sizeof(data);
+        // int8_t  partition = FAST_PARTITION ;
+        // int32_t offset = offset_of(system_param_fast_t,test_data_2) ;
+        // int32_t data_size= sizeof(data);
         // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_READ, &ret,&partition,
         //                                         &offset,
         //                                         &data_size,&data);
@@ -70,6 +71,8 @@ void app_main()
         // nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
         IO_component_task_run();
         vTaskDelay(20 / portTICK_PERIOD_MS);
+        system_param_task();
+
     }
     
     

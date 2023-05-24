@@ -217,13 +217,13 @@ void print_partitions_keys(void)
 
 BOOL nv_fast_access_read(int32_t offset, int32_t size, void * buffer)
 {
-    system_param_fast_t fast_sys_param;
-    int8_t *param_ptr = (int8_t*) &fast_sys_param;
+    // system_param_fast_t fast_sys_param;
+    int8_t *param_ptr = (int8_t*) &fast_ctrl.fast_sys_param;
     #if DEBUG_nv_fast_access_read
         debug("\r\nread from partition %d\r\n",fast_ctrl.current_partition_num);
     #endif
-    NV_access_read_data(fast_ctrl.current_partition_num,
-                        (void *)&fast_sys_param , sizeof(system_param_fast_t)) ; 
+    // NV_access_read_data(fast_ctrl.current_partition_num,
+    //                     (void *)&fast_sys_param , sizeof(system_param_fast_t)) ; 
     memcpy((void *)buffer,(void *)(param_ptr+offset), size );
 
     return TRUE;
@@ -233,19 +233,12 @@ BOOL nv_fast_access_write(int32_t offset, int32_t size, void * buffer)
     #if DEBUG_nv_fast_access_write
         debug("\r\n data to store is %d\r\n",* ((int*)buffer));
     #endif
-    system_param_fast_t fast_sys_param;
-    int8_t *param_ptr = (int8_t*) &fast_sys_param;
+    // system_param_fast_t fast_sys_param;
+    int8_t *param_ptr = (int8_t*) &fast_ctrl.fast_sys_param;
     /* get key of the current partition */
-    NV_access_read_data(fast_ctrl.current_partition_num,
-                        (void *)param_ptr, sizeof(system_param_fast_t)) ;
-    if (fast_sys_param.partition_counter == 3 )
-    {
-        fast_sys_param.partition_counter = 1 ;
-    }
-    else 
-    {
-        fast_sys_param.partition_counter ++ ;
-    }
+    // NV_access_read_data(fast_ctrl.current_partition_num,
+    //                     (void *)param_ptr, sizeof(system_param_fast_t)) ;
+
     #if DEBUG_nv_fast_access_write
         debug("\r\n read data is %d\r\n",fast_sys_param.test_data_1);
     #endif
@@ -254,10 +247,8 @@ BOOL nv_fast_access_write(int32_t offset, int32_t size, void * buffer)
     #if DEBUG_nv_fast_access_write
         debug("\r\n data after memcpy %d\r\n",fast_sys_param.test_data_1);
     #endif
-    /*increase partition numbers*/
-    increase_partition_position();
-    NV_access_write_data(fast_ctrl.current_partition_num,
-                        (void *)param_ptr , sizeof(system_param_fast_t));
+    fast_ctrl.nv_fast_save_data_flag = TRUE;
+
     return TRUE;
 }
 BOOL nv_fast_access_init()
@@ -286,6 +277,8 @@ BOOL nv_fast_access_init()
         debug("\r\n Run normal not first run -%d\r\n",0);
         #endif
         nv_fast_access_partitions_scan();
+        NV_access_read_data(fast_ctrl.current_partition_num,
+                        (void *)&fast_ctrl.fast_sys_param , sizeof(system_param_fast_t)) ; 
     }
     return TRUE;
 }
@@ -347,4 +340,27 @@ BOOL nv_fast_access_check_first_run(void)
     return result;
 }
 
+void nv_fast_run_task( void )
+{
+    int8_t *param_ptr = (int8_t*) &fast_ctrl.fast_sys_param;
+    if(fast_ctrl.nv_fast_save_data_flag)
+    {
+        if (fast_ctrl.fast_sys_param.partition_counter == 3 )
+        {
+            fast_ctrl.fast_sys_param.partition_counter = 1 ;
+        }
+        else 
+        {
+            fast_ctrl.fast_sys_param.partition_counter ++ ;
+        }
+        increase_partition_position();
+        NV_access_write_data(fast_ctrl.current_partition_num,
+                        (void *)param_ptr , sizeof(system_param_fast_t));
+        fast_ctrl.nv_fast_save_data_flag= FALSE;
+    }
+    else 
+    {
+        
+    }
+}
 
