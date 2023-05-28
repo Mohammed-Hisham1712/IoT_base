@@ -57,5 +57,5 @@ BOOL system_param_write(int8_t partition,int32_t offset, int32_t size, void * bu
 BOOL system_param_init();
 BOOL system_param_first_run_check();
 BOOL system_param_first_run_init();
-void system_param_task(void);
+void system_param_task(void * args);
 #endif  /*  guard end*/

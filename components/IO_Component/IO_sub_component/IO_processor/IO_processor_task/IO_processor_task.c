@@ -34,6 +34,8 @@
     /*----------------------------------------*/
 /*---------------------------------------------------------------*/
 #include "pressed_to_pin_driven_public.h"
+#include "system_param_config.h"
+
 /*---------------------------------------------------------------*/
     /*-----------------------------------------*/
     /*          2-Section 2: Defintions        */
@@ -47,11 +49,25 @@
 /*---------------------------------------------------------------*/
 void IO_processor_task_init( void )
 {
-    pressed_switch_to_pin_driven_init();
+    /*==================================================
+            PRESSED INPUT TO PIN DRIVEN OUTPUT TASK
+    ====================================================*/
+    #ifdef CONFIG_PRESSED_TO_PIN_HANDLER
+        pressed_switch_to_pin_driven_init();
+    #endif
+    /*==================================================*/
+    
 }
 void IO_processor_task_run ( void )
 {
-    pressed_switch_to_pin_driven_run();
+    /*==================================================
+            PRESSED INPUT TO PIN DRIVEN OUTPUT TASK
+    ====================================================*/
+    #ifdef CONFIG_PRESSED_TO_PIN_HANDLER
+        pressed_switch_to_pin_driven_run();
+    #endif
+    /*==================================================*/
+    
 }
 
 

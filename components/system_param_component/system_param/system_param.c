@@ -34,13 +34,17 @@
 #include "system_param_cfg.h"
 #include "system_param_private.h"
 #include "system_param_public.h"
+#include "system_include.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
 
 /*---------------------------------------------------------------*/
         /*-------------------------------------------*/
-        /*          2-Section 2:          */
+        /*          2-Section 2: Global vars         */
         /*-------------------------------------------*/
 /*---------------------------------------------------------------*/
-
+TaskHandle_t system_param_task_handle;
 /*---------------------------------------------------------------*/
         /*--------------------------------------------------*/
         /*          3-Section 3:            */
@@ -144,8 +148,21 @@ BOOL system_param_write(int8_t partition,int32_t offset, int32_t size, void * bu
 BOOL system_param_init()
 {
     BOOL result;
+    BaseType_t system_param_task_init_res;
     result = nv_fast_access_init();
     result &= nv_slow_access_init();
+
+    system_param_task_init_res = xTaskCreate(system_param_task,
+                                            "System param task",
+                                            CONFIG_SYSTEM_PARAM_TASK_STACK_DEPTH,
+                                            NULL,
+                                            CONFIG_SYSTEM_PARAM_TASK_PRIORITY,
+                                            &system_param_task_handle);
+    if(system_param_task_init_res != pdPASS )
+    {
+        
+    }
+    
     return result;
 }
 BOOL system_param_first_run_check()
@@ -163,10 +180,15 @@ BOOL system_param_first_run_init()
     return result;
 }
 
-void system_param_task(void)
+void system_param_task(void * args)
 {
-    nv_fast_run_task();
-    nv_slow_run_task();
+    for(;;)
+    {
+        nv_fast_run_task();
+        nv_slow_run_task();
+        vTaskDelay(CONFIG_SYSTEM_PARAM_TASK_PERIOD/ portTICK_PERIOD_MS);
+    }
+    
 }
 
 

@@ -29,7 +29,8 @@ void app_main()
     uart_init() ;
     system_param_module_itf_init();
     system_param_init();
-    vTaskDelay(10 / portTICK_PERIOD_MS);
+    IO_component_task_init() ;
+    // vTaskDelay(10 / portTICK_PERIOD_MS);
     // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_INIT,&ret,NULL);
     // debug("\r\nthe result of system param init %d\r\n",ret);
     // system_param_init();
@@ -46,7 +47,7 @@ void app_main()
     // {
     //     debug("\r\nNOT FIRST RUN  %d\r\n",0);
     // }
-    IO_component_task_init() ;
+    
     while(1)
     {
 
@@ -69,9 +70,9 @@ void app_main()
         // debug("\r\nread data 1 is=%d\r\n",data);
         // data++;
         // nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
-        IO_component_task_run();
-        vTaskDelay(20 / portTICK_PERIOD_MS);
-        system_param_task();
+        // IO_component_task_run();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+        // system_param_task();
 
     }
     
