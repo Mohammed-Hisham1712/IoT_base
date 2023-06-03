@@ -21,20 +21,38 @@
 #define WIFI_STA_LOGE(_msg)
 #endif
 
-static wifi_sta_ctrl_t wifi_sta_ctrl;
-static wifi_sta_param_t wifi_sta_param;
-
-error_t wifi_sta_scan_done_event(wifi_event_sta_scan_done_t* p_scan)
+error_t wifi_sta_get_status(wifi_sta_ctrl_t* p_wifi_sta, wifi_sta_status_t* status)
 {
-    wifi_ap_record_t ap_records[WIFI_STA_SCAN_LENGTH];
-    wifi_sta_scan_t* p_sta_scan = &wifi_sta_ctrl.last_scan;
-    wifi_sta_scan_entry_t* p_entry;
-    uint8_t ssid_len;
-
-    if(!p_scan)
+    if(!p_wifi_sta || !status)
     {
         return RET_FAILED;
     }
+
+    if(p_wifi_sta->state <= WIFI_STA_STATE_INIT || 
+                            p_wifi_sta->state >= WIFI_STA_STATE_MAX)
+    {
+        return RET_FAILED;
+    }
+
+    *status = p_wifi_sta->status;
+
+    return RET_OK;
+}
+
+error_t wifi_sta_scan_done_event(wifi_sta_ctrl_t* p_wifi_sta, 
+                                    wifi_event_sta_scan_done_t* p_scan)
+{
+    wifi_ap_record_t ap_records[WIFI_STA_SCAN_LENGTH];
+    wifi_sta_scan_t* p_sta_scan;
+    wifi_sta_scan_entry_t* p_entry;
+    uint8_t ssid_len;
+
+    if(!p_scan || !p_wifi_sta)
+    {
+        return RET_FAILED;
+    }
+
+    p_sta_scan = &p_wifi_sta->last_scan;
 
     if(p_scan->status == 0)
     {
@@ -83,11 +101,13 @@ error_t wifi_sta_scan_done_event(wifi_event_sta_scan_done_t* p_scan)
     return RET_FAILED;
 }
 
-error_t wifi_sta_started_event(void)
+error_t wifi_sta_started_event(wifi_sta_ctrl_t* p_wifi_sta)
 {
-    if(wifi_sta_ctrl.state == WIFI_STA_STATE_INIT)
+    if(p_wifi_sta)
     {
-        wifi_sta_ctrl.state = WIFI_STA_STATE_STARTED;
+        p_wifi_sta->state = WIFI_STA_STATE_STARTED;
+        p_wifi_sta->phase = WIFI_STA_PHASE_DONE;
+        p_wifi_sta->status = WIFI_STA_STATUS_OFFLINE;
 
         ESP_LOGD(WIFI_STA_TAG, "Station started");
 
@@ -97,24 +117,35 @@ error_t wifi_sta_started_event(void)
     return RET_FAILED;
 }
 
-error_t wifi_sta_connected_event(wifi_event_sta_connected_t* p_ap)
+error_t wifi_sta_connected_event(wifi_sta_ctrl_t* p_wifi_sta, 
+                                        wifi_event_sta_connected_t* p_ap)
 {
-    if(wifi_sta_ctrl.state == WIFI_STA_STATE_CONNECTING)
+    if(p_wifi_sta)
     {
-        wifi_sta_ctrl.state = WIFI_STA_STATE_ASSOCIATED;
+        if(p_wifi_sta->state == WIFI_STA_STATE_CONNECT)
+        {
+            p_wifi_sta->phase = WIFI_STA_PHASE_DONE;
+            p_wifi_sta->status = WIFI_STA_STATUS_ASSOCIATED;
 
-        wifi_ap_set_bssid(&wifi_sta_param.target_ap_desc, p_ap->bssid);
-        ESP_LOGD(WIFI_STA_TAG, "Station associated with AP["MACSTR"]", 
-                                        MAC2STR(wifi_sta_param.target_ap_desc.ap_bssid));
+            wifi_ap_set_bssid(&p_wifi_sta->target_ap_desc, p_ap->bssid);
+            ESP_LOGD(WIFI_STA_TAG, "Station associated with AP["MACSTR"]", 
+                                    MAC2STR(p_wifi_sta->target_ap_desc.ap_bssid));
 
-        return RET_OK;
+            return RET_OK;
+        }
     }
 
     return RET_FAILED;
 }
 
-error_t wifi_sta_disconnected_event(wifi_event_sta_disconnected_t* p_disc_event)
+error_t wifi_sta_disconnected_event(wifi_sta_ctrl_t* p_wifi_sta, 
+                                        wifi_event_sta_disconnected_t* p_disc_event)
 {
+    if(!p_wifi_sta)
+    {
+        return RET_FAILED;
+    }
+
     if(p_disc_event)
     {
         switch(p_disc_event->reason)
@@ -165,7 +196,8 @@ error_t wifi_sta_disconnected_event(wifi_event_sta_disconnected_t* p_disc_event)
                 break;
         }
 
-        wifi_sta_ctrl.state = WIFI_STA_STATE_DISCONNECTED;
+        p_wifi_sta->state = WIFI_STA_STATE_DISCONNECT;
+        p_wifi_sta->status = WIFI_STA_STATUS_OFFLINE;
 
         return RET_OK;
     }
@@ -173,28 +205,32 @@ error_t wifi_sta_disconnected_event(wifi_event_sta_disconnected_t* p_disc_event)
     return RET_FAILED;
 }
 
-error_t wifi_sta_got_ip_event(ip_event_got_ip_t* p_ip)
+error_t wifi_sta_got_ip_event(wifi_sta_ctrl_t* p_wifi_sta, ip_event_got_ip_t* p_ip)
 {
     char ipstr[16];
 
-    if(wifi_sta_ctrl.state == WIFI_STA_STATE_ASSOCIATED)
+    if(p_wifi_sta)
     {
-        wifi_sta_ctrl.state = WIFI_STA_STATE_CONNECTED;
+        if(p_wifi_sta->state == WIFI_STA_STATE_CONNECT)
+        {
+            p_wifi_sta->status = WIFI_STA_STATUS_GOT_IP;
 
-        memcpy(&wifi_sta_ctrl.ip_info.ip.s_addr, &p_ip->ip_info.ip.addr, sizeof(uint32_t));
-        memcpy(&wifi_sta_ctrl.ip_info.gw.s_addr, &p_ip->ip_info.gw.addr, sizeof(uint32_t));
-        memcpy(&wifi_sta_ctrl.ip_info.netmask.s_addr, &p_ip->ip_info.netmask.addr, 
-                                                                        sizeof(uint32_t));
-        inet_ntoa_r(wifi_sta_ctrl.ip_info.ip.s_addr, ipstr, sizeof(ipstr));
-        ESP_LOGD(WIFI_STA_TAG, "Station got IP: %s", ipstr);
+            memcpy(&p_wifi_sta->ip_info.ip.s_addr, &p_ip->ip_info.ip.addr, sizeof(uint32_t));
+            memcpy(&p_wifi_sta->ip_info.gw.s_addr, &p_ip->ip_info.gw.addr, sizeof(uint32_t));
+            memcpy(&p_wifi_sta->ip_info.netmask.s_addr, &p_ip->ip_info.netmask.addr, 
+                                                                            sizeof(uint32_t));
+            inet_ntoa_r(p_wifi_sta->ip_info.ip.s_addr, ipstr, sizeof(ipstr));
+            ESP_LOGD(WIFI_STA_TAG, "Station got IP: %s", ipstr);
 
-        return RET_OK;
+            return RET_OK;
+        }
     }
 
     return RET_FAILED;
 }
 
-error_t wifi_sta_start_scan(wifi_sta_scan_type_t scan_type, wifi_ap_desc_t* p_scan_target)
+error_t wifi_sta_start_scan(wifi_sta_ctrl_t* p_wifi_sta, 
+                                wifi_sta_scan_type_t scan_type, wifi_ap_desc_t* p_scan_target)
 {
     wifi_scan_config_t scan_config;
 
@@ -203,7 +239,7 @@ error_t wifi_sta_start_scan(wifi_sta_scan_type_t scan_type, wifi_ap_desc_t* p_sc
     scan_config.scan_time.active.min = 0;
     scan_config.scan_time.active.max = 0;
 
-    if((scan_type != WIFI_STA_SCAN_ALL_APS) && (p_scan_target == NULL))
+    if(!p_wifi_sta || ((scan_type != WIFI_STA_SCAN_ALL_APS) && (p_scan_target == NULL)))
     {
         return RET_FAILED;
     }
@@ -237,7 +273,7 @@ error_t wifi_sta_start_scan(wifi_sta_scan_type_t scan_type, wifi_ap_desc_t* p_sc
         return RET_FAILED;
     }
 
-    wifi_sta_ctrl.last_scan.state = WIFI_STA_SCAN_STATE_ONGOING;
+    p_wifi_sta->last_scan.state = WIFI_STA_SCAN_STATE_ONGOING;
 
     return RET_OK;
 }
@@ -324,33 +360,32 @@ error_t wifi_sta_print_scan(const wifi_sta_scan_t* p_scan)
     return RET_FAILED;
 }
 
-error_t wifi_sta_init(const wifi_ap_desc_t* p_ap_desc)
-{
-    memset(&wifi_sta_ctrl, 0, sizeof(wifi_sta_ctrl_t));
-    memset(&wifi_sta_param, 0, sizeof(wifi_sta_param_t));
-
-    memcpy(&wifi_sta_param.target_ap_desc, p_ap_desc, sizeof(wifi_ap_desc_t));
-
-    wifi_sta_ctrl.state = WIFI_STA_STATE_INIT;
-
-    ESP_LOGD(WIFI_STA_TAG, "Init done");
-    
-    return RET_OK;
-}
-
-error_t wifi_sta_start(void)
+error_t wifi_sta_init(wifi_sta_ctrl_t* p_wifi_sta, wifi_ap_desc_t* p_target_ap)
 {
     wifi_config_t wifi_sta_config;
-    wifi_ap_desc_t* p_ap_desc;
+    wifi_mode_t mode;
+    error_t l_ret;
 
-    p_ap_desc = &wifi_sta_param.target_ap_desc;
+    l_ret = RET_FAILED;
 
-    if(p_ap_desc && (wifi_sta_ctrl.state == WIFI_STA_STATE_INIT))
+    if(esp_wifi_get_mode(&mode) != ESP_OK)
     {
+        return l_ret;
+    }
+
+    if(p_wifi_sta && p_target_ap && (mode == WIFI_MODE_STA || mode == WIFI_MODE_APSTA))
+    {
+        memset(p_wifi_sta, 0, sizeof(wifi_sta_ctrl_t));
+
+        p_wifi_sta->state = WIFI_STA_STATE_INIT;
+        p_wifi_sta->status = WIFI_STA_STATUS_OFFLINE;
+
+        memcpy(&p_wifi_sta->target_ap_desc, p_target_ap, sizeof(wifi_ap_desc_t));
+
         memset(&wifi_sta_config, 0, sizeof(wifi_config_t));
-        memcpy(wifi_sta_config.sta.ssid, p_ap_desc->ap_ssid, p_ap_desc->ap_ssid_len);
-        memcpy(wifi_sta_config.sta.password, p_ap_desc->ap_passphrase, 
-                                                    p_ap_desc->ap_passphrase_len);
+        memcpy(wifi_sta_config.sta.ssid, p_target_ap->ap_ssid, p_target_ap->ap_ssid_len);
+        memcpy(wifi_sta_config.sta.password, p_target_ap->ap_passphrase, 
+                                                    p_target_ap->ap_passphrase_len);
 
         wifi_sta_config.sta.scan_method = WIFI_ALL_CHANNEL_SCAN;    
         wifi_sta_config.sta.bssid_set = 0;
@@ -359,77 +394,98 @@ error_t wifi_sta_start(void)
         wifi_sta_config.sta.threshold.rssi = 0;
         wifi_sta_config.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
 
-        if(esp_wifi_set_mode(WIFI_MODE_STA) != ESP_OK)
-        {
-            WIFI_STA_LOGE("Cannot set sta mode");
-            return RET_FAILED;
-        }
-
         if(esp_wifi_set_config(WIFI_IF_STA, &wifi_sta_config) != ESP_OK)
         {
             WIFI_STA_LOGE("Cannot set sta configuration");
             return RET_FAILED;
         }
+        
+        p_wifi_sta->phase = WIFI_STA_PHASE_DONE;
+        l_ret = RET_OK;
 
-        if(esp_wifi_start() != ESP_OK)
-        {
-            WIFI_STA_LOGE("Cannot start station");
-            return RET_FAILED;
-        }
+        ESP_LOGD(WIFI_STA_TAG, "Init done");
+    }
 
+    return RET_FAILED;
+}
+
+error_t wifi_sta_deinit(wifi_sta_ctrl_t* p_wifi_sta)
+{
+    if(p_wifi_sta)
+    {
+        memset(p_wifi_sta, 0, sizeof(wifi_sta_ctrl_t));
+        
         return RET_OK;
     }
 
     return RET_FAILED;
 }
 
-error_t wifi_sta_connect(void)
+error_t wifi_sta_run(wifi_sta_ctrl_t* p_wifi_sta)
 {
-    if(esp_wifi_connect() != ESP_OK)
+    wifi_ap_desc_t* p_target_ap;
+
+
+    if(p_wifi_sta)
+    {
+        p_target_ap = &p_wifi_sta->target_ap_desc;
+    }
+    else
     {
         return RET_FAILED;
     }
 
-    return RET_OK;
-}
-
-error_t wifi_sta_run(void)
-{
-    switch(wifi_sta_ctrl.state)
+    switch(p_wifi_sta->state)
     {
         case WIFI_STA_STATE_INIT:
-            wifi_sta_start();
             break;
         case WIFI_STA_STATE_STARTED:
-            wifi_sta_ctrl.state = WIFI_STA_STATE_CONNECTING;
-            wifi_sta_connect();
-            break;
-        case WIFI_STA_STATE_CONNECTING:
-        case WIFI_STA_STATE_ASSOCIATED:
-            break;
-        case WIFI_STA_STATE_CONNECTED:
-            if(wifi_sta_ctrl.last_scan.state == WIFI_STA_SCAN_STATE_INVALID)
+            if(p_wifi_sta->phase == WIFI_STA_PHASE_DONE)
             {
-                wifi_sta_start_scan(WIFI_STA_SCAN_SPECIFIC_SSID_ALL, 
-                                                        &wifi_sta_param.target_ap_desc);
+                p_wifi_sta->state = WIFI_STA_STATE_CONNECT;
+                p_wifi_sta->phase = WIFI_STA_PHASE_IN_PROGRESS;
+
+                if(esp_wifi_connect() != ESP_OK)
+                {
+                    return RET_FAILED;
+                }
             }
-            else if(wifi_sta_ctrl.last_scan.state == WIFI_STA_SCAN_STATE_DONE)
+            else if(p_wifi_sta->phase == WIFI_STA_PHASE_IN_PROGRESS)
             {
-                wifi_sta_print_scan(&wifi_sta_ctrl.last_scan);
-                wifi_sta_ctrl.last_scan.state = WIFI_STA_SCAN_STATE_INVALID;
+
             }
             else
             {
-                ESP_LOGD(WIFI_STA_TAG, "Scan state is invalid");
+                return RET_FAILED;
             }
             break;
-        case WIFI_STA_STATE_DISCONNECTED:
+        case WIFI_STA_STATE_CONNECT:
+            if(p_wifi_sta->phase == WIFI_STA_PHASE_DONE)
+            {
+
+            }
+            else if(p_wifi_sta->phase == WIFI_STA_PHASE_IN_PROGRESS)
+            {
+
+            }
+            else
+            {
+                return RET_FAILED;
+            }
+            break;
+        case WIFI_STA_STATE_DISCONNECT:
+            p_wifi_sta->state = WIFI_STA_STATE_CONNECT;
+            p_wifi_sta->phase = WIFI_STA_PHASE_IN_PROGRESS;
+
             ESP_LOGD(WIFI_STA_TAG, "Reconnecting....");
-            wifi_sta_ctrl.state = WIFI_STA_STATE_CONNECTING;
-            wifi_sta_connect();
+
+            if(esp_wifi_connect() != ESP_OK)
+            {
+                return RET_FAILED;
+            }
             break;
         default:
-            break;
+            return RET_FAILED;
     }
 
     return RET_OK;

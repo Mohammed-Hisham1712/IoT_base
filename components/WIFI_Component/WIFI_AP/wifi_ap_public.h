@@ -3,6 +3,13 @@
 #define __WIFI_AP_PUBLIC_H__
 
 #include "types.h"
+#include "appl_config.h"
+
+
+#include "esp_wifi_types.h"
+#include "protocomm.h"
+
+#include <stdint.h>
 
 #define WIFI_AP_SSID_MAX_LENGTH         (CONFIG_WIFI_AP_SSID_MAX_LENGTH + 1)
 #define WIFI_AP_MAX_PASSPHRASE_LENGTH   (CONFIG_WIFI_AP_MAX_PASSPHRASE_LENGTH + 1)
@@ -12,9 +19,18 @@ typedef enum
     WIFI_AP_STATE_NONE = 0,
     WIFI_AP_STATE_INIT,
     WIFI_AP_STATE_STARTED,
+    WIFI_AP_STATE_PROVISIONING,
     WIFI_AP_STATE_STOPPED,
-    WIFI_AP_STATE_MAX,
+    WIFI_AP_STATE_INVALID,
 } wifi_ap_state_t;
+
+typedef enum
+{
+    WIFI_AP_PHASE_WAITING,
+    WIFI_AP_PHASE_IN_PROGRESS,
+    WIFI_AP_PHASE_DONE,
+    WIFI_AP_PHASE_INVALID
+} wifi_ap_phase_t;
 
 typedef struct
 {
@@ -25,12 +41,27 @@ typedef struct
     uint8_t  ap_bssid[6];           /* MAC address of AP */
 } wifi_ap_desc_t;
 
+typedef struct
+{
+    uint8_t sta_connected;  /* 1: Station connected, 0: No stations connected */
+    uint8_t sta_mac[6];     /* MAC address of station, AA:BB:CC:DD:EE:FF */
+} wifi_ap_connected_sta_t;
+
+typedef struct
+{
+    wifi_ap_desc_t          ap_desc;
+    wifi_ap_connected_sta_t sta_info;
+    wifi_ap_state_t         ap_state;
+    wifi_ap_phase_t         ap_phase;
+} wifi_ap_ctrl_t;
+
+
 /**
  * @brief Return current AP state
  * 
  * @return wifi_ap_state_t 
  */
-wifi_ap_state_t wifi_ap_get_state(void);
+wifi_ap_state_t wifi_ap_get_state(wifi_ap_ctrl_t* p_wifi_ap);
 
 /**
  * @brief Get SSID of ESP Access Point including null character
@@ -41,7 +72,7 @@ wifi_ap_state_t wifi_ap_get_state(void);
  *                  RET_OK: SSID is copied into p_ssid successfully
  *                  RET_FAILED: Either p_ssid is NULL or size is insufficient
  */
-error_t wifi_ap_get_own_ssid(char* p_ssid, uint16_t size);
+error_t wifi_ap_get_own_ssid(wifi_ap_ctrl_t* p_wifi_ap, char* p_ssid, uint16_t size);
 
 /**
  * @brief Get Passphrase of ESP Access Point including null character
@@ -52,21 +83,21 @@ error_t wifi_ap_get_own_ssid(char* p_ssid, uint16_t size);
  *                  RET_OK: Passphrase is copied into p_passphrase successfully
  *                  RET_FAILED: Either p_passphrase is NULL or size is insufficient
  */
-error_t wifi_ap_get_own_passphrase(char* p_passphrase, uint16_t size);
+error_t wifi_ap_get_own_passphrase(wifi_ap_ctrl_t* p_wifi_ap, char* p_passphrase, uint16_t size);
 
 /**
  * @brief Get length of ESP AP SSID including NULL terminator
  * 
  * @return uint16_t Size of AP SSID
  */
-uint16_t wifi_ap_get_own_ssid_len(void);
+uint16_t wifi_ap_get_own_ssid_len(wifi_ap_ctrl_t* p_wifi_ap);
 
 /**
  * @brief Get length of ESP AP passphrase including NULL terminator
  * 
  * @return uint16_t Size of AP passphrase
  */
-uint16_t wifi_ap_get_own_passphrase_len(void);
+uint16_t wifi_ap_get_own_passphrase_len(wifi_ap_ctrl_t* p_wifi_ap);
 
 /**
  * @brief Set SSID for an AP pointed to by p_desc.

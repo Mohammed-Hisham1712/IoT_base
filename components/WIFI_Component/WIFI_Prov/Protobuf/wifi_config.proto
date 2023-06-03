@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+enum StatusRespType
+{
+    StatusRespNone = 0;
+    StatusRespFailed = 1;
+    StatusRespOk = 2;
+}
+
+message StatusResp
+{
+    StatusRespType status = 1;
+}
+
+enum WifiConfigGetStatusType
+{
+    GetStatusTypeNone = 0;
+    GetStatusTypeOffline = 1;
+    GetStatusTypeAssociated = 2;
+    GetStatusTypeGotIP = 3;
+    GetStatusTypeOnline = 4;
+}
+
+enum WifiConfigCmdType
+{
+    CmdTypeNone         = 0;
+    CmdTypeApplyConfig  = 1;
+    CmdTypeResetConfig  = 2;
+    CmdTypeGetStatus    = 3;
+}
+
+message WifiConfigGetStatusResp
+{
+    StatusRespType status = 1;
+    WifiConfigGetStatusType sta_status = 2;
+}
+
+message WifiConfigApSetInfoReq
+{
+    string ssid = 1;
+    string passphrase = 2;
+}
+
+message WifiConfigCmdReq
+{
+    WifiConfigCmdType cmd = 1;
+}
