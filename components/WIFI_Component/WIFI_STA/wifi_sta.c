@@ -1,4 +1,6 @@
 #include "wifi_sta_private.h"
+#include "wifi_diagnostics.h"
+#include "timer.h"
 #include "types.h"
 
 #include "esp_wifi_types.h"
@@ -221,6 +223,8 @@ error_t wifi_sta_got_ip_event(wifi_sta_ctrl_t* p_wifi_sta, ip_event_got_ip_t* p_
                                                                             sizeof(uint32_t));
             inet_ntoa_r(p_wifi_sta->ip_info.ip.s_addr, ipstr, sizeof(ipstr));
             ESP_LOGD(WIFI_STA_TAG, "Station got IP: %s", ipstr);
+            
+            timer_start(&p_wifi_sta->diag_timer);
 
             return RET_OK;
         }
@@ -462,7 +466,14 @@ error_t wifi_sta_run(wifi_sta_ctrl_t* p_wifi_sta)
         case WIFI_STA_STATE_CONNECT:
             if(p_wifi_sta->phase == WIFI_STA_PHASE_DONE)
             {
-
+                if(timer_is_started(&p_wifi_sta->diag_timer))
+                {
+                    if(timer_elapsed(&p_wifi_sta->diag_timer) >= 10000)
+                    {
+                        wifi_diagnostics_run();
+                        timer_start(&p_wifi_sta->diag_timer);
+                    }
+                }
             }
             else if(p_wifi_sta->phase == WIFI_STA_PHASE_IN_PROGRESS)
             {
@@ -478,6 +489,8 @@ error_t wifi_sta_run(wifi_sta_ctrl_t* p_wifi_sta)
             p_wifi_sta->phase = WIFI_STA_PHASE_IN_PROGRESS;
 
             ESP_LOGD(WIFI_STA_TAG, "Reconnecting....");
+            
+            timer_clear(&p_wifi_sta->diag_timer);
 
             if(esp_wifi_connect() != ESP_OK)
             {

@@ -4,6 +4,7 @@
 
 #include "wifi_ap_public.h"
 #include "appl_config.h"
+#include "timer.h"
 #include "types.h"
 
 #include "esp_wifi_types.h"
@@ -94,6 +95,7 @@ typedef struct
     wifi_sta_scan_t     last_scan;
     wifi_sta_ip_info_t  ip_info;
     wifi_ap_desc_t      target_ap_desc;
+    millis_timer_t      diag_timer;
 } wifi_sta_ctrl_t;
 
 
