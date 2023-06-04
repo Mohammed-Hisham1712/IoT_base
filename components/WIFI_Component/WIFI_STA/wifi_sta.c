@@ -1,4 +1,6 @@
 #include "wifi_sta_private.h"
+#include "wifi_diagnostics.h"
+#include "timer.h"
 #include "types.h"
 
 #include "esp_wifi_types.h"
@@ -221,7 +223,7 @@ error_t wifi_sta_got_ip_event(wifi_sta_ctrl_t* p_wifi_sta, ip_event_got_ip_t* p_
                                                                             sizeof(uint32_t));
             inet_ntoa_r(p_wifi_sta->ip_info.ip.s_addr, ipstr, sizeof(ipstr));
             ESP_LOGD(WIFI_STA_TAG, "Station got IP: %s", ipstr);
-
+            
             return RET_OK;
         }
     }
@@ -404,6 +406,7 @@ error_t wifi_sta_init(wifi_sta_ctrl_t* p_wifi_sta, wifi_ap_desc_t* p_target_ap)
         l_ret = RET_OK;
 
         ESP_LOGD(WIFI_STA_TAG, "Init done");
+        wifi_diagnostics_init();
     }
 
     return RET_FAILED;
@@ -462,7 +465,7 @@ error_t wifi_sta_run(wifi_sta_ctrl_t* p_wifi_sta)
         case WIFI_STA_STATE_CONNECT:
             if(p_wifi_sta->phase == WIFI_STA_PHASE_DONE)
             {
-
+                wifi_diagnostics_run();
             }
             else if(p_wifi_sta->phase == WIFI_STA_PHASE_IN_PROGRESS)
             {

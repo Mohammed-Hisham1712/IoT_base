@@ -4,6 +4,7 @@
 
 #include "wifi_ap_public.h"
 #include "appl_config.h"
+#include "timer.h"
 #include "types.h"
 
 #include "esp_wifi_types.h"
