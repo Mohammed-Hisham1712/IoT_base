@@ -1,10 +1,13 @@
 #include "wifi_diagnostics.h"
+#include "wifi_component_public.h"
 #include "timer.h"
 #include "types.h"
 
 #include "lwip/ip4_addr.h"
 #include "ping/ping_sock.h"
 #include "esp_log.h"
+#include "esp_event.h"
+#include "freertos/task.h"
 
 #include <stdint.h>
 #include <stddef.h>
@@ -26,6 +29,8 @@ static wifi_diag_host_t diag_hosts[] =
 };
 
 static wifi_diag_t wifi_diag;
+
+ESP_EVENT_DECLARE_BASE(WIFI_COMP_EVENT);
 
 static void wifi_diagnostics_ping_success(esp_ping_handle_t hdl, void* args)
 {
@@ -132,6 +137,9 @@ static void wifi_diagnostics_ping_end(esp_ping_handle_t hdl, void* args)
             {
                 p_host->diag.state = WIFI_DIAG_STATE_REACHABLE;
                 ESP_LOGD(WIFI_DIAG_TAG, "Network is up!");
+
+                esp_event_post(WIFI_COMP_EVENT, WIFI_COMP_EVENT_INTERNET_UP,
+                                                        NULL, 0, portMAX_DELAY);
             }
         }
         else
@@ -153,6 +161,9 @@ static void wifi_diagnostics_ping_end(esp_ping_handle_t hdl, void* args)
                 p_host->timeout = WIFI_DIAG_MAX_TIMEOUT_MS;
 
                 ESP_LOGD(WIFI_DIAG_TAG, "Network is down");
+
+                esp_event_post(WIFI_COMP_EVENT, WIFI_COMP_EVENT_INTERNET_DOWN,
+                                                            NULL, 0, portMAX_DELAY);
             }
         }
 
@@ -218,9 +229,12 @@ error_t wifi_diagnostics_ping_host(wifi_diag_host_t* p_host)
 
 void wifi_diagnostics_init(void)
 {
-    memset(&wifi_diag, 0, sizeof(wifi_diag_t));
-    
+    diag_hosts[0].retries = 0;
+    diag_hosts[0].timeout = 0;
+
     memset(&diag_hosts[0].diag, 0, sizeof(wifi_diag_stats_t)); 
+    
+    memset(&wifi_diag, 0, sizeof(wifi_diag_t));
 }
 
 error_t wifi_diagnostics_run(void)

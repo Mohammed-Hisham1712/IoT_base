@@ -24,6 +24,7 @@
 #define WIFI_COMP_LOGE(_msg)
 #endif
 
+ESP_EVENT_DEFINE_BASE(WIFI_COMP_EVENT);
 
 /* ************Callbacks**********************/
 
