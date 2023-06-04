@@ -1,5 +1,6 @@
 #include "wifi_sta_private.h"
 #include "wifi_diagnostics.h"
+#include "wifi_component_public.h"
 #include "timer.h"
 #include "types.h"
 
@@ -8,6 +9,8 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "rom/ets_sys.h"
+#include "esp_event.h"
+#include "freertos/task.h"
 
 #include <stdint.h>
 #include <stddef.h>
@@ -22,6 +25,8 @@
 #else
 #define WIFI_STA_LOGE(_msg)
 #endif
+
+ESP_EVENT_DECLARE_BASE(WIFI_COMP_EVENT);
 
 error_t wifi_sta_get_status(wifi_sta_ctrl_t* p_wifi_sta, wifi_sta_status_t* status)
 {
@@ -133,6 +138,9 @@ error_t wifi_sta_connected_event(wifi_sta_ctrl_t* p_wifi_sta,
             ESP_LOGD(WIFI_STA_TAG, "Station associated with AP["MACSTR"]", 
                                     MAC2STR(p_wifi_sta->target_ap_desc.ap_bssid));
 
+            esp_event_post(WIFI_COMP_EVENT, WIFI_COMP_EVENT_STA_CONNECTED, 
+                                                            NULL, 0, portMAX_DELAY);
+
             return RET_OK;
         }
     }
@@ -201,6 +209,8 @@ error_t wifi_sta_disconnected_event(wifi_sta_ctrl_t* p_wifi_sta,
         p_wifi_sta->state = WIFI_STA_STATE_DISCONNECT;
         p_wifi_sta->status = WIFI_STA_STATUS_OFFLINE;
 
+        esp_event_post(WIFI_COMP_EVENT, WIFI_COMP_EVENT_STA_DISCONNECTED, 
+                                                            NULL, 0, portMAX_DELAY);
         return RET_OK;
     }
 
@@ -224,11 +234,40 @@ error_t wifi_sta_got_ip_event(wifi_sta_ctrl_t* p_wifi_sta, ip_event_got_ip_t* p_
             inet_ntoa_r(p_wifi_sta->ip_info.ip.s_addr, ipstr, sizeof(ipstr));
             ESP_LOGD(WIFI_STA_TAG, "Station got IP: %s", ipstr);
             
+            if(p_ip->ip_changed)
+            {
+                esp_event_post(WIFI_COMP_EVENT, WIFI_COMP_EVENT_STA_IP_CHANGED, 
+                                                            NULL, 0, portMAX_DELAY);
+            }
+
             return RET_OK;
         }
     }
 
     return RET_FAILED;
+}
+
+void wifi_sta_internet_status_handler(void* arg, esp_event_base_t event_base, 
+                                            int32_t event_id, void* event_data)
+{
+    wifi_sta_ctrl_t* p_sta;
+    
+    if(arg)
+    {
+        p_sta = (wifi_sta_ctrl_t*) arg;
+
+        switch(event_id)
+        {
+            case WIFI_COMP_EVENT_INTERNET_UP:
+                p_sta->status = WIFI_STA_STATUS_ONLINE;
+                break;
+            case WIFI_COMP_EVENT_INTERNET_DOWN:
+                p_sta->status = WIFI_STA_STATUS_GOT_IP;
+                break;
+            default:
+                break;        
+        }
+    }
 }
 
 error_t wifi_sta_start_scan(wifi_sta_ctrl_t* p_wifi_sta, 
@@ -406,7 +445,16 @@ error_t wifi_sta_init(wifi_sta_ctrl_t* p_wifi_sta, wifi_ap_desc_t* p_target_ap)
         l_ret = RET_OK;
 
         ESP_LOGD(WIFI_STA_TAG, "Init done");
+
         wifi_diagnostics_init();
+
+         
+         /* WARNING: p_wifi_sta must point to a valid data all the lifetime of 
+          * WIFI_STA */
+        wifi_comp_event_register(WIFI_COMP_EVENT_INTERNET_UP, 
+                                    wifi_sta_internet_status_handler, p_wifi_sta);
+        wifi_comp_event_register(WIFI_COMP_EVENT_INTERNET_DOWN, 
+                                    wifi_sta_internet_status_handler, p_wifi_sta);
     }
 
     return RET_FAILED;
@@ -465,7 +513,10 @@ error_t wifi_sta_run(wifi_sta_ctrl_t* p_wifi_sta)
         case WIFI_STA_STATE_CONNECT:
             if(p_wifi_sta->phase == WIFI_STA_PHASE_DONE)
             {
-                wifi_diagnostics_run();
+                if(p_wifi_sta->status == WIFI_STA_STATUS_GOT_IP)
+                {
+                    wifi_diagnostics_run();
+                }
             }
             else if(p_wifi_sta->phase == WIFI_STA_PHASE_IN_PROGRESS)
             {

@@ -10,8 +10,8 @@
 #define WIFI_DIAG_MAX_TIMEOUT_MS        2000
 #define WIFI_DIAG_MAX_RETRIES           4
 
-#define WIFI_DIAG_STATE_REACHABLE       0
-#define WIFI_DIAG_STATE_UNREACHABLE     1
+#define WIFI_DIAG_STATE_UNREACHABLE       0
+#define WIFI_DIAG_STATE_REACHABLE         1
 
 
 typedef struct

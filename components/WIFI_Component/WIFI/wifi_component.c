@@ -24,6 +24,7 @@
 #define WIFI_COMP_LOGE(_msg)
 #endif
 
+ESP_EVENT_DEFINE_BASE(WIFI_COMP_EVENT);
 
 /* ************Callbacks**********************/
 
@@ -240,6 +241,33 @@ static void wifi_component_run(void* args)
 
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
+}
+
+error_t wifi_comp_event_register(wifi_comp_event_t event_id, 
+                                                esp_event_handler_t hdl, void* arg)
+{
+    if(hdl && (event_id < WIFI_COMP_EVENT_MAX))
+    {
+        if(esp_event_handler_register(WIFI_COMP_EVENT, event_id, hdl, arg) == ESP_OK)
+        {
+            return RET_OK;
+        }
+    }
+
+    return RET_FAILED;
+}
+
+error_t wifi_comp_event_unregister(wifi_comp_event_t event_id, esp_event_handler_t hdl)
+{
+    if(hdl && (event_id < WIFI_COMP_EVENT_MAX))
+    {
+        if(esp_event_handler_unregister(WIFI_COMP_EVENT, event_id, hdl) == ESP_OK)
+        {
+            return RET_OK;
+        }
+    }
+
+    return RET_FAILED;
 }
 
 error_t wifi_component_init(void)
