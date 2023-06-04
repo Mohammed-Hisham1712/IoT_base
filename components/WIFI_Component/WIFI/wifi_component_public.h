@@ -16,6 +16,7 @@ typedef enum
     WIFI_COMP_EVENT_STA_DISCONNECTED,
     WIFI_COMP_EVENT_STA_CONNECTED,
     WIFI_COMP_EVENT_STA_IP_CHANGED,
+    WIFI_COMP_EVENT_MAX,
 } wifi_comp_event_t;
 
 /**
@@ -23,7 +24,7 @@ typedef enum
  * 
  * @param event_id 
  * @param hdl 
- * @param arg 
+ * @param arg
  * @return error_t 
  */
 error_t wifi_comp_event_register(wifi_comp_event_t event_id, 
@@ -33,7 +34,6 @@ error_t wifi_comp_event_register(wifi_comp_event_t event_id,
  * @brief 
  * 
  * @param event_id 
- * @param hdl 
  * @return error_t 
  */
 error_t wifi_comp_event_unregister(wifi_comp_event_t event_id, esp_event_handler_t hdl);

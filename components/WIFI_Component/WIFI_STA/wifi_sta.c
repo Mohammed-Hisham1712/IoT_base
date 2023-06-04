@@ -247,6 +247,29 @@ error_t wifi_sta_got_ip_event(wifi_sta_ctrl_t* p_wifi_sta, ip_event_got_ip_t* p_
     return RET_FAILED;
 }
 
+void wifi_sta_internet_status_handler(void* arg, esp_event_base_t event_base, 
+                                            int32_t event_id, void* event_data)
+{
+    wifi_sta_ctrl_t* p_sta;
+    
+    if(arg)
+    {
+        p_sta = (wifi_sta_ctrl_t*) arg;
+
+        switch(event_id)
+        {
+            case WIFI_COMP_EVENT_INTERNET_UP:
+                p_sta->status = WIFI_STA_STATUS_ONLINE;
+                break;
+            case WIFI_COMP_EVENT_INTERNET_DOWN:
+                p_sta->status = WIFI_STA_STATUS_GOT_IP;
+                break;
+            default:
+                break;        
+        }
+    }
+}
+
 error_t wifi_sta_start_scan(wifi_sta_ctrl_t* p_wifi_sta, 
                                 wifi_sta_scan_type_t scan_type, wifi_ap_desc_t* p_scan_target)
 {
@@ -422,7 +445,16 @@ error_t wifi_sta_init(wifi_sta_ctrl_t* p_wifi_sta, wifi_ap_desc_t* p_target_ap)
         l_ret = RET_OK;
 
         ESP_LOGD(WIFI_STA_TAG, "Init done");
+
         wifi_diagnostics_init();
+
+         
+         /* WARNING: p_wifi_sta must point to a valid data all the lifetime of 
+          * WIFI_STA */
+        wifi_comp_event_register(WIFI_COMP_EVENT_INTERNET_UP, 
+                                    wifi_sta_internet_status_handler, p_wifi_sta);
+        wifi_comp_event_register(WIFI_COMP_EVENT_INTERNET_DOWN, 
+                                    wifi_sta_internet_status_handler, p_wifi_sta);
     }
 
     return RET_FAILED;
