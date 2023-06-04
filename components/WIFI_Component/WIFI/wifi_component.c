@@ -8,6 +8,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "tcpip_adapter.h"
+#include "esp_netif.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -253,6 +254,7 @@ error_t wifi_component_init(void)
         return RET_FAILED;
     }
 
+    esp_netif_init();
     tcpip_adapter_init();
 
     ESP_ERROR_CHECK(esp_event_loop_create_default());

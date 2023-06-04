@@ -95,7 +95,6 @@ typedef struct
     wifi_sta_scan_t     last_scan;
     wifi_sta_ip_info_t  ip_info;
     wifi_ap_desc_t      target_ap_desc;
-    millis_timer_t      diag_timer;
 } wifi_sta_ctrl_t;
 
 
