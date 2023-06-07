@@ -42,6 +42,9 @@
 #if CONFIG_PRESSED_TO_RESET_HANDLER
     #include "pressed_to_reset_public.h"
 #endif
+#if CONFIG_BLINKING_OUTPUT
+        #include "blinking_output_public.h"
+#endif
 /*---------------------------------------------------------------*/
     /*-----------------------------------------*/
     /*          2-Section 2: Defintions        */
@@ -71,9 +74,35 @@ void IO_processor_task_init( void )
     #endif
     /*==================================================*/
     
+    /*==================================================
+            BLINKING OUTPUT TASK
+    ====================================================*/
+    #if CONFIG_BLINKING_OUTPUT
+        blink_output_init();
+    #endif
+    /*==================================================*/
 }
+
+
+
+
+
+
+
+
+
+
+
 void IO_processor_task_run ( void )
 {
+    /*==================================================
+            BLINKING OUTPUT TASK
+    ====================================================*/
+    #if CONFIG_BLINKING_OUTPUT
+        blink_output_run();
+    #endif
+    /*==================================================*/
+    
     /*==================================================
             PRESSED INPUT TO PIN DRIVEN OUTPUT TASK
     ====================================================*/
@@ -81,7 +110,7 @@ void IO_processor_task_run ( void )
         pressed_switch_to_pin_driven_run();
     #endif
     /*==================================================*/
-            /*==================================================
+    /*==================================================
             PRESSED TO RESET DRIVEN OUTPUT TASK
     ====================================================*/
     #if CONFIG_PRESSED_TO_RESET_HANDLER
@@ -89,7 +118,10 @@ void IO_processor_task_run ( void )
     #endif
     /*==================================================*/
     
+    
+    
 }
 
 
 
+ 

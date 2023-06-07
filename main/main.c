@@ -15,6 +15,7 @@
 #include "gpio_hal_itf.h"
 #include "system_param_itf.h"   
 #include "debug_uart.h"
+// #include "blinking_output_public.h"
 // #include "NV_fast_access_public.h"
 // #include "system_param_public.h"
 
@@ -47,11 +48,14 @@ void app_main()
     // {
     //     debug("\r\nNOT FIRST RUN  %d\r\n",0);
     // }
-    
+    int counter = 0 ;
     while(1)
     {
-
-        // int8_t  partition = FAST_PARTITION ;
+        // blink_output_set_blink_on_time(BLINK_PIN_1,1000);
+        // blink_output_set_blink_off_time(BLINK_PIN_1,1000);
+        // blink_output_start_blinking(BLINK_PIN_1);
+        counter++;
+             // int8_t  partition = FAST_PARTITION ;
         // int32_t offset = offset_of(system_param_fast_t,test_data_2) ;
         // int32_t data_size= sizeof(data);
         // EXECUTE(SYSTEM_PARAM,SYSTEM_PARAM_READ, &ret,&partition,
@@ -71,7 +75,7 @@ void app_main()
         // data++;
         // nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
         // IO_component_task_run();
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
         // system_param_task();
 
     }

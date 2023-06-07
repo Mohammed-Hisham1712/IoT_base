@@ -24,6 +24,7 @@ config BLINKING_OUTPUT
 
 menu "blink output"
     depends on BLINKING_OUTPUT
+    source "$COMPONENTS_PATH_ENV/IO_Component/IO_sub_component/IO_processor/Blinkink_outout/Blinkink_output_Kconfig"
 endmenu
 
 config PRESSED_TO_RESET_HANDLER

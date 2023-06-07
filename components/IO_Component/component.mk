@@ -60,6 +60,11 @@ COMPONENT_SRCDIRS += IO_sub_component/IO_processor/preesed_to_reset
 COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/IO_processor/preesed_to_reset
 endif
 
+ifdef CONFIG_BLINKING_OUTPUT
+COMPONENT_SRCDIRS += IO_sub_component/IO_processor/Blinkink_outout
+COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/IO_processor/Blinkink_outout
+endif
+
 #=======================================================================
 #Output handler sub element 
 #======================================================================
