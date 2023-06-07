@@ -16,12 +16,12 @@ BOOL IO_comp_param_read(int32_t c_offset, int32_t size, void * buffer)
     IO_component_param_t IO_comp_param;
 
     /* Check data validation */
-#ifdef debug_IO_comp_param_read
+#if debug_IO_comp_param_read
 debug("begin of io param write %d",1);
 #endif
     if( ( c_offset+size ) <= sizeof(IO_component_param_t) ) 
     {
-        #ifdef debug_IO_comp_param_read
+        #if debug_IO_comp_param_read
         debug("trey to read io param %d",1);
         #endif
         /* read data from NV memory */
@@ -36,21 +36,21 @@ debug("begin of io param write %d",1);
         /* Save new data to the memory */
         if(ret)
         {
-            #ifdef debug_IO_comp_param_read
+            #if debug_IO_comp_param_read
             debug("read success and copy data %d",1);
             #endif
             memcpy(buffer,((int8_t*)&IO_comp_param)+c_offset,size);
         }
         else 
         {
-            #ifdef debug_IO_comp_param_read
+            #if debug_IO_comp_param_read
             debug("read failed %d",1);
             #endif
         }
     }
     else 
     {
-        #ifdef debug_IO_comp_param_read
+        #if debug_IO_comp_param_read
         debug("wrong data to write %d",1);
         #endif
         ret = FALSE ;
@@ -64,13 +64,13 @@ BOOL IO_comp_param_write(int32_t c_offset, int32_t size, void * buffer)
     int32_t l_offset = offset_of(IO_COMP_STRUCT,IO_comp_param) ;
     int32_t data_size= sizeof(IO_component_param_t);
     IO_component_param_t IO_comp_param;
-    #ifdef debug_IO_comp_param_write
+    #if debug_IO_comp_param_write
     debug("\r\nenter io param write %d",1);
     #endif
     /* Check data validation */
     if( ( c_offset+size ) <= sizeof(IO_component_param_t) ) 
     {
-        #ifdef debug_IO_comp_param_write
+        #if debug_IO_comp_param_write
         debug("\r\ntry to write data %d",1);
         #endif
         /* read data from NV memory */
@@ -85,7 +85,7 @@ BOOL IO_comp_param_write(int32_t c_offset, int32_t size, void * buffer)
         /* Save new data to the memory */
         if(ret)
         {
-            #ifdef debug_IO_comp_param_write
+            #if debug_IO_comp_param_write
             debug("\r\nread success copy write data %d",1);
             #endif
             memcpy(((int8_t*)&IO_comp_param)+c_offset,buffer,size);
@@ -103,20 +103,20 @@ BOOL IO_comp_param_write(int32_t c_offset, int32_t size, void * buffer)
         }
         if(ret)
         {
-            #ifdef debug_IO_comp_param_write
+            #if debug_IO_comp_param_write
             debug("\r\nwrite success to io param  %d",1);
             #endif
         }
         else 
         {
-            #ifdef debug_IO_comp_param_write
+            #if debug_IO_comp_param_write
             debug("\r\nwrite data failed %d",1);
             #endif
         }
     }
     else 
     {
-        #ifdef debug_IO_comp_param_write
+        #if debug_IO_comp_param_write
         debug("\r\nwrong data to write %d",1);
         #endif
         ret = FALSE ;

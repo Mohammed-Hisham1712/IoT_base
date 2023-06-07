@@ -25,3 +25,13 @@ config BLINKING_OUTPUT
 menu "blink output"
     depends on BLINKING_OUTPUT
 endmenu
+
+config PRESSED_TO_RESET_HANDLER
+    bool "include pressed to reset"
+    depends on IO_COMPONENT_INCLUDED
+    default n
+
+menu "pressed to reset"
+    depends on PRESSED_TO_RESET_HANDLER
+    source "$COMPONENTS_PATH_ENV/IO_Component/IO_sub_component/IO_processor/preesed_to_reset/pressed_to_reset_Kconfig"
+endmenu

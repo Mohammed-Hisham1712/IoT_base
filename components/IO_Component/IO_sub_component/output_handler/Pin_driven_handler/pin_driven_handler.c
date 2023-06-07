@@ -269,9 +269,9 @@ BOOL pin_driven_handler_param_read(void)
             
             g_pin_driven_ctrl[l_pin_driven_num].pin_state = 
                     (g_pin_driven_param.pin_param_state & (1 << l_pin_driven_num ) );
-            debug("\r\nthe default value of pin driven num %d is %d ",
-                    l_pin_driven_num,
-                    g_pin_driven_ctrl[l_pin_driven_num].pin_state);
+            // debug("\r\nthe default value of pin driven num %d is %d ",
+            //         l_pin_driven_num,
+            //         g_pin_driven_ctrl[l_pin_driven_num].pin_state);
         }
     }
     return TRUE ;                 

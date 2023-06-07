@@ -94,7 +94,7 @@
 // #define PRESSED_SWITCH_6_PIN          (PIN_11)
 // #define PRESSED_SWITCH_7_PIN          (PIN_1)
 
-
+#define PRESSED_INPUT_DEBUG     (0)
 
 #endif  /*  guard end*/
 

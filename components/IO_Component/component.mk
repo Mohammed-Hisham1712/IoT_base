@@ -55,6 +55,11 @@ COMPONENT_SRCDIRS += IO_sub_component/IO_processor/Pressed_to_pin_processor
 COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/IO_processor/Pressed_to_pin_processor
 endif
 
+ifdef CONFIG_PRESSED_TO_RESET_HANDLER
+COMPONENT_SRCDIRS += IO_sub_component/IO_processor/preesed_to_reset
+COMPONENT_ADD_INCLUDEDIRS += IO_sub_component/IO_processor/preesed_to_reset
+endif
+
 #=======================================================================
 #Output handler sub element 
 #======================================================================
