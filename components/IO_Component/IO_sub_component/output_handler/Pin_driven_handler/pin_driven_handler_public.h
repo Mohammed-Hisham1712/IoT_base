@@ -98,6 +98,7 @@ error_t pin_driven_init	( void ) ;
  * @return error_t : set state result( error if failed )
 */
 error_t pin_driven_set_state ( PIN_DRIVEN_NUM c_pin_num, PIN_DRIVEN_STATE c_pin_state) ;
+error_t pin_driven_set_state_dummy( PIN_DRIVEN_NUM c_pin_num, PIN_DRIVEN_STATE c_pin_state) ;
 /**
  * @brief used to init specific pin 
  * 
@@ -114,6 +115,7 @@ PIN_DRIVEN_STATE pin_driven_get_state (PIN_DRIVEN_NUM c_pin_num) ;
  * @return error_t : init state ( error if failed )
 */
 error_t pin_driven_toggle (PIN_DRIVEN_NUM c_pin_num ) ; 
+error_t pin_driven_toggle_dummy(PIN_DRIVEN_NUM c_pin_num ) ; 
 /**
  * @brief used to init specific pin 
  * 
@@ -123,6 +125,9 @@ error_t pin_driven_toggle (PIN_DRIVEN_NUM c_pin_num ) ;
 */
 void pin_driven_run_handler ( void ) ;
 
+BOOL pin_driven_handler_mqtt_update(PIN_DRIVEN_NUM c_pin_num, PIN_DRIVEN_STATE c_state);
+
+BOOL pin_driven_handler_mqtt_get_state(PIN_DRIVEN_NUM c_pin_num, PIN_DRIVEN_STATE *c_state);
 /*---------------------------------------------------------------*/
             /*------------------------------*/
             /*          5-Section5:         */

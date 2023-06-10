@@ -243,16 +243,13 @@ error_t pressed_switch_init( PRESSED_SWITCH_NUM c_pressed_switch )
     /* Filling ctrl struct of the choosen switch */
     if ( g_default_presses_pin[c_pressed_switch] != NON  )
     {
-        int init_result ;
+
         /* */
         g_pressed_switch_ctrl[c_pressed_switch].switch_pin = g_default_presses_pin[c_pressed_switch] ;
         g_pressed_switch_ctrl[c_pressed_switch].current_state = RELEASED ;
         g_pressed_switch_ctrl[c_pressed_switch].state = RELEASED ;
-        init_result = gpio_hal_config(g_pressed_switch_ctrl[c_pressed_switch].switch_pin , &switch_mode ) ;
-        #if PRESSED_INPUT_DEBUG
-        uart_send("init result is = ");
-        uart_send_int(init_result);
-        #endif
+        gpio_hal_config(g_pressed_switch_ctrl[c_pressed_switch].switch_pin , &switch_mode ) ;
+
     }
     else 
     {

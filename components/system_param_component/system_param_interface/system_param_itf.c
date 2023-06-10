@@ -68,7 +68,7 @@ void system_param_execute(request_id_t id, ARGS * arg )
     case SYSTEM_PARAM_INIT:
         *((BOOL *)arg->ret) = system_param_init();
         break;
-    
+    /*===================================================================================================*/
     default:
         /* do nothing */
         break;

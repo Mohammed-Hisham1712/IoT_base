@@ -1,3 +1,16 @@
+config MAX_NUM_OF_CALL_BACK
+int "enter max number of reset call back functions"
+default 1
+range 0 30
+help 
+    enter max num of call back functions
+
+config END_OF_RESET_TIMER
+int  "enter time to restart reset sequence"
+default 1000
+range 100 10000
+
+
 config NUMBER_OF_PRESSED_RESET
     int "number of reset pins handler"
     default 1
@@ -95,3 +108,4 @@ range 0 1
 help 
     enter switch 6 table index.
 endif
+

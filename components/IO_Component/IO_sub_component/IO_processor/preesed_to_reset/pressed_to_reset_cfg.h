@@ -79,14 +79,18 @@
 #define END_OF_RESET_TIMER   (1000)
 #endif
 
-
+#ifdef CONFIG_MAX_NUM_OF_CALL_BACK
+#define NUM_OF_CALL_BACKS  CONFIG_MAX_NUM_OF_CALL_BACK
+#else 
+#define NUM_OF_CALL_BACKS   (10)
+#endif
 
 /*---------------------------------------------------------------*/
             /*------------------------------*/
             /*          2-Section2:         */
             /*------------------------------*/
 /*---------------------------------------------------------------*/
-#define PRESSED_TO_RESET_DEBUG  (1)
+#define PRESSED_TO_RESET_DEBUG  (0)
 
 #define DEBUG_press_to_reset_init               (PRESSED_TO_RESET_DEBUG&&(0))
 #define DEBUG_press_to_reset_run                (PRESSED_TO_RESET_DEBUG&&(0))
@@ -99,7 +103,6 @@
 #define DEBUG_in_reset_process_released_state   (PRESSED_TO_RESET_DEBUG&&(0))
 #define DEBUG_in_reset_process_transition_state (PRESSED_TO_RESET_DEBUG&&(0))
 #define DEBUG_check_seq                         (PRESSED_TO_RESET_DEBUG&&(1))
-#define DEBUG_process_end_of_reset_state        (PRESSED_TO_RESET_DEBUG&&(1))
 #define DEBUG_set_reset_switch_to_idle          (PRESSED_TO_RESET_DEBUG&&(0))
 /*---------------------------------------------------------------*/
             /*------------------------------*/

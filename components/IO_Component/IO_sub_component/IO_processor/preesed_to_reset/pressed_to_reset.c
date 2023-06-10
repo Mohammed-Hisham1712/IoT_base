@@ -37,6 +37,8 @@
 #include "pressed_to_reset_private.h"
 #include  "pressed_to_reset_public.h"
 
+#include "string.h"
+
 #include "debug_uart.h"
 /*---------------------------------------------------------------*/
 /*----------------------------------------*/
@@ -135,6 +137,7 @@ reset_table_info_t reset_tables_info[] =
 
 reset_switch_ctrl_t g_reset_switch_ctrl[MAX_NUM_OF_RESET_SWITCH];
 
+reset_ctrl_t reset_ctrl;
 
 /*---------------------------------------------------------------*/
 /*-------------------------------------------------------------*/
@@ -307,12 +310,17 @@ BOOL process_execute_reset_sequence(reset_switch_t c_reset_num )
     #if DEBUG_process_execute_reset_sequence
         debug("\r\n execute reset sequence now %d",0);
     #endif
+    for(uint8_t counter=0; counter<reset_ctrl.call_back_counter ; counter++)
+    {
+      /* call all reset functions */
+      reset_ctrl.array_of_call_backs[counter]();
+    }
     return TRUE;
 }
 
 BOOL in_reset_process_pressed_state(reset_switch_t c_reset_num )
 {
-  BOOL ret ;
+  BOOL ret = TRUE;
   reset_switch_ctrl_t *reset_switch = & g_reset_switch_ctrl[c_reset_num];
   reset_table_element_t *table_element ;
   if(reset_switch->table_element < reset_switch->reset_table_size )
@@ -343,12 +351,12 @@ BOOL in_reset_process_pressed_state(reset_switch_t c_reset_num )
     #endif
     set_reset_switch_to_idle(c_reset_num);
   }
-  return TRUE ;
+  return ret ;
 }
 
 BOOL in_reset_process_released_state(reset_switch_t c_reset_num )
 {
-  BOOL ret ;
+  BOOL ret = TRUE;
   reset_switch_ctrl_t *reset_switch = & g_reset_switch_ctrl[c_reset_num];
   reset_table_element_t *table_element ;
   if(reset_switch->table_element < reset_switch->reset_table_size )
@@ -379,7 +387,7 @@ BOOL in_reset_process_released_state(reset_switch_t c_reset_num )
     #endif
     set_reset_switch_to_idle(c_reset_num);
   }
-  return TRUE ;
+  return ret ;
 }
 
 BOOL in_reset_process_transition_state(reset_switch_t c_reset_num )
@@ -486,6 +494,8 @@ BOOL press_to_reset_init(void)
 {
   reset_switch_t counter ;
 
+  memset(&reset_ctrl,0,sizeof(reset_ctrl_t));
+  
   for (counter= reset_switch_1; counter < MAX_NUM_OF_RESET_SWITCH; counter++)
   {
     g_reset_switch_ctrl[counter].reset_state = IDLE ;
@@ -512,7 +522,7 @@ BOOL press_to_reset_init(void)
 
     #if DEBUG_press_to_reset_init
       debug("\r\ninit process of reset switch %d\r\n", counter );
-        debug("\r\nreset_switch.table_index = %p", g_reset_switch_ctrl[counter].table_index );
+      debug("\r\nreset_switch.table_index = %p", g_reset_switch_ctrl[counter].table_index );
       debug("\r\nreset_switch.reset table size = %d", g_reset_switch_ctrl[counter].reset_table_size );
       debug("\r\nreset table pointer = %p", reset_tables_info[default_press_to_reset_table_index[counter]].reset_table );
       debug("\r\naddress of reset table is %p",reset_table_1);
@@ -535,6 +545,22 @@ BOOL press_to_reset_run(void)
       reset_switch_update_state(counter);
   }
   return TRUE;
+}
+
+BOOL press_to_reset_attach_reset_call_back(reset_call_back p_call_back)
+{
+  BOOL ret ;
+  if(reset_ctrl.call_back_counter < NUM_OF_CALL_BACKS )
+  {
+    reset_ctrl.array_of_call_backs[reset_ctrl.call_back_counter] = p_call_back ;
+    reset_ctrl.call_back_counter ++ ;
+    ret = TRUE ;
+  }
+  else 
+  {
+    ret = FALSE;
+  }
+  return ret ;
 }
 
 

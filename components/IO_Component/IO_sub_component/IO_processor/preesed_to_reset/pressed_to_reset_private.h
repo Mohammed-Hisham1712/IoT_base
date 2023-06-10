@@ -28,6 +28,7 @@
 
 #include "system_include.h"
 #include "pressed_input_public.h"
+#include "pressed_to_reset_public.h"
 /*---------------------------------------------------------------*/
         /*-----------------------------------------*/
         /*          1-Section 1:  Includes         */
@@ -109,8 +110,12 @@ typedef struct
 
 typedef struct 
 {
-    uint8_t not_used_yet;
+    reset_call_back array_of_call_backs[NUM_OF_CALL_BACKS];
+    uint8_t call_back_counter;
 }reset_ctrl_t;
+
+
+
 
 
 /*---------------------------------------------------------------*/

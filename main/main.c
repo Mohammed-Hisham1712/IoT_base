@@ -15,13 +15,16 @@
 #include "gpio_hal_itf.h"
 #include "system_param_itf.h"   
 #include "debug_uart.h"
-// #include "blinking_output_public.h"
+#include "blinking_output_public.h"
+#include "IO_comp_interface.h"
 // #include "NV_fast_access_public.h"
 // #include "system_param_public.h"
 
 // ((int16_t)(((a*)0)->b))
 // #define offset_of(a,b)  ((int32_t)(&(((a*)0)->b)))  
-
+uint8_t blink_bin = 0 ; 
+        uint16_t blink_time = 250;
+        BOOL ret = 0  ;
 int32_t buffer ;
 int data  ;
 void app_main()
@@ -29,6 +32,7 @@ void app_main()
     BOOL ret;
     uart_init() ;
     system_param_module_itf_init();
+    IO_component_itf_init();
     system_param_init();
     IO_component_task_init() ;
     // vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -54,6 +58,10 @@ void app_main()
         // blink_output_set_blink_on_time(BLINK_PIN_1,1000);
         // blink_output_set_blink_off_time(BLINK_PIN_1,1000);
         // blink_output_start_blinking(BLINK_PIN_1);
+        
+        EXECUTE(IO_COMPONENT,SET_BLINK_ON_TIME,&ret,&blink_bin,&blink_time);
+        EXECUTE(IO_COMPONENT,SET_BLINK_OFF_TIME,&ret,&blink_bin,&blink_time);
+        EXECUTE(IO_COMPONENT,START_BLINKING,&ret,&blink_bin);
         counter++;
              // int8_t  partition = FAST_PARTITION ;
         // int32_t offset = offset_of(system_param_fast_t,test_data_2) ;
@@ -75,7 +83,7 @@ void app_main()
         // data++;
         // nv_slow_access_write(offset_of(system_param_slow_t,test_data_1),sizeof(data),&data);
         // IO_component_task_run();
-        vTaskDelay(500 / portTICK_PERIOD_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
         // system_param_task();
 
     }

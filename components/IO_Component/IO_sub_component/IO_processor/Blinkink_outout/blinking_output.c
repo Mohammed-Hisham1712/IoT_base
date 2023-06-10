@@ -90,7 +90,7 @@ BOOL run_pin_blink_routine(blink_pin_t c_pin)
         debug("\r\n pin num %d is on",c_pin);
         #endif
         /* turn on bin */
-        pin_driven_set_state(g_blink_ctrl.blink_pin[c_pin].blink_pin_num,PIN_DRIVEN_ON);
+        pin_driven_set_state_dummy(g_blink_ctrl.blink_pin[c_pin].blink_pin_num,PIN_DRIVEN_ON);
         /* if on timer started */
         if(!g_blink_ctrl.blink_pin[c_pin].timer.timer_state)
         {   
@@ -122,7 +122,7 @@ BOOL run_pin_blink_routine(blink_pin_t c_pin)
         #ifdef DEBUG_run_pin_blink_routine
         debug("\r\n pin num %d is off",c_pin);
         #endif
-        pin_driven_set_state(g_blink_ctrl.blink_pin[c_pin].blink_pin_num,PIN_DRIVEN_OFF);
+        pin_driven_set_state_dummy(g_blink_ctrl.blink_pin[c_pin].blink_pin_num,PIN_DRIVEN_OFF);
         /* if on timer started */
         if(!g_blink_ctrl.blink_pin[c_pin].timer.timer_state)
         {   

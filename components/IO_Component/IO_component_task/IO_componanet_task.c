@@ -25,7 +25,11 @@ void IO_component_task_init()
                                     CONFIG_IO_COMPONENT_TASK_PERIORITY,
                                     &IO_component_task_handle);
     
-    configASSERT(IO_component_task_create_result);
+    if(IO_component_task_create_result != pdPASS )
+    {
+        configASSERT(IO_component_task_create_result);
+    }
+    
     
 }
 

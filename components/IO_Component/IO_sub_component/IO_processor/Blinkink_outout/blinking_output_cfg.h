@@ -69,7 +69,7 @@
 #define SLOW_BLINK_OFF_TIME     (1000)
 
 
-#define BLINK_DEBUG_GENERAL     (1)
+#define BLINK_DEBUG_GENERAL     (0)
 
 #define  DEBUG_blink_output_get_state   BLINK_DEBUG_GENERAL && 0
 #define  DEBUG_blink_output_set_state   BLINK_DEBUG_GENERAL && 0
