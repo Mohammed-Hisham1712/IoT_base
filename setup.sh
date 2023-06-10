@@ -6,7 +6,7 @@
 script_name=$(basename ${BASH_SOURCE:-$0})
 script_path=$(dirname $(realpath ${script_name}))
 config_name=$(basename $1)
-out_header=components/Common/include/config/${config_name%.*}_config.h
+out_header=components/Common/include/config/appl_config.h
 
 export COMPONENTS_PATH_ENV=$script_path/components
 

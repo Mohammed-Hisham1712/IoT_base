@@ -33,8 +33,10 @@
 #include "debug_uart.h"
 #include "types.h"
 #include "IO_component_param.h"
+#include "IO_component_param.h"
 
 #include "pin_driven_handler_cfg.h"
+#include "pin_driven_handler_public.h"
 #include "pin_driven_handler_public.h"
 #include "pin_driven_handler_private.h"
 /*---------------------------------------------------------------*/

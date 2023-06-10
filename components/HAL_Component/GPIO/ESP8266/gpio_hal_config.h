@@ -48,6 +48,7 @@ typedef enum
     PIN_8,
     PIN_9,
     PIN_10,
+    /*
     PIN_11,
     PIN_12,
     PIN_13,

@@ -1,0 +1,17 @@
+syntax  = "proto3";
+
+/*
+* Test data structure
+*/
+
+enum LedStates
+{
+    LED_STATE_UNKOWN = 0;
+    LED_STATE_OFF = 1;
+    LED_STATE_ON = 2;
+}
+
+message ProtoBufferLedState
+{
+    LedStates led_state = 1;
+}

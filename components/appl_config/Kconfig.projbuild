@@ -30,6 +30,10 @@ menu "System Param"
 	source "$COMPONENTS_PATH_ENV/system_param_component/system_param_comp_Kconfig"
 endmenu
 
+menu "WIFI component"
+	source "$COMPONENTS_PATH_ENV/WIFI_Component/WIFI_Kconfig"
+endmenu
+
 config APPLICATION_END_MARK
 	bool
 	default y
