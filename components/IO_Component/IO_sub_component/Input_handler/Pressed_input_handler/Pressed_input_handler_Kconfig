@@ -1,0 +1,59 @@
+config NUMBER_OF_PRESSED_INPUT_HANDLER
+    int "number of pin driven handler"
+    default 1
+    range 1 6
+    help 
+        choose number of used pin driven handler in your system
+
+if NUMBER_OF_PRESSED_INPUT_HANDLER >= 1
+config PRESSED_INPUT_HANDLER_1_PIN
+int "enter pressed input 1 pin num"
+default -1
+range 0 16
+help 
+    enter pin number from 1 16
+endif
+
+if NUMBER_OF_PRESSED_INPUT_HANDLER >= 2
+config PRESSED_INPUT_HANDLER_2_PIN
+int "enter pressed input 2 pin num"
+default -1
+range 0 16
+help 
+    enter pin number from 1 16
+endif
+
+if NUMBER_OF_PRESSED_INPUT_HANDLER >= 3
+config PRESSED_INPUT_HANDLER_3_PIN
+int "enter pressed input 3 pin num"
+default -1
+range 0 16
+help 
+    enter pin number from 1 16
+endif
+
+if NUMBER_OF_PRESSED_INPUT_HANDLER >= 4
+config PRESSED_INPUT_HANDLER_4_PIN
+int "enter pressed input 4 pin num"
+default -1
+range 0 16
+help 
+    enter pin number from 1 16
+endif
+
+if NUMBER_OF_PRESSED_INPUT_HANDLER >= 5
+config PRESSED_INPUT_HANDLER_5_PIN
+int "enter pressed input 5 pin num"
+default -1
+range 0 16
+help 
+    enter pin number from 1 16
+endif
+if NUMBER_OF_PRESSED_INPUT_HANDLER >= 6
+config PRESSED_INPUT_HANDLER_6_PIN
+int "enter pressed input 6 pin num"
+default -1
+range 0 16
+help 
+    enter pin number from 1 16
+endif

@@ -3,13 +3,27 @@ config IO_COMPONENT_INCLUDED
     default y
     help
         Adding Input and output and input to output processor to the system
-config IO_CMOPONENT_TASK_PERIOD
+config IO_COMPONENT_TASK_PERIOD
     depends on IO_COMPONENT_INCLUDED
     int "add task period in ms"
     default 20
     range 1 50
     help 
         if time is bigger than 50 IO will fail
+config IO_COMPONENT_TASK_PERIORITY
+    depends on IO_COMPONENT_INCLUDED
+    int "add task periority in ms"
+    default 6
+    range 1 15
+    help 
+        if time is bigger than 15 It will fail
+config IO_COMPONENT_TASK_STACK_DEPTH
+    depends on IO_COMPONENT_INCLUDED
+    int "add task stack depth in ms"
+    default 300
+    range 10 2000   
+    help 
+        if time is bigger than 15 It will fail
 menu "Inpdut handler"
     depends on IO_COMPONENT_INCLUDED
     source "$COMPONENTS_PATH_ENV/IO_Component/IO_sub_component/Input_handler/InputHandler_Kconfig"

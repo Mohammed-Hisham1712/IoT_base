@@ -1,0 +1,58 @@
+config NUMBER_OF_BLINKING_OUTPUT
+    int "number of Blinking output"
+    default 0
+    range 1 6
+    help 
+        choose number of used blinking output pins to the system
+#Define number of pins
+if NUMBER_OF_BLINKING_OUTPUT >= 1
+    config BLINKING_OUTPUT_1
+    int "enter blink output 1 num "
+    default -1
+    range 0 16 
+    help 
+        0 for non used and from 0 to 16 for number.
+endif
+if NUMBER_OF_BLINKING_OUTPUT >= 2
+    config BLINKING_OUTPUT_2
+    int "enter blink output 2 num "
+    default -1
+    range 0 16  
+    help 
+        0 for non used and from 0 to 16 for number.
+endif
+
+if NUMBER_OF_BLINKING_OUTPUT >= 3
+    config BLINKING_OUTPUT_3
+    int "enter blink output 3 num "
+    default -1
+    range 0 16  
+    help 
+        0 for non used and from 0 to 16 for number.
+endif
+
+if NUMBER_OF_BLINKING_OUTPUT >= 4
+    config BLINKING_OUTPUT_4
+    int "enter blink output 4 num "
+    default -1
+    range 0 16  
+    help 
+        0 for non used and from 0 to 16 for number.
+endif
+
+if NUMBER_OF_BLINKING_OUTPUT >= 5
+    config BLINKING_OUTPUT_5
+    int "enter blink output 5 num "
+    default -1
+    range 0 16 
+    help 
+        0 for non used and from 0 to 16 for number.
+endif
+if NUMBER_OF_BLINKING_OUTPUT >= 6
+    config BLINKING_OUTPUT_6
+    int "enter blink output 6 num "
+    default -1
+    range 0 16 
+    help 
+        0 for non used and from 0 to 16 for number.
+endif

@@ -1,0 +1,32 @@
+config SYSTEM_PARAM_INCLUDED
+    bool "add input output component to the system"
+    default y
+    help
+        Adding Input and output and input to output processor to the system
+config SYSTEM_PARAM_TASK_PERIOD
+    depends on SYSTEM_PARAM_INCLUDED
+    int "add task period in ms"
+    default 100
+    range 10 2000
+    help 
+        if time is bigger than 2000 It will fail
+config SYSTEM_PARAM_TASK_PRIORITY
+    depends on SYSTEM_PARAM_INCLUDED
+    int "add task periority in ms"
+    default 6
+    range 1 15
+    help 
+        if time is bigger than 15 It will fail
+config SYSTEM_PARAM_TASK_STACK_DEPTH
+    depends on SYSTEM_PARAM_INCLUDED
+    int "add task stack depth in BYTE"
+    default 300
+    range 10 2000   
+    help 
+        if time is bigger than 15 It will fail
+
+
+
+
+
+

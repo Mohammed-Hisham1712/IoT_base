@@ -1,0 +1,111 @@
+config MAX_NUM_OF_CALL_BACK
+int "enter max number of reset call back functions"
+default 1
+range 0 30
+help 
+    enter max num of call back functions
+
+config END_OF_RESET_TIMER
+int  "enter time to restart reset sequence"
+default 1000
+range 100 10000
+
+
+config NUMBER_OF_PRESSED_RESET
+    int "number of reset pins handler"
+    default 1
+    range 1 6
+    help 
+        choose number of used reset inputs handler in your system
+#Define number of pins
+if NUMBER_OF_PRESSED_RESET >= 1
+config PRESSED_RESET_1_NUM
+int "enter switch 1 process num "
+default -1
+range 0 5 
+help 
+    enter switch 1 process num.
+
+config PRESSED_RESET_1_TABLE_INDEX
+int "enter switch 1 table index "
+default 0
+range 0 1 
+help 
+    enter switch 1 table index.
+endif
+
+if NUMBER_OF_PRESSED_RESET >= 2
+config PRESSED_RESET_2_NUM
+int "enter switch 2 process num "
+default -1
+range 0 5 
+help 
+    enter switch 2 process num.
+config PRESSED_RESET_2_TABLE_INDEX
+int "enter switch 2 table index "
+default 0
+range 0 1 
+help 
+    enter switch 2 table index.
+endif
+
+if NUMBER_OF_PRESSED_RESET >= 3
+config PRESSED_RESET_3_NUM
+int "enter switch 3 process num "
+default -1
+range 0 5 
+help 
+    enter switch 3 process num.
+config PRESSED_RESET_3_TABLE_INDEX
+int "enter switch 3 table index "
+default 0
+range 0 1 
+help 
+    enter switch 3 table index.
+endif
+
+if NUMBER_OF_PRESSED_RESET >= 4
+config PRESSED_RESET_4_NUM
+int "enter switch 4 process num "
+default -1
+range 0 5 
+help 
+    enter switch 4 process num.
+config PRESSED_RESET_4_TABLE_INDEX
+int "enter switch 4 table index "
+default 0
+range 0 1
+help 
+    enter switch 4 table index.
+endif
+
+if NUMBER_OF_PRESSED_RESET >= 5
+config PRESSED_RESET_5_NUM
+int "enter switch 5 process num "
+default -1
+range 0 5 
+help 
+    enter switch 5 process num.
+config PRESSED_RESET_5_TABLE_INDEX
+int "enter switch 5 table index "
+default 0
+range 0 1
+help 
+    enter switch 5 table index.
+endif
+
+if NUMBER_OF_PRESSED_RESET >= 6
+config PRESSED_RESET_6_NUM
+int "enter switch 6 process num "
+default -1
+range 0 5 
+help 
+    enter switch 6 process num.
+config PRESSED_RESET_6_TABLE_INDEX
+int "enter switch 6 table index "
+default 0
+range 0 1
+help 
+    enter switch 6 table index.
+endif
+
