@@ -1,4 +1,5 @@
 #include "debug_uart.h"
+#include "types.h"
 
 #define BUF_SIZE (1024)
 void uart_init ()  
@@ -25,11 +26,11 @@ void uart_send(const char * data  )
 }
 void uart_wait()
 {
-    char data[10];
+    uint8_t data[10];
     int len = 0 ;
     while ( len == 0 )
     {
-        len = uart_read_bytes(UART_NUM_0, &data, BUF_SIZE, 20 / portTICK_RATE_MS);
+        len = uart_read_bytes(UART_NUM_0, (uint8_t*)data, BUF_SIZE, 20 / portTICK_RATE_MS);
     }
 }
 

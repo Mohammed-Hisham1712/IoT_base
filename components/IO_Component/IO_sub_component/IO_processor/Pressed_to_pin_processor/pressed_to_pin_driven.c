@@ -95,10 +95,10 @@ void process_on_off_switch_type ( uint8_t c_switch_num )
     break;
   case PRE_PRESSED:
       pin_driven_toggle(g_pressed_pin_ctrl[c_switch_num].pin_driven_num ) ;
-      uart_send("switch is pre pressed ");
-      uart_send_int(c_switch_num);
+      // uart_send("switch is pre pressed ");
+      // uart_send_int(c_switch_num);
     break;
-  case PRE_RELEASED:
+  case PRE_RELEASED:  
     
     break;
   
